@@ -25,7 +25,7 @@ build:
     - php composer-setup.php --filename=composer
     - php -r "unlink('composer-setup.php');"
     # Instala os pacotes da aplicação pelo composer
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - php composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 
 codestyle:
   stage: test
