@@ -1,10 +1,14 @@
-image: urbit/lumen-nginx
+image: unscode/lumen
 
 # Estágios até a entrega do produto
 stages:
   - build
   - test
   - deploy
+
+before_script:
+  - export TERM=linux
+  - export DEBIAN_FRONTEND=noninteractive
 
 build:
   stage: build
