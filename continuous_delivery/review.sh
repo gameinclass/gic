@@ -73,7 +73,7 @@ if [ ! -d /var/www/$DOMAIN ]; then
     cd /var/www/ && sudo mkdir $DOMAIN && sudo chown $USER:$USER $DOMAIN -R
     git clone -b $GIT_BRANCH $GIT_REMOTE_SSH $DOMAIN && cd $DOMAIN
     # Instala as dependências da aplicação
-    composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts && npm install
+    composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     # Configura o banco de dados e armazenameto
     touch storage/database.sqlite && php artisan migrate --seed && php artisan storage:link
     # Adiciona o arquivo de variáveis de ambiente do framework e gera a chave.
