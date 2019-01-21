@@ -19,6 +19,7 @@ build:
       - vendor/
       - .env
   script:
+    - wget https://getcomposer.org/download/1.8.0/composer.phar
     # Instala os pacotes da aplicação pelo composer
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 
