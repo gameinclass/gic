@@ -64,10 +64,10 @@ deploy_review:
   stage: deploy
   script:
     - *init_ssh
-    - ssh -T suporte@"$SSH_KNOWN_HOSTS" < ./continuous_delivery/review.sh
+    - ssh -T jorgerodrigues9@"$SSH_KNOWN_HOSTS" < ./continuous_delivery/review.sh
   environment:
     name: review
-    url: http://review1.infocorpjr.com
+    url: http://gic.unscode.com
   only:
     - master
 
@@ -75,10 +75,10 @@ deploy_pre_production:
   stage: deploy
   script:
     - *init_ssh
-    - ssh -T suporte@"$SSH_KNOWN_HOSTS" < ./continuous_delivery/pre_production.sh
+    - ssh -T jorgerodrigues9@"$SSH_KNOWN_HOSTS" < ./continuous_delivery/review.sh
   environment:
     name: pre_production
-    url: http://nepes.infocorpjr.com
+    url: http://nepes.unscode.com
   when: manual
   only:
     - pre_production
