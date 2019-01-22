@@ -42,7 +42,7 @@ if [ -d /var/www/$DOMAIN ]; then
     if [ -f storage/database.sqlite ]; then
         sudo rm storage/database.sqlite
     fi
-    touch storage/database.sqlite && php artisan migrate --seed && php artisan storage:link
+    touch database/database.sqlite && php artisan migrate --seed && php artisan storage:link
     # Adiciona o arquivo de variáveis de ambiente do framework e gera a chave.
     cp .env.review .env && php artisan key:generate
     # Muda o proprietário dos arquivos e diretórios.
@@ -77,7 +77,7 @@ if [ ! -d /var/www/$DOMAIN ]; then
     # Configura o banco de dados e armazenameto
     touch storage/database.sqlite && php artisan migrate --seed && php artisan storage:link
     # Adiciona o arquivo de variáveis de ambiente do framework e gera a chave.
-    cp .env.review .env && php artisan key:generate
+    cp .env.testing .env && php artisan key:generate
     sudo chown www-data:www-data . -R
     curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" $SLACK_WEBHOOK
     exit
