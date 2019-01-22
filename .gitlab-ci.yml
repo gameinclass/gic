@@ -29,7 +29,7 @@ build:
     # Faz as configurações da aplicação
     - touch database/database.sqlite
     - cp .env.testing .env
-    - php artisa key:generate --env=testing
+    - php artisan key:generate --env=testing
     - php artisan migrate --env=testing
 
 # TESTS
