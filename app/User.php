@@ -29,4 +29,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         // 'password',
     ];
+
+    /**
+     * Obter o ator pertencente ao usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function actor()
+    {
+        return $this->hasOne('App\Models\Actor');
+    }
+
 }
