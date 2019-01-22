@@ -19,7 +19,7 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_verificar_resposta_ok()
+    public function test_verificar_resposta_ok() // phpcs:disable
     {
         $this->json('GET', '/user')
             ->assertResponseOk();

@@ -31,7 +31,8 @@ abstract class ModelTestCase extends TestCase
      * - `$visible` -> `getVisible()`
      * - `$casts` -> `getCasts()`: note that method appends incrementing key.
      * - `$dates` -> `getDates()`: note that method appends `[static::CREATED_AT, static::UPDATED_AT]`.
-     * - `newCollection()`: assert collection is exact type. Use `assertEquals` on `get_class()` result, but not `assertInstanceOf`.
+     * - `newCollection()`: assert collection is exact type. Use `assertEquals` on `get_class()` result, but not
+     *   `assertInstanceOf`.
      */
     protected function runConfigurationAssertions(
         Model $model,
@@ -45,8 +46,7 @@ abstract class ModelTestCase extends TestCase
         $table = null,
         $primaryKey = 'id',
         $connection = null
-    )
-    {
+    ) {
         $this->assertEquals($fillable, $model->getFillable());
         $this->assertEquals($guarded, $model->getGuarded());
         $this->assertEquals($hidden, $model->getHidden());
@@ -78,10 +78,17 @@ abstract class ModelTestCase extends TestCase
      *
      * - `getQuery()`: assert query has not been modified or modified properly.
      * - `getForeignKey()`: any `HasOneOrMany` or `BelongsTo` relation, but key type differs (see documentaiton).
-     * - `getQualifiedParentKeyName()`: in case of `HasOneOrMany` relation, there is no `getLocalKey()` method, so this one should be asserted.
+     * - `getQualifiedParentKeyName()`: in case of `HasOneOrMany` relation, there is no `getLocalKey()` method, so
+     *    this one should be asserted.
      */
-    protected function assertHasManyRelation($relation, Model $model, Model $related, $key = null, $parent = null, \Closure $queryCheck = null)
-    {
+    protected function assertHasManyRelation(
+        $relation,
+        Model $model,
+        Model $related,
+        $key = null,
+        $parent = null,
+        \Closure $queryCheck = null
+    ) {
         $this->assertInstanceOf(HasMany::class, $relation);
 
         if (!is_null($queryCheck)) {
@@ -114,8 +121,14 @@ abstract class ModelTestCase extends TestCase
      * - `getForeignKey()`: any `HasOneOrMany` or `BelongsTo` relation, but key type differs (see documentaiton).
      * - `getOwnerKey()`: `BelongsTo` relation and its extendings.
      */
-    protected function assertBelongsToRelation($relation, Model $model, Model $related, $key, $owner = null, \Closure $queryCheck = null)
-    {
+    protected function assertBelongsToRelation(
+        $relation,
+        Model $model,
+        Model $related,
+        $key,
+        $owner = null,
+        \Closure $queryCheck = null
+    ) {
         $this->assertInstanceOf(BelongsTo::class, $relation);
 
         if (!is_null($queryCheck)) {

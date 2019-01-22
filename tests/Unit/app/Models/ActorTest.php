@@ -37,7 +37,7 @@ class ActorTest extends ModelTestCase
      *
      * @return void
      */
-    public function test_model_configuration()
+    public function test_model_configuration() // phpcs:disable
     {
         $this->runConfigurationAssertions(new  Actor(), $this->fillable, $this->hidden);
     }
@@ -47,7 +47,7 @@ class ActorTest extends ModelTestCase
      *
      * @return void
      */
-    public function test_user_relation()
+    public function test_user_relation() // phpcs:disable
     {
         $m = new Actor();
         $r = $m->user();
