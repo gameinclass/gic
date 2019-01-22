@@ -1,6 +1,5 @@
 image: unscode/lumen
 
-# Estágios até a entrega do produto
 stages:
   - build
   - test
@@ -24,18 +23,12 @@ build:
       - vendor/
       - .env
   script:
-    # Instala os pacotes da aplicação pelo composer
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    # Configuração da aplicação
-    - touch database/database.sqlite
-    - cp .env.testing .env
-    - php artisan migrate --env=testing
 
 # TESTS
 codestyle:
   stage: test
   script:
-    # Verificação do padrão PSR2.
     - vendor/bin/phpcs --standard=PSR2 --extensions=php app
     - vendor/bin/phpcs --standard=PSR2 --extensions=phpvendor/bin/phpcbf --standard=PSR2 database tests
 
@@ -44,7 +37,6 @@ unit/integration:
   script:
     - touch database/database.sqlite
     - php artisan migrate
-    # Teste unitário e integração
     - vendor/bin/phpunit --coverage-text --colors=never
 
 # DEPLOY
@@ -55,17 +47,6 @@ unit/integration:
   chmod 700 ~/.ssh
   ssh-keyscan "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
   chmod 644 ~/.ssh/known_hosts
-#deploy_review:
-#  stage: deploy
-#  script:
-#    - echo "Enviando aplicação para revisão!"
-#  environment:
-#    name: review
-#    url: http://review1.infocorpjr.com
-#  only:
-#    - branches
-#  except:
-#    - master
 
 deploy_review:
   stage: deploy
