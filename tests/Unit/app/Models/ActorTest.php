@@ -37,7 +37,7 @@ class ActorTest extends ModelTestCase
      *
      * @return void
      */
-    public function test_model_configuration() // phpcs:disable
+    public function test_actor_configuration() // phpcs:disable
     {
         $this->runConfigurationAssertions(new  Actor(), $this->fillable, $this->hidden);
     }
@@ -47,10 +47,27 @@ class ActorTest extends ModelTestCase
      *
      * @return void
      */
-    public function test_user_relation() // phpcs:disable
+    public function test_actor_relations() // phpcs:disable
     {
         $m = new Actor();
-        $r = $m->user();
-        $this->assertBelongsToRelation($r, $m, new User(), 'user_id');
+        $this->assertBelongsToRelation($m->user(), $m, new User(), 'user_id');
+    }
+
+    /**
+     * Test
+     *
+     * @return void
+     */
+    public function test_actor_mutators() // phpcs:disable
+    {
+        $m = new Actor();
+        // Verifica o tipo de retorno do método
+        $this->assertIsBool($m->getIsAdministrorAttribute('1'));
+        $this->assertIsBool($m->getIsDesignAttribute('1'));
+        $this->assertIsBool($m->getIsPlayerAttribute('1'));
+        // Verifica o valor de retorno do método
+        $this->assertNotTrue($m->getIsAdministrorAttribute('0'));
+        $this->assertNotTrue($m->getIsDesignAttribute('0'));
+        $this->assertNotFalse($m->getIsPlayerAttribute('1'));
     }
 }
