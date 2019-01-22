@@ -38,7 +38,9 @@ codestyle:
 unit/integration:
   stage: test
   script:
-    # Teste unitário
+    - touch database/database.sqlite
+    - php artisan migrate --env=testing
+    # Teste unitário e integração
     - vendor/bin/phpunit --coverage-text --colors=never
 
 # DEPLOY

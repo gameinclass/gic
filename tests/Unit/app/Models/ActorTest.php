@@ -8,8 +8,8 @@
 
 namespace Tests\Unit\App\Models;
 
-use App\Models\Actor;
 use App\User;
+use App\Models\Actor;
 use Tests\ModelTestCase;
 
 class ActorTest extends ModelTestCase
