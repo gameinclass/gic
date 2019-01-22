@@ -26,6 +26,11 @@ build:
   script:
     # Instala os pacotes da aplicação pelo composer
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    # Faz as configurações da aplicação
+    - touch database/database.sqlite
+    - cp .env.testing .env
+    - php artisa key:generate --env=testing
+    - php artisan migrate --env=testing
 
 # TESTS
 codestyle:
@@ -38,8 +43,6 @@ codestyle:
 unit/integration:
   stage: test
   script:
-    - touch database/database.sqlite
-    - php artisan migrate --env=testing
     # Teste unitário e integração
     - vendor/bin/phpunit --coverage-text --colors=never
 
