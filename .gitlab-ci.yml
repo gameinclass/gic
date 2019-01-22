@@ -34,7 +34,7 @@ codestyle:
     # Verificação do padrão PSR2.
     - vendor/bin/phpcs --standard=PSR2 --extensions=php app
 
-unit:integration:
+unit/integration:
   stage: test
   script:
     # Teste unitário
