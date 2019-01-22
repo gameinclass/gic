@@ -15,6 +15,6 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/user', function () {
-   return \App\User::all();
-});
+$router->get('/user[/{id:[0-9]+}]', [
+    'as' => 'user.show', 'uses' => 'UserController@show'
+]);
