@@ -30,7 +30,7 @@ codestyle:
   stage: test
   script:
     - vendor/bin/phpcs --standard=PSR2 --extensions=php app
-    - vendor/bin/phpcs --standard=PSR2 --extensions=phpvendor/bin/phpcbf --standard=PSR2 database tests
+    - vendor/bin/phpcs --standard=PSR2 --extensions=php tests
 
 unit/integration:
   stage: test
