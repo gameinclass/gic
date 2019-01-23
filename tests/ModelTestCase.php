@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 abstract class ModelTestCase extends TestCase
 {
@@ -46,7 +47,8 @@ abstract class ModelTestCase extends TestCase
         $table = null,
         $primaryKey = 'id',
         $connection = null
-    ) {
+    )
+    {
         $this->assertEquals($fillable, $model->getFillable());
         $this->assertEquals($guarded, $model->getGuarded());
         $this->assertEquals($hidden, $model->getHidden());
@@ -69,6 +71,48 @@ abstract class ModelTestCase extends TestCase
     }
 
     /**
+     * @param HasOne $relation
+     * @param Model $model
+     * @param Model $related
+     * @param string $key
+     * @param string $parent
+     * @param \Closure $queryCheck
+     *
+     * - `getQuery()`: assert query has not been modified or modified properly.
+     * - `getForeignKey()`: any `HasOneOrMany` or `BelongsTo` relation, but key type differs (see documentaiton).
+     * - `getQualifiedParentKeyName()`: in case of `HasOneOrMany` relation, there is no `getLocalKey()` method, so
+     *    this one should be asserted.
+     */
+    protected function assertHasOneRelation(
+        $relation,
+        Model $model,
+        Model $related,
+        $key = null,
+        $parent = null,
+        \Closure $queryCheck = null
+    )
+    {
+        $this->assertInstanceOf(HasOne::class, $relation);
+
+        if (!is_null($queryCheck)) {
+            $queryCheck->bindTo($this);
+            $queryCheck($relation->getQuery(), $model, $relation);
+        }
+
+        if (is_null($key)) {
+            $key = $model->getForeignKey();
+        }
+
+        $this->assertEquals($key, $relation->getForeignKeyName());
+
+        if (is_null($parent)) {
+            $parent = $model->getKeyName();
+        }
+
+        $this->assertEquals($model->getTable() . '.' . $parent, $relation->getQualifiedParentKeyName());
+    }
+
+    /**
      * @param HasMany $relation
      * @param Model $model
      * @param Model $related
@@ -88,7 +132,8 @@ abstract class ModelTestCase extends TestCase
         $key = null,
         $parent = null,
         \Closure $queryCheck = null
-    ) {
+    )
+    {
         $this->assertInstanceOf(HasMany::class, $relation);
 
         if (!is_null($queryCheck)) {
@@ -128,7 +173,8 @@ abstract class ModelTestCase extends TestCase
         $key,
         $owner = null,
         \Closure $queryCheck = null
-    ) {
+    )
+    {
         $this->assertInstanceOf(BelongsTo::class, $relation);
 
         if (!is_null($queryCheck)) {
