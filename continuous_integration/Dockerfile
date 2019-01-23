@@ -13,7 +13,7 @@ RUN apt update -y && apt upgrade -y &&\
     # Instalação e configuração do Apache 2
     apt install apache2 -y && a2enmod rewrite &&\
     # Instalação e configuação do PHP 7.2
-    apt install php7.2 php7.2-mysql php7.2-xml php7.2-mbstring php7.2-curl php7.2-json php7.2-gd php7.2-sqlite3 php7.2-zip -y &&\
+    apt install php7.2 php7.2-mysql php7.2-xml php7.2-mbstring php7.2-curl php7.2-json php7.2-gd php7.2-sqlite3 php7.2-zip php7.2-xdebug -y &&\
     # Instalação e configuração do Composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer &&\
     # Remove os desnecessários

@@ -23,6 +23,15 @@ class Actor extends Model
     ];
 
     /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id', 'user_id'
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array

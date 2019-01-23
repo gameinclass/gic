@@ -20,7 +20,10 @@ class ActorTest extends ModelTestCase
         'is_design',
         'is_player'
     ];
-    protected $hidden = [];
+    protected $hidden = [
+        'id',
+        'user_id'
+    ];
     protected $guarded = ['*'];
     protected $visible = [];
     protected $casts = [
