@@ -23,48 +23,15 @@ class Actor extends Model
     ];
 
     /**
-     * Get the actor's user id.
+     * The attributes that should be cast to native types.
      *
-     * @param  string $value
-     * @return int
+     * @var array
      */
-    public function getUserIdAttribute($value)
-    {
-        return (int)$value;
-    }
-
-    /**
-     * Get the actor's is administrator.
-     *
-     * @param  string $value
-     * @return bool
-     */
-    public function getIsAdministratorAttribute($value)
-    {
-        return (bool)$value;
-    }
-
-    /**
-     * Get the actor's is quest.
-     *
-     * @param  string $value
-     * @return bool
-     */
-    public function getIsDesignAttribute($value)
-    {
-        return (bool)$value;
-    }
-
-    /**
-     * Get the actor's is administrator.
-     *
-     * @param  string $value
-     * @return bool
-     */
-    public function getIsPlayerAttribute($value)
-    {
-        return (bool)$value;
-    }
+    protected $casts = [
+        'is_administrator' => 'boolean',
+        'is_design' => 'boolean',
+        'is_player' => 'boolean',
+    ];
 
     /**
      * Obter o usuário do ator.

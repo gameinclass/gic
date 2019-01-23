@@ -31,6 +31,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime:d/m/Y H:i',
+        'created_at' => 'datetime:d/m/Y H:i',
+        'updated_at' => 'datetime:d/m/Y H:i',
+    ];
+
+    /**
      * Obter o ator pertencente ao usuário.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

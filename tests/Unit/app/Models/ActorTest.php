@@ -15,11 +15,20 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ActorTest extends ModelTestCase
 {
-    protected $fillable = ['is_administrator', 'is_design', 'is_player'];
+    protected $fillable = [
+        'is_administrator',
+        'is_design',
+        'is_player'
+    ];
     protected $hidden = [];
     protected $guarded = ['*'];
     protected $visible = [];
-    protected $casts = ['id' => 'int'];
+    protected $casts = [
+        'id' => 'int',
+        'is_administrator' => 'boolean',
+        'is_design' => 'boolean',
+        'is_player' => 'boolean',
+    ];
     protected $dates = [];
     protected $collectionClass = Collection::class;
     protected $table = null;
@@ -57,23 +66,5 @@ class ActorTest extends ModelTestCase
     {
         $m = new Actor();
         $this->assertBelongsToRelation($m->user(), $m, new User(), 'user_id');
-    }
-
-    /**
-     * Test
-     *
-     * @return void
-     */
-    public function test_actor_mutators() // phpcs:disable
-    {
-        $m = new Actor();
-        // Verifica o tipo de retorno do método
-        $this->assertIsBool($m->getIsAdministratorAttribute('1'));
-        $this->assertIsBool($m->getIsDesignAttribute('1'));
-        $this->assertIsBool($m->getIsPlayerAttribute('1'));
-        // Verifica o valor de retorno do método
-        $this->assertNotTrue($m->getIsAdministratorAttribute('0'));
-        $this->assertNotTrue($m->getIsDesignAttribute('0'));
-        $this->assertNotFalse($m->getIsPlayerAttribute('1'));
     }
 }

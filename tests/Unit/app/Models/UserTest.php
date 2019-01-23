@@ -9,11 +9,25 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserTest extends ModelTestCase
 {
-    protected $fillable = ['name', 'email', 'email_verified_at', 'password', 'remember_token'];
-    protected $hidden = ['password', 'remember_token'];
+    protected $fillable = [
+        'name',
+        'email',
+        'email_verified_at',
+        'password',
+        'remember_token'
+    ];
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
     protected $guarded = ['*'];
     protected $visible = [];
-    protected $casts = ['id' => 'int'];
+    protected $casts = [
+        'id' => 'int',
+        'email_verified_at' => 'datetime:d/m/Y H:i',
+        'created_at' => 'datetime:d/m/Y H:i',
+        'updated_at' => 'datetime:d/m/Y H:i',
+    ];
     protected $dates = ['created_at', 'updated_at'];
     protected $collectionClass = Collection::class;
     protected $table = null;
