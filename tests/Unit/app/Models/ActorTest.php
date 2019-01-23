@@ -11,26 +11,20 @@ namespace Tests\Unit\App\Models;
 use App\User;
 use App\Models\Actor;
 use Tests\ModelTestCase;
+use Illuminate\Database\Eloquent\Collection;
 
 class ActorTest extends ModelTestCase
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'is_administrator', 'is_design', 'is_player',
-    ];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        // 'password',
-    ];
+    protected $fillable = ['is_administrator', 'is_design', 'is_player'];
+    protected $hidden = [];
+    protected $guarded = ['*'];
+    protected $visible = [];
+    protected $casts = ['id' => 'int'];
+    protected $dates = [];
+    protected $collectionClass = Collection::class;
+    protected $table = null;
+    protected $primaryKey = 'id';
+    protected $connection = null;
 
     /**
      * Test
@@ -39,7 +33,19 @@ class ActorTest extends ModelTestCase
      */
     public function test_actor_configuration() // phpcs:disable
     {
-        $this->runConfigurationAssertions(new  Actor(), $this->fillable, $this->hidden);
+        $this->runConfigurationAssertions(
+            new  Actor(),
+            $this->fillable,
+            $this->hidden,
+            $this->guarded,
+            $this->visible,
+            $this->casts,
+            $this->dates,
+            $this->collectionClass,
+            $this->table,
+            $this->primaryKey,
+            $this->connection
+        );
     }
 
     /**

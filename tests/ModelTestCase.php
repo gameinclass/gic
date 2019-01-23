@@ -47,8 +47,7 @@ abstract class ModelTestCase extends TestCase
         $table = null,
         $primaryKey = 'id',
         $connection = null
-    )
-    {
+    ) {
         $this->assertEquals($fillable, $model->getFillable());
         $this->assertEquals($guarded, $model->getGuarded());
         $this->assertEquals($hidden, $model->getHidden());
@@ -90,8 +89,7 @@ abstract class ModelTestCase extends TestCase
         $key = null,
         $parent = null,
         \Closure $queryCheck = null
-    )
-    {
+    ) {
         $this->assertInstanceOf(HasOne::class, $relation);
 
         if (!is_null($queryCheck)) {
@@ -132,8 +130,7 @@ abstract class ModelTestCase extends TestCase
         $key = null,
         $parent = null,
         \Closure $queryCheck = null
-    )
-    {
+    ) {
         $this->assertInstanceOf(HasMany::class, $relation);
 
         if (!is_null($queryCheck)) {
@@ -173,8 +170,7 @@ abstract class ModelTestCase extends TestCase
         $key,
         $owner = null,
         \Closure $queryCheck = null
-    )
-    {
+    ) {
         $this->assertInstanceOf(BelongsTo::class, $relation);
 
         if (!is_null($queryCheck)) {
