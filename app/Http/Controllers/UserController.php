@@ -15,10 +15,10 @@ class UserController extends Controller
     public function show($id = null)
     {
         if (!$id) {
-            return \response()->json(User::paginate());
+            return \response()->json(User::with('actor')->paginate());
         }
         return \response()->json([
-            'data' => User::findOrFail($id)
+            'data' => User::with('actor')->findOrFail($id)
         ]);
     }
 }

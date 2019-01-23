@@ -39,7 +39,7 @@ class Actor extends Model
      * @param  string $value
      * @return bool
      */
-    public function getIsAdministrorAttribute($value)
+    public function getIsAdministratorAttribute($value)
     {
         return (bool)$value;
     }

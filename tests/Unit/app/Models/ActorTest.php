@@ -68,11 +68,11 @@ class ActorTest extends ModelTestCase
     {
         $m = new Actor();
         // Verifica o tipo de retorno do método
-        $this->assertIsBool($m->getIsAdministrorAttribute('1'));
+        $this->assertIsBool($m->getIsAdministratorAttribute('1'));
         $this->assertIsBool($m->getIsDesignAttribute('1'));
         $this->assertIsBool($m->getIsPlayerAttribute('1'));
         // Verifica o valor de retorno do método
-        $this->assertNotTrue($m->getIsAdministrorAttribute('0'));
+        $this->assertNotTrue($m->getIsAdministratorAttribute('0'));
         $this->assertNotTrue($m->getIsDesignAttribute('0'));
         $this->assertNotFalse($m->getIsPlayerAttribute('1'));
     }
