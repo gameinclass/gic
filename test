@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+#
+sudo chown $USER:$USER storage -R
+
 # Tenta corrigir os erros de estilo de código.
 vendor/bin/phpcbf --standard=PSR2 app
 vendor/bin/phpcbf --standard=PSR2 tests
@@ -8,3 +11,6 @@ vendor/bin/phpcs --standard=PSR2 --extensions=php app
 vendor/bin/phpcs --standard=PSR2 --extensions=php tests
 # Executa o teste unitário
 vendor/bin/phpunit --coverage-text --colors=never
+
+#
+sudo chown www-data:www-data storage -R
