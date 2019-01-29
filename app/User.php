@@ -27,4 +27,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:d/m/Y H:i',
+        'updated_at' => 'datetime:d/m/Y H:i',
+    ];
+
+    /**
+     * Obter o ator pertencente ao usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function actor()
+    {
+        return $this->hasOne('App\Models\Actor');
+    }
 }
