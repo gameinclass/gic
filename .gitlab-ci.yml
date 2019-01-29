@@ -27,7 +27,7 @@ build:
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 
 # TESTS
-codestyle:
+PHP/codestyle:
   stage: test
   script:
     - vendor/bin/phpcs --standard=PSR2 --extensions=php app
