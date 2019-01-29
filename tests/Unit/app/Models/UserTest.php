@@ -24,7 +24,6 @@ class UserTest extends ModelTestCase
     protected $visible = [];
     protected $casts = [
         'id' => 'int',
-        'email_verified_at' => 'datetime:d/m/Y H:i',
         'created_at' => 'datetime:d/m/Y H:i',
         'updated_at' => 'datetime:d/m/Y H:i',
     ];

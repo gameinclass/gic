@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -16,5 +18,9 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/user[/{id:[0-9]+}]', [
-    'as' => 'user.show', 'uses' => 'UserController@show'
+    'as' => 'user.show', 'uses' => 'User\UserController@show'
+]);
+
+$router->post('/user', [
+    'as' => 'user.store', 'uses' => 'User\UserController@store'
 ]);

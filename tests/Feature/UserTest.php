@@ -32,14 +32,12 @@ class UserTest extends TestCase
 
     public function test_user_can_create_user() // phpcs:disable
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->make();
         $data = $user->toArray();
-        $actor = factory(Actor::class)->create(["user_id" => $user->id]);
+        $actor = factory(Actor::class)->make(["user_id" => $user->id]);
         $data["actor"] = $actor->toArray();
         $response = $this->json('POST', '/user', $data);
         $response->assertResponseStatus(201);
-        $response->seeJsonEquals([
-            "data" => $data
-        ]);
+        $response->seeJson(["status" => "success"]);
     }
 }
