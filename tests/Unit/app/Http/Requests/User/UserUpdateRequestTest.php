@@ -28,9 +28,9 @@ class UserUpdateRequestTest extends TestCase
         $rules = [
             'name' => 'required|min:1|max:255',
             'email' => 'required|email|unique:users',
-            'is_administrator' => 'required|boolean',
-            'is_design' => 'required|boolean',
-            'is_player' => 'required|boolean',
+            'actor.is_administrator' => 'boolean',
+            'actor.is_design' => 'boolean',
+            'actor.is_player' => 'boolean',
         ];
         $userStoreRequest = new UserUpdateRequest();
         $this->assertEquals($rules, $userStoreRequest->rules());
