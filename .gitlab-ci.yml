@@ -1,0 +1,84 @@
+image: unscode/laravel
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - export TERM=linux
+  - export DEBIAN_FRONTEND=noninteractive
+
+# BUILD
+build:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-environment
+    paths:
+      - vendor/
+      - .env
+  artifacts:
+    expire_in: 1h
+    paths:
+      - vendor/
+      - .env
+  script:
+    - cp .env.testing .env
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+
+# TESTS
+PHP/codestyle:
+  stage: test
+  script:
+    - vendor/bin/phpcs --standard=PSR2 --extensions=php app
+    - vendor/bin/phpcs --standard=PSR2 --extensions=php tests
+
+unit/integration:
+  stage: test
+  script:
+    - touch database/database.sqlite
+    - php artisan migrate
+    - vendor/bin/phpunit --coverage-text --colors=never
+
+# DEPLOY
+.init_ssh: &init_ssh |
+  eval $(ssh-agent -s)
+  echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+  ssh-keyscan "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  chmod 644 ~/.ssh/known_hosts
+
+deploy_review:
+  stage: deploy
+  script:
+    - *init_ssh
+    - ssh -T jorgerodrigues9@"$SSH_KNOWN_HOSTS" < ./continuous_delivery/review.sh
+  environment:
+    name: review
+    url: http://gic.unscode.com
+  only:
+    - master
+
+deploy_pre_production:
+  stage: deploy
+  script:
+    - *init_ssh
+    - ssh -T jorgerodrigues9@"$SSH_KNOWN_HOSTS" < ./continuous_delivery/review.sh
+  environment:
+    name: pre_production
+    url: http://nepes.unscode.com
+  when: manual
+  only:
+    - pre_production
+
+deploy_production:
+  stage: deploy
+  script:
+    - echo "A aplicação está indo para produção"
+  environment:
+    name: production
+    url: https://example.com
+  when: manual
+  only:
+    - production
