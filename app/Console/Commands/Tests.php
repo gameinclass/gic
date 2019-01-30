@@ -41,6 +41,8 @@ class Tests extends Command
         $command = "vendor/bin/phpcs --standard=PSR2 --extensions=php app";
         $process = new Process($command);
         $process->run();
+        $this->line('');
+        $this->info('Teste de estilo de código:');
         echo $process->getOutput();
     }
 
@@ -54,6 +56,8 @@ class Tests extends Command
         $command = "vendor/bin/phpunit --coverage-text --colors=never";
         $process = new Process($command);
         $process->run();
+        $this->info('Testes unitário e integração:');
+        $this->line('');
         echo $process->getOutput();
     }
 
@@ -66,5 +70,9 @@ class Tests extends Command
     {
         $this->codestyle();
         $this->unitAndIntegration();
+
+        $this->line('');
+        $this->comment('Finalizado testes ...');
+        $this->line('');
     }
 }

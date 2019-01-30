@@ -39,6 +39,25 @@ class User extends Authenticatable
     ];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'actor'
+    ];
+
+    /**
+     * Get the relations to eager load on every query.
+     *
+     * @return array
+     */
+    public function getWith()
+    {
+        return $this->with;
+    }
+
+    /**
      * Obter o ator pertencente ao usuário.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
