@@ -12,6 +12,6 @@ class Game extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title'
+        'title', 'description'
     ];
 }
