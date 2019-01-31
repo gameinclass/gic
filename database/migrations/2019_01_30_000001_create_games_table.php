@@ -17,6 +17,7 @@ class CreateGamesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment("Chave estrangeira para usuários | User's foreign key");
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // On delete cascade
+            $table->string('title')->comment('Título do jogo | Game title');
             $table->timestamps();
         });
     }
