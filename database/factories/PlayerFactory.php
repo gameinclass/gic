@@ -14,5 +14,13 @@ $factory->define(\App\Models\Player::class, function (Faker $faker) {
             return $user->id;
         },
         'game_id' => $faker->randomElement(\App\Models\Game::pluck('id')->toArray()),
+        'group_id' => function (array $player) {
+            // Somente grupos que pertecem ao jogo !!!
+            $plucked = \App\Models\Group::where('game_id', $player['game_id'])->pluck('id');
+            if (!$plucked->isEmpty()) {
+                return $plucked->random();
+            }
+            return null;
+        },
     ];
 });
