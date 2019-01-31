@@ -14,4 +14,12 @@ class Group extends Model
     protected $fillable = [
         'name'
     ];
+
+    /**
+     * Obtém todas as medalhas do grupo.
+     */
+    public function medals()
+    {
+        return $this->morphToMany(Medal::class, 'taggable');
+    }
 }

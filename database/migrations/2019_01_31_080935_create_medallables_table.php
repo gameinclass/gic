@@ -14,7 +14,9 @@ class CreateMedallablesTable extends Migration
     public function up()
     {
         Schema::create('medallables', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('medal_id')->unsigned();
+            $table->integer('medallable_id')->unsigned();
+            $table->string('medallable_type');
             $table->timestamps();
         });
     }
