@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Score extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'value'
+    ];
+
+    /**
      * Obtém todos os jogadores atribuídos a esse ponto.
      */
     public function players()

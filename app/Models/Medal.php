@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Medal extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'description', 'path',
+    ];
+
+    /**
      * Obtém todos os jogadores atribuídos a essa medalha.
      */
     public function players()

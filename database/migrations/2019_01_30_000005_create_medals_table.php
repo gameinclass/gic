@@ -15,6 +15,9 @@ class CreateMedalsTable extends Migration
     {
         Schema::create('medals', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title')->comment('Título da medalha');
+            $table->text('description')->comment('Descrição detalhada da medalha');
+            $table->string('path')->comment('Caminho do arquivo de imagem no disco');
             $table->timestamps();
         });
     }
