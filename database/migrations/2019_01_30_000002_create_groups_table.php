@@ -18,7 +18,7 @@ class CreateGroupsTable extends Migration
             $table->increments('id')->comment("Chave primaria para grupos | Group's primary key");
             $table->integer('game_id')->unsigned()->comment("Chave estrangeira para jogos | Game's foreign key");
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade'); // On delete cascade
-            $table->string('name')->comment('O nome do grupo | The group name');
+            $table->string('name')->comment('Nome do grupo | Group name');
             $table->timestamps();
         });
     }

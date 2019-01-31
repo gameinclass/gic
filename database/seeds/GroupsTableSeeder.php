@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class GamesTableSeeder extends Seeder
+class GroupsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class GamesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Game::class, 50)->create();
+        factory(\App\Models\Group::class, 500)->create();
     }
 }
