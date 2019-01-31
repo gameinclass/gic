@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Actor;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,6 +65,6 @@ class User extends Authenticatable
      */
     public function actor()
     {
-        return $this->hasOne('App\Models\Actor');
+        return $this->hasOne(Actor::class);
     }
 }

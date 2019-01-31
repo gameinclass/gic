@@ -16,10 +16,18 @@ class Group extends Model
     ];
 
     /**
-     * Obtém todas as medalhas do grupo.
+     * Obtém todas as medalhas atribuída a esse grupo.
      */
     public function medals()
     {
         return $this->morphToMany(Medal::class, 'taggable');
+    }
+
+    /**
+     * Obtém todas os pontos atribuído a esse grupo.
+     */
+    public function scores()
+    {
+        return $this->morphToMany(Score::class, 'taggable');
     }
 }
