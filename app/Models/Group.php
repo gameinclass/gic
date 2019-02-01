@@ -25,38 +25,9 @@ class Group extends Model
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'created_at' => 'datetime:d/m/Y H:i',
-        'updated_at' => 'datetime:d/m/Y H:i',
-    ];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [
-        'medals'
-    ];
-
-    /**
-     * Get the relations to eager load on every query.
-     *
-     * @return array
-     */
-    public function getWith()
-    {
-        return $this->with;
-    }
-
-    /**
      * Obtém o jogo pertencente a este grupo.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo;
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function game()
     {
@@ -65,6 +36,8 @@ class Group extends Model
 
     /**
      * Obtém todas as medalhas atribuída a este grupo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function medals()
     {
@@ -73,6 +46,8 @@ class Group extends Model
 
     /**
      * Obtém todas os pontos atribuído a este grupo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function scores()
     {

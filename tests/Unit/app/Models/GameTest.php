@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jorge
- * Date: 01/02/19
- * Time: 16:56
- */
 
 namespace Tests\Unit\app\Models;
 
@@ -12,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Game;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 
 class GameTest extends TestCase
 {
@@ -39,7 +32,7 @@ class GameTest extends TestCase
     }
 
     /**
-     * Testa o relacionamento entre jogos e usuário.
+     * Testa o relacionamento entre jogo e usuário.
      *
      * @return void
      */
@@ -52,7 +45,7 @@ class GameTest extends TestCase
     }
 
     /**
-     * Testa o relacionamento entre jogo e grupos
+     * Testa o relacionamento entre jogo e grupo
      */
     public function test_has_many_groups_relation()
     {
