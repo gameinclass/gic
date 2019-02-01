@@ -44,7 +44,7 @@ class Actor extends Model
     ];
 
     /**
-     * Obter o usuário do ator.
+     * Obtém o usuário pertencente a este ator.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

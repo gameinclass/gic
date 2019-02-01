@@ -11,7 +11,7 @@ class ScoresTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Score::class, 3000)->create()->each(function ($score) {
+        factory(\App\Models\Score::class, 800)->create()->each(function ($score) {
             // Cada ponto será atribuído a um jogador ou grupo.
             if (rand(0, 1)) {
                 // Atribui a um jogador aleatório.

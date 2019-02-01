@@ -14,4 +14,33 @@ class Game extends Model
     protected $fillable = [
         'title', 'description'
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'user_id'
+    ];
+
+    /**
+     * Obtém o usuário pertencente a este jogo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Obtém os grupos pertencente a este jogo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }
