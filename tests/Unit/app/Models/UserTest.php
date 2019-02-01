@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\app\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -36,13 +37,24 @@ class UserTest extends TestCase
     }
 
     /**
-     * Testa os relacionamentos do model.
+     * Testa o relacionamento entre usuário e ator.
      */
     public function test_has_one_actor_relation()
     {
         // Model
-        $model = new User();
+        $user = new User();
         // Assertions
-        $this->assertInstanceOf(HasOne::class, $model->actor());
+        $this->assertInstanceOf(HasOne::class, $user->actor());
+    }
+
+    /**
+     * Testa o relacionamento entre usuário e jogos.
+     */
+    public function test_has_many_games_relation()
+    {
+        // Model
+        $user = new User();
+        // Assertions
+        $this->assertInstanceOf(HasMany::class, $user->games());
     }
 }
