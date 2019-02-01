@@ -17,6 +17,7 @@ class Medal extends Model
 
     /**
      * Obtém todos os jogadores atribuídos a essa medalha.
+     *
      */
     public function players()
     {
