@@ -11,7 +11,7 @@ class Player extends Model
      */
     public function medals()
     {
-        return $this->morphToMany(Medal::class, 'taggable');
+        return $this->morphToMany(Medal::class, 'medallable');
     }
 
     /**
@@ -19,6 +19,6 @@ class Player extends Model
      */
     public function scores()
     {
-        return $this->morphToMany(Score::class, 'taggable');
+        return $this->morphToMany(Score::class, 'scorable');
     }
 }

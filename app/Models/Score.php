@@ -20,7 +20,7 @@ class Score extends Model
      */
     public function players()
     {
-        return $this->morphedByMany(Player::class, 'taggable');
+        return $this->morphedByMany(Player::class, 'scorable');
     }
 
     /**
@@ -28,6 +28,6 @@ class Score extends Model
      */
     public function groups()
     {
-        return $this->morphedByMany(Group::class, 'taggable');
+        return $this->morphedByMany(Group::class, 'scorable');
     }
 }

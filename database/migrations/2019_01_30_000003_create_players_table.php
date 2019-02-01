@@ -22,8 +22,6 @@ class CreatePlayersTable extends Migration
             $table->integer('group_id')->unsigned()->nullable()->comment("Chave estrangeira para grupos | Group's foreign key");
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade'); // On delete cascade
             $table->timestamps();
-            // Evita que um tenha duplicação no registro de um usuário para o mesmo jogo.
-            $table->unique(['user_id', 'game_id']);
         });
     }
 

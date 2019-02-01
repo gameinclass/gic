@@ -17,7 +17,6 @@ class CreateMedallablesTable extends Migration
             $table->integer('medal_id')->unsigned();
             $table->integer('medallable_id')->unsigned();
             $table->string('medallable_type');
-            $table->timestamps();
         });
     }
 

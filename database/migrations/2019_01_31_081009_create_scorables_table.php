@@ -17,7 +17,6 @@ class CreateScorablesTable extends Migration
             $table->integer('score_id')->unsigned();
             $table->integer('scorable_id')->unsigned();
             $table->string('scorable_type');
-            $table->timestamps();
         });
     }
 
