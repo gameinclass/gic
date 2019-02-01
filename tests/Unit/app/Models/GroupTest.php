@@ -56,7 +56,7 @@ class GroupTest extends TestCase
     }
 
     /**
-     * Testa o relacionamento entre grupo e pontos
+     * Testa o relacionamento entre grupo e ponto
      */
     public function test_morph_to_many_scores_relation()
     {

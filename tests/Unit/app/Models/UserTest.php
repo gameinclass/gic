@@ -46,7 +46,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * Testa o relacionamento entre usuário e jogos.
+     * Testa o relacionamento entre usuário e jogo.
      */
     public function test_has_many_games_relation()
     {
