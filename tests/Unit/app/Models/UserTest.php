@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\app\Models;
 
-use App\User;
 use Tests\TestCase;
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -15,17 +15,10 @@ class UserTest extends TestCase
         'email',
         'password',
     ];
+
     protected $hidden = [
         'password',
         'remember_token',
-    ];
-    protected $casts = [
-        'id' => 'int',
-        'created_at' => 'datetime:d/m/Y H:i',
-        'updated_at' => 'datetime:d/m/Y H:i',
-    ];
-    protected $with = [
-        'actor'
     ];
 
     /**
@@ -40,8 +33,6 @@ class UserTest extends TestCase
         // Assertions
         $this->assertEquals($this->fillable, $model->getFillable());
         $this->assertEquals($this->hidden, $model->getHidden());
-        $this->assertEquals($this->casts, $model->getCasts());
-        $this->assertEquals($this->with, $model->getWith());
     }
 
     /**
