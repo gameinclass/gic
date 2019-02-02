@@ -70,4 +70,18 @@ class UserTest extends TestCase
             "actor" => ["is_player" => $data["actor"]["is_player"]]
         ]]);
     }
+
+    /**
+     * Testa se um usuário (anônimo) pode remover um usuário
+     *
+     * @return void
+     */
+    public function test_it_can_destroy_user()
+    {
+        // Recupera um usuário aleatório
+        $user = User::with('actor')->get()->random();
+        // Requisição, resposta e asserções
+        $response = $this->json('delete', '/api/user/' . $user->id);
+        $response->assertStatus(204);
+    }
 }

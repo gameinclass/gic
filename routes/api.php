@@ -17,4 +17,5 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('user', 'User\UserController@index');
     Route::post('user', 'User\UserController@store');
     Route::put('user/{user}', 'User\UserController@update')->where('user', '[0-9]+');
+    Route::delete('user/{user}', 'User\UserController@destroy')->where('user', '[0-9]+');
 });

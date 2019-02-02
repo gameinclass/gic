@@ -9,7 +9,7 @@
 '
 
 PROJECT="GiC"
-DOMAIN="api.gic.unscode.com"
+DOMAIN="gic.unscode.com"
 GIT_BRANCH="master"
 GIT_REMOTE_SSH="git@gitlab.com:unscode/gic.git"
 SLACK_WEBHOOK="https://hooks.slack.com/services/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"
@@ -38,7 +38,7 @@ if [ -d /var/www/$DOMAIN ]; then
     if [ -d vendor ]; then sudo rm vendor -R; fi
     composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     # Sobrescreve o arquivo de variáveis de ambiente do framework e gera a chave da aplicação.
-    cp .env.review .env && php artisan key:generate
+    cp .env.testing .env && php artisan key:generate
     # Faz as configurações do banco de dados e armazenamento.
     if [ -f storage/database.sqlite ]; then
         sudo rm storage/database.sqlite
