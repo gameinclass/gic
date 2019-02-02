@@ -14,6 +14,7 @@ class CreateScorablesTable extends Migration
     public function up()
     {
         Schema::create('scorables', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('score_id')->unsigned();
             $table->integer('scorable_id')->unsigned();
             $table->string('scorable_type');

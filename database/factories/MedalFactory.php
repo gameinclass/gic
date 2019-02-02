@@ -12,6 +12,7 @@ $factory->define(\App\Models\Medal::class, function (Faker $faker) {
     $path = $uploaded->store('medals', 'public');
 
     return [
+        'user_id' => $faker->randomElement(\App\Models\User::pluck('id')->toArray()),
         'title' => $faker->text(),
         'description' => $faker->randomHtml(),
         'path' => $path

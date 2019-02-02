@@ -1,14 +1,22 @@
-
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+body::before {
+  width: 100%;
+  height: 100%;
+  background: url("../assets/svg/facets_base.svg");
+  content: '';
+  position: absolute;
+  opacity: 0.1;
+}
+
 .navbar-laravel {
-  background-color: #fff;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
+  background-color: rgba(255, 255, 255, 0.70);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }

@@ -14,11 +14,12 @@ class CreateGamesTable extends Migration
     public function up()
     {
         Schema::create('games', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->comment("Chave estrangeira para usuários | User's foreign key");
+            $table->integer('user_id')->unsigned()->comment("Chave estrangeira para usuário");
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // On delete cascade
-            $table->string('title')->comment('Título do jogo | Game title');
-            $table->text('description')->comment('Descrição do jogo | Game description');
+            $table->string('title')->comment('Título do jogo');
+            $table->text('description')->comment('Descrição do jogo');
             $table->timestamps();
         });
     }
