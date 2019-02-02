@@ -20,7 +20,9 @@ class UserTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
-            "links" => ["first", "last", "prev", "next"], "data"
+            "links" => ["first", "last", "prev", "next"], "data" => [
+                ["id", "name", "email", "actor" => ["is_administrator", "is_design", "is_player"]]
+            ]
         ]);
     }
 
@@ -54,14 +56,18 @@ class UserTest extends TestCase
         $user = User::with('actor')->get()->random();
         // Altera os dados do usuário
         $user->name = 'Maria Silva';
-        $user->email = 'email@email.com';
-        $user->actor->is_player = true;
+        $user->email = str_random() . '@email.com';
+        $user->actor->is_player = (bool)rand(0, 1);
         // Dados da requisição
         $data = $user->toArray();
         $data['actor'] = $user->actor->toArray();
         // Requisição, resposta e asserções
-        $response = $this->json('post', '/api/user/' . $user->id, $data);
+        $response = $this->json('put', '/api/user/' . $user->id, $data);
         $response->assertStatus(200);
-        $response->assertJsonStructure(["data" => ["id"]]);
+        $response->assertJson(["data" => [
+            "name" => $data["name"],
+            "email" => $data["email"],
+            "actor" => ["is_player" => $data["actor"]["is_player"]]
+        ]]);
     }
 }

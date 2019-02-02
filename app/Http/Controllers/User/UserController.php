@@ -36,7 +36,7 @@ class UserController extends Controller
         $user->password = str_random(6);
         // Actor
         $actor = new Actor($request->input('actor'));
-        // Armazena o recurso
+        // Armazena os recursos
         if ($user->save() && $user->actor()->save($actor)) {
             return (new UserResource($user))
                 ->response()
@@ -67,7 +67,14 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        //
+        // User
+        $user = User::with('actor')->findOrFail($id);
+        // Atualiza os recursos
+        $user->update($request->all());
+        $user->actor->update($request->input('actor'));
+        return (new UserResource($user))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
