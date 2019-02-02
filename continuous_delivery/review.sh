@@ -74,7 +74,7 @@ if [ ! -d /var/www/$DOMAIN ]; then
     # Instala as dependências da aplicação
     composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     # Configura o banco de dados e armazenameto
-    touch storage/database.sqlite && php artisan migrate --seed && php artisan storage:link
+    touch database/database.sqlite && php artisan migrate --seed && php artisan storage:link
     # Adiciona o arquivo de variáveis de ambiente do framework e gera a chave.
     cp .env.testing .env && php artisan key:generate
     sudo chown www-data:www-data . -R
