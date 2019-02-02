@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User as UserResource;
-use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -26,7 +25,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  UserStoreRequest $request
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserStoreRequest $request)
     {
@@ -63,7 +62,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UserUpdateRequest $request, $id)
     {

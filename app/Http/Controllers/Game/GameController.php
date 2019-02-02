@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\Game;
 
 use App\Models\Game;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Game\GameStoreRequest;
+use App\Http\Requests\Game\GameUpdateRequest;
 use App\Http\Resources\Game\Game as GameResource;
 
 class GameController extends Controller
@@ -19,30 +21,32 @@ class GameController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  GameStoreRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(GameStoreRequest $request)
     {
-        //
+        // Game
+        $game = new Game($request->all());
+        // Adiciona o usuário da requisição.
+        $game->user_id = $request->user()->id;
+        // Armazena os recursos
+        if ($game->save()) {
+            return (new GameResource($game))
+                ->response()
+                ->setStatusCode(201);
+        }
+        return (new GameResource($game))
+            ->response()
+            ->setStatusCode(422);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -51,36 +55,38 @@ class GameController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  GameUpdateRequest $request
+     * @param  int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(GameUpdateRequest $request, $id)
     {
-        //
+        // Game
+        $game = Game::findOrFail($id);
+        // Adiciona o usuário da requisição.
+        $game->user_id = $request->user()->id;
+        // Atualiza os recursos
+        $game->update($request->all());
+        return (new GameResource($game))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        // Game
+        $game = Game::findOrFail($id);
+        if ($game->delete()) {
+            return response()->noContent();
+        }
+        return response('', 422);
     }
 }

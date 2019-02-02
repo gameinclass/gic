@@ -75,7 +75,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_destroy_user()
+    public function test_it_can_remove_user()
     {
         // Recupera um usuário aleatório
         $user = User::with('actor')->get()->random();

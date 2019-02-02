@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Actor;
+use App\Models\User;
 use Tests\TestCase;
 use App\Models\Game;
 
@@ -12,7 +14,7 @@ class GameTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_index_users()
+    public function test_it_can_index_games()
     {
         // Requisição, resposta e asserções
         $response = $this->json('get', '/api/game');
@@ -32,12 +34,17 @@ class GameTest extends TestCase
      */
     public function test_it_can_create_game()
     {
+        // Cria um usuário para autenticação
+        $user = factory(User::class)->create();
+        $actor = factory(Actor::class)->make();
+        $user->actor()->save($actor);
+
         // Fábrica falsa
         $game = factory(Game::class)->make();
         // Dados de requisição
         $data = $game->toArray();
         // Requisição, resposta e asserções
-        $response = $this->json('post', '/api/game', $data);
+        $response = $this->actingAs($user)->json('post', '/api/game', $data);
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
     }
@@ -49,6 +56,11 @@ class GameTest extends TestCase
      */
     public function test_it_can_edit_game()
     {
+        // Cria um usuário para autenticação
+        $user = factory(User::class)->create();
+        $actor = factory(Actor::class)->make();
+        $user->actor()->save($actor);
+
         // Recupera um jogo aleatório
         $game = Game::get()->random();
         // Altera os dados do usuário
@@ -57,7 +69,7 @@ class GameTest extends TestCase
         // Dados da requisição
         $data = $game->toArray();
         // Requisição, resposta e asserções
-        $response = $this->json('put', '/api/user/' . $game->id, $data);
+        $response = $this->actingAs($user)->json('put', '/api/game/' . $game->id, $data);
         $response->assertStatus(200);
         $response->assertJson(["data" => [
             "title" => $data["title"],
@@ -70,12 +82,12 @@ class GameTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_destroy_game()
+    public function test_it_can_remove_game()
     {
         // Recupera um jogo aleatório
         $game = Game::get()->random();
         // Requisição, resposta e asserções
-        $response = $this->json('delete', '/api/user/' . $game->id);
+        $response = $this->json('delete', '/api/game/' . $game->id);
         $response->assertStatus(204);
     }
 }
