@@ -47,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Game::class);
     }
+
+    /**
+     * Obtém os jodagores atribuídos a este usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function players()
+    {
+        return $this->hasMany(Player::class);
+    }
 }
