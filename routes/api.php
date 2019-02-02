@@ -14,8 +14,11 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'api'], function () {
+    // User
     Route::get('user', 'User\UserController@index');
     Route::post('user', 'User\UserController@store');
     Route::put('user/{user}', 'User\UserController@update')->where('user', '[0-9]+');
     Route::delete('user/{user}', 'User\UserController@destroy')->where('user', '[0-9]+');
+    // Game
+    Route::get('game', 'Game\GameController@index');
 });
