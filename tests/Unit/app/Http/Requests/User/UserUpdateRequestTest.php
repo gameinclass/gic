@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\app\Http\Requests;
+namespace Tests\Feature\app\Http\Requests\User;
 
 use Tests\TestCase;
 use App\Http\Requests\User\UserUpdateRequest;
