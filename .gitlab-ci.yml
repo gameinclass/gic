@@ -36,7 +36,7 @@ unit/integration:
   stage: test
   script:
     - touch database/database.sqlite
-    - php artisan migrate
+    - php artisan migrate --seed
     - vendor/bin/phpunit --coverage-text --colors=never
 
 # DEPLOY
