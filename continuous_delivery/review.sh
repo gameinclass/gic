@@ -6,11 +6,10 @@
     arquivo será executado no servidor a partir de uma conexão SSH.
 
     Atenção! Mude o valor das variáveis abaixo com informações do projeto.
-
 '
 
 PROJECT="GiC"
-DOMAIN="gic.unscode.com"
+DOMAIN="api.gic.unscode.com"
 GIT_BRANCH="master"
 GIT_REMOTE_SSH="git@gitlab.com:unscode/gic.git"
 SLACK_WEBHOOK="https://hooks.slack.com/services/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"
