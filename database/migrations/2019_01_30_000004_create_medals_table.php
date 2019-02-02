@@ -15,6 +15,8 @@ class CreateMedalsTable extends Migration
     {
         Schema::create('medals', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned()->comment("Chave estrangeira para usuário");
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // On delete cascade
             $table->string('title')->comment('Título da medalha');
             $table->text('description')->comment('Descrição detalhada da medalha');
             $table->string('path')->comment('Caminho do arquivo de imagem no disco');

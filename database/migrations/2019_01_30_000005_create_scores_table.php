@@ -14,6 +14,7 @@ class CreateScoresTable extends Migration
     public function up()
     {
         Schema::create('scores', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('title')->comment('Título do ponto');
             $table->double('value')->comment('Valor do ponto');
