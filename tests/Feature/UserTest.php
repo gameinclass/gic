@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Actor;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
@@ -42,6 +40,28 @@ class UserTest extends TestCase
         // Requisição, resposta e asserções
         $response = $this->json('post', '/api/user', $data);
         $response->assertStatus(201);
+        $response->assertJsonStructure(["data" => ["id"]]);
+    }
+
+    /**
+     * Testa se um usuário (anônimo) pode editar um usuário.
+     *
+     * @return void
+     */
+    public function test_it_can_edit_user()
+    {
+        // Recupera um usuário aleatório
+        $user = User::with('actor')->get()->random();
+        // Altera os dados do usuário
+        $user->name = 'Maria Silva';
+        $user->email = 'email@email.com';
+        $user->actor->is_player = true;
+        // Dados da requisição
+        $data = $user->toArray();
+        $data['actor'] = $user->actor->toArray();
+        // Requisição, resposta e asserções
+        $response = $this->json('post', '/api/user/' . $user->id, $data);
+        $response->assertStatus(200);
         $response->assertJsonStructure(["data" => ["id"]]);
     }
 }
