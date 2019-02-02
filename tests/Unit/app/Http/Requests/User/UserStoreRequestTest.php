@@ -34,6 +34,5 @@ class UserStoreRequestTest extends TestCase
         ];
         $userStoreRequest = new UserStoreRequest();
         $this->assertEquals($rules, $userStoreRequest->rules());
-
     }
 }
