@@ -4,8 +4,8 @@ namespace Tests\Unit\app\Models;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserTest extends TestCase
 {
@@ -36,6 +36,8 @@ class UserTest extends TestCase
 
     /**
      * Testa o relacionamento entre usuário e ator.
+     *
+     * @return void
      */
     public function test_has_one_actor_relation()
     {
@@ -47,6 +49,8 @@ class UserTest extends TestCase
 
     /**
      * Testa o relacionamento entre usuário e jogo.
+     *
+     * @return void
      */
     public function test_has_many_games_relation()
     {
@@ -54,5 +58,18 @@ class UserTest extends TestCase
         $user = new User();
         // Assertions
         $this->assertInstanceOf(HasMany::class, $user->games());
+    }
+
+    /**
+     * Testa o relacionamento entre usuário e jogador.
+     *
+     * @return void
+     */
+    public function test_has_many_players_relation()
+    {
+        // Model
+        $user = new User();
+        // Assertions
+        $this->assertInstanceOf(HasMany::class, $user->players());
     }
 }
