@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\Actor;
-use App\Models\User;
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Game;
+use App\Models\Actor;
 
 class GameTest extends TestCase
 {
