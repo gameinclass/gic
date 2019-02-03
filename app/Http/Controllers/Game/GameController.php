@@ -17,6 +17,9 @@ class GameController extends Controller
      */
     public function index()
     {
+        // Verifica se a ação é autorizada ...
+        $this->authorize('index', Game::class);
+
         return GameResource::collection(Game::paginate());
     }
 
@@ -28,6 +31,9 @@ class GameController extends Controller
      */
     public function store(GameStoreRequest $request)
     {
+        // Verifica se a ação é autorizada ...
+        $this->authorize('store', Game::class);
+
         // Game
         $game = new Game($request->all());
         // Adiciona o usuário da requisição.
@@ -63,8 +69,10 @@ class GameController extends Controller
      */
     public function update(GameUpdateRequest $request, $id)
     {
-        // Game
         $game = Game::findOrFail($id);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('update', $game);
+
         // Adiciona o usuário da requisição.
         $game->user_id = $request->user()->id;
         // Atualiza os recursos
@@ -82,8 +90,10 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        // Game
         $game = Game::findOrFail($id);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('destroy', $game);
+
         if ($game->delete()) {
             return response()->noContent();
         }
