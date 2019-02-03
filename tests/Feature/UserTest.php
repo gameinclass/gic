@@ -51,6 +51,11 @@ class UserTest extends TestCase
      */
     public function test_administrator_can_index_users()
     {
+        // Dados da requisição
+        // ATENÇÃO! É necessário pelo menos um registro de usuário no banco para que o teste passe, por isso
+        // o usuário abaixo é criado.
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
         // Requisição, resposta e asserções
         $response = $this->actingAs($this->administrator)->json('get', '/api/user');
         $response->assertStatus(200);
@@ -100,13 +105,15 @@ class UserTest extends TestCase
      */
     public function test_anonymous_can_edit_user()
     {
-        // Altera alguns dados do administrador
-        $this->administrator->email = str_random() . '@email.com';
-        // Dados de requisição
-        $data = $this->administrator->toArray();
-        $data['actor'] = $this->administrator->actor->toArray();
+        // Dados da requisição
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
+        // Alteração de alguns dados.
+        $data['email'] = 'Teste de atualização do nome';
+        $data['email'] = str_random() . '@email.com';
+        $data['actor']['is_player'] = !$data['actor']['is_player'];
         // Requisição, resposta e asserções
-        $response = $this->json('put', '/api/user/' . $this->administrator->id, $data);
+        $response = $this->json('put', '/api/user/' . $data['id'], $data);
         $response->assertStatus(403);
     }
 
@@ -117,12 +124,13 @@ class UserTest extends TestCase
      */
     public function test_administrator_can_edit_user()
     {
-        // Altera alguns dados do administrador
-        $this->administrator->email = str_random() . '@email.com';
-        $this->administrator->actor->is_player = !$this->administrator->actor->is_player;
         // Dados da requisição
-        $data = $this->administrator->toArray();
-        $data['actor'] = $this->administrator->actor->toArray();
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
+        // Alteração de alguns dados.
+        $data['email'] = 'Teste de atualização do nome';
+        $data['email'] = str_random() . '@email.com';
+        $data['actor']['is_player'] = !$data['actor']['is_player'];
         // Requisição, resposta e asserções
         $response = $this->actingAs($this->administrator)->json('put', '/api/user/' . $this->administrator->id, $data);
         $response->assertStatus(200);
@@ -140,8 +148,11 @@ class UserTest extends TestCase
      */
     public function test_anonymous_can_remove_user()
     {
+        // Dados da requisição
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
         // Requisição, resposta e asserções
-        $response = $this->json('delete', '/api/user/' . $this->administrator->id);
+        $response = $this->json('delete', '/api/user/' . $data['id']);
         $response->assertStatus(403);
     }
 
@@ -152,9 +163,11 @@ class UserTest extends TestCase
      */
     public function test_administrator_can_remove_user()
     {
-        // ATENÇÃO! Remove o próprio administrador
+        // Dados da requisição
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
         // Requisição, resposta e asserções
-        $response = $this->actingAs($this->administrator)->json('delete', '/api/user/' . $this->administrator->id);
+        $response = $this->actingAs($this->administrator)->json('delete', '/api/user/' . $data['id']);
         $response->assertStatus(204);
     }
 }

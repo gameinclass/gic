@@ -53,7 +53,7 @@ class Tests extends Command
      */
     private function unitAndIntegration()
     {
-        $command = "vendor/bin/phpunit --coverage-text --colors=never";
+        $command = "vendor/bin/phpunit --coverage-text --colors=never --verbose";
         $process = new Process($command);
         $process->run();
         $this->info('Testes unitário e integração:');
