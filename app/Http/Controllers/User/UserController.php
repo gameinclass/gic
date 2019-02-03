@@ -18,6 +18,9 @@ class UserController extends Controller
      */
     public function index()
     {
+        // Verifica se a ação é autorizada ...
+        $this->authorize('index', User::class);
+        // Se sim, continua
         return UserResource::collection(User::paginate());
     }
 
@@ -29,6 +32,9 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
+        // Verifica se a ação é autorizada ...
+        $this->authorize('store', User::class);
+        // Se sim, continua
         // User
         $user = new User($request->all());
         // Adiciona um senha aleatória de 6 dígitos para o usuário.
@@ -66,6 +72,9 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
+        // Verifica se a ação é autorizada ...
+        $this->authorize('update', User::class);
+        // Se sim, continua
         // User
         $user = User::with('actor')->findOrFail($id);
         // Atualiza os recursos
@@ -84,6 +93,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        // Verifica se a ação é autorizada ...
+        $this->authorize('destroy', User::class);
+        // Se sim, continua
         // User
         $user = User::findOrFail($id);
         if ($user->delete()) {
