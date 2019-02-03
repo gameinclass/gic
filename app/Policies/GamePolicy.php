@@ -18,7 +18,10 @@ class GamePolicy
      */
     public function index(User $user)
     {
-        return $user->actor;
+        if (!$user->actor) {
+            return false;
+        }
+        return $user->actor->is_administrator || $user->actor->is_design || $user->actor->is_player;
     }
 
     /**
@@ -29,7 +32,10 @@ class GamePolicy
      */
     public function store(User $user)
     {
-        return $user->actor && ($user->actor->is_administrator || $user->actor->is_design);
+        if (!$user->actor) {
+            return false;
+        }
+        return $user->actor->is_administrator || $user->actor->is_design;
     }
 
     /**

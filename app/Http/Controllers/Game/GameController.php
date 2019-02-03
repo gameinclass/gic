@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Game;
 
 use App\Models\Game;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Game\GameStoreRequest;
 use App\Http\Requests\Game\GameUpdateRequest;
@@ -20,7 +21,12 @@ class GameController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('index', Game::class);
 
-        return GameResource::collection(Game::paginate());
+        // Se o usuário for administrador vê todos os registros.
+        if (Auth::user()->actor && Auth::user()->actor->is_administrator) {
+            return GameResource::collection(Game::paginate());
+        } else { // Senão, vê somente os seus registros.
+            return GameResource::collection(Game::where('user_id', Auth::user()->id)->paginate());
+        }
     }
 
     /**
@@ -34,11 +40,10 @@ class GameController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('store', Game::class);
 
-        // Game
         $game = new Game($request->all());
         // Adiciona o usuário da requisição.
         $game->user_id = $request->user()->id;
-        // Armazena os recursos
+        // Salva o recurso no banco de dados
         if ($game->save()) {
             return (new GameResource($game))
                 ->response()
@@ -75,7 +80,7 @@ class GameController extends Controller
 
         // Adiciona o usuário da requisição.
         $game->user_id = $request->user()->id;
-        // Atualiza os recursos
+        // Atualiza o recurso no banco de dados
         $game->update($request->all());
         return (new GameResource($game))
             ->response()
@@ -94,6 +99,7 @@ class GameController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('destroy', $game);
 
+        // Remove o recurso do banco de dados
         if ($game->delete()) {
             return response()->noContent();
         }
