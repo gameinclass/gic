@@ -9,6 +9,30 @@ use App\Models\Actor;
 class UserTest extends TestCase
 {
     /**
+     * Usuário administrador
+     *
+     * @var User
+     */
+    protected $administrator;
+
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Cria um usuário aleatório com nível de administrador
+        $this->administrator = factory(User::class)->create();
+        $this->assertDatabaseHas('users', $this->administrator->toArray());
+        $actor = factory(Actor::class)->create(['user_id' => $this->administrator->id, 'is_administrator' => true]);
+        $this->assertDatabaseHas('actors', $actor->toArray());
+        $this->assertTrue($actor->is_administrator);
+    }
+
+    /**
      * Testa se um usuário (anônimo) pode listar todos os usuários.
      *
      * @return void
@@ -27,15 +51,8 @@ class UserTest extends TestCase
      */
     public function test_administrator_can_index_users()
     {
-        // Cria um usuário aleatório
-        $user = factory(User::class)->create();
-        $this->assertDatabaseHas('users', $user->toArray());
-        $actor = factory(Actor::class)->create(['user_id' => $user->id, 'is_administrator' => true]);
-        $this->assertDatabaseHas('actors', $actor->toArray());
-        $this->assertTrue($actor->is_administrator);
-
         // Requisição, resposta e asserções
-        $response = $this->actingAs($user)->json('get', '/api/user');
+        $response = $this->actingAs($this->administrator)->json('get', '/api/user');
         $response->assertStatus(200);
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
@@ -52,12 +69,9 @@ class UserTest extends TestCase
      */
     public function test_anonymous_can_create_user()
     {
-        // Fábrica falsa
-        $user = factory(User::class)->make();
-        $actor = factory(Actor::class)->make();
-        // Dados de requisição
-        $data = $user->toArray();
-        $data['actor'] = $actor->toArray();
+        // Dados da requisição
+        $data = factory(User::class)->make()->toArray();
+        $data['actor'] = factory(Actor::class)->make()->toArray();
         // Requisição, resposta e asserções
         $response = $this->json('post', '/api/user', $data);
         $response->assertStatus(403);
@@ -70,18 +84,11 @@ class UserTest extends TestCase
      */
     public function test_administrator_can_create_user()
     {
-        // Cria um usuário aleatório
-        $user = factory(User::class)->create();
-        $this->assertDatabaseHas('users', $user->toArray());
-        $actor = factory(Actor::class)->create(['user_id' => $user->id, 'is_administrator' => true]);
-        $this->assertDatabaseHas('actors', $actor->toArray());
-        $this->assertTrue($actor->is_administrator);
-
-        // Dados de requisição
+        // Dados da requisição
         $data = factory(User::class)->make()->toArray();
         $data['actor'] = factory(Actor::class)->make()->toArray();
         // Requisição, resposta e asserções
-        $response = $this->actingAs($user)->json('post', '/api/user', $data);
+        $response = $this->actingAs($this->administrator)->json('post', '/api/user', $data);
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
     }
@@ -93,13 +100,13 @@ class UserTest extends TestCase
      */
     public function test_anonymous_can_edit_user()
     {
-        // Recupera um usuário aleatório
-        $user = User::with('actor')->get()->random();
+        // Altera alguns dados do administrador
+        $this->administrator->email = str_random() . '@email.com';
         // Dados de requisição
-        $data = factory(User::class)->make()->toArray();
-        $data['actor'] = factory(Actor::class)->make()->toArray();
+        $data = $this->administrator->toArray();
+        $data['actor'] = $this->administrator->actor->toArray();
         // Requisição, resposta e asserções
-        $response = $this->json('put', '/api/user/' . $user->id, $data);
+        $response = $this->json('put', '/api/user/' . $this->administrator->id, $data);
         $response->assertStatus(403);
     }
 
@@ -110,20 +117,14 @@ class UserTest extends TestCase
      */
     public function test_administrator_can_edit_user()
     {
-        // Cria um usuário aleatório
-        $user = factory(User::class)->create();
-        $this->assertDatabaseHas('users', $user->toArray());
-        $actor = factory(Actor::class)->create(['user_id' => $user->id, 'is_administrator' => true]);
-        $this->assertDatabaseHas('actors', $actor->toArray());
-        $this->assertTrue($actor->is_administrator);
-
-        // Altera alguns dados
-        $user->email = str_random() . '@email.com';
+        // Altera alguns dados do administrador
+        $this->administrator->email = str_random() . '@email.com';
+        $this->administrator->actor->is_player = !$this->administrator->actor->is_player;
         // Dados da requisição
-        $data = $user->toArray();
-        $data['actor'] = $user->actor->toArray();
+        $data = $this->administrator->toArray();
+        $data['actor'] = $this->administrator->actor->toArray();
         // Requisição, resposta e asserções
-        $response = $this->actingAs($user)->json('put', '/api/user/' . $user->id, $data);
+        $response = $this->actingAs($this->administrator)->json('put', '/api/user/' . $this->administrator->id, $data);
         $response->assertStatus(200);
         $response->assertJson(["data" => [
             "name" => $data["name"],
@@ -139,10 +140,8 @@ class UserTest extends TestCase
      */
     public function test_anonymous_can_remove_user()
     {
-        // Recupera um usuário aleatório
-        $user = User::with('actor')->get()->random();
         // Requisição, resposta e asserções
-        $response = $this->json('delete', '/api/user/' . $user->id);
+        $response = $this->json('delete', '/api/user/' . $this->administrator->id);
         $response->assertStatus(403);
     }
 
@@ -153,17 +152,9 @@ class UserTest extends TestCase
      */
     public function test_administrator_can_remove_user()
     {
-        // Cria um usuário aleatório
-        $user = factory(User::class)->create();
-        $this->assertDatabaseHas('users', $user->toArray());
-        $actor = factory(Actor::class)->create(['user_id' => $user->id, 'is_administrator' => true]);
-        $this->assertDatabaseHas('actors', $actor->toArray());
-        $this->assertTrue($actor->is_administrator);
-
-        // ATENÇÃO! Remove o proprio usuário criado para a ação.
-
+        // ATENÇÃO! Remove o próprio administrador
         // Requisição, resposta e asserções
-        $response = $this->actingAs($user)->json('delete', '/api/user/' . $user->id);
+        $response = $this->actingAs($this->administrator)->json('delete', '/api/user/' . $this->administrator->id);
         $response->assertStatus(204);
     }
 }
