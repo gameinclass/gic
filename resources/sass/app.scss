@@ -6,18 +6,7 @@
 @import '~bootstrap/scss/bootstrap';
 
 body {
-  background-color: #efefef;
-  // background: url("../assets/svg/500.svg");
-  // background-size: cover;
-}
-
-body::before {
-  width: 100%;
-  height: 100%;
-  background: url("../assets/svg/bg-hexagon-2.svg");
-  background-size: 100%;
-  content: '';
-  position: absolute;
+  background: url("../assets/svg/bg-hexagon.svg");
 }
 
 .navbar-laravel {
