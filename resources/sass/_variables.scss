@@ -260,7 +260,7 @@ $grid-gutter-width:           30px !default;
 $line-height-lg:              1.5 !default;
 $line-height-sm:              1.5 !default;
 
-$border-width:                3px !default;
+$border-width:                4px !default;
 $border-color:                $gray-300 !default;
 
 $border-radius:               .75rem !default;
@@ -754,8 +754,8 @@ $nav-link-height:                   $font-size-base * $line-height-base + $nav-l
 $navbar-brand-height:               $navbar-brand-font-size * $line-height-base !default;
 $navbar-brand-padding-y:            ($nav-link-height - $navbar-brand-height) / 2 !default;
 
-$navbar-toggler-padding-y:          .25rem !default;
-$navbar-toggler-padding-x:          .75rem !default;
+$navbar-toggler-padding-y:          .55rem !default;
+$navbar-toggler-padding-x:          .85rem !default;
 $navbar-toggler-font-size:          $font-size-lg !default;
 $navbar-toggler-border-radius:      $btn-border-radius !default;
 
@@ -820,7 +820,7 @@ $jumbotron-bg:                      $gray-200 !default;
 
 $card-spacer-y:                     .75rem !default;
 $card-spacer-x:                     2.25rem !default;
-$card-border-width:                 $border-width !default;
+$card-border-width:                 $border-width + 8 !default;
 $card-border-radius:                $border-radius !default;
 $card-border-color:                 rgba($black, .0) !default;
 $card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width}) !default;

@@ -25,14 +25,13 @@
         body {
             margin: 0;
             height: 100%;
-            background: url("/svg/500.svg") no-repeat center center;
             background-size: cover;
         }
 
         .box {
             width: 100%;
             height: 100%;
-            background: url("/svg/desenhado-6.svg") no-repeat center center;
+            background: url("/svg/desenhado-7.svg") no-repeat center center;
             background-size: cover;
             display: table;
         }
