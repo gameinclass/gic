@@ -40,8 +40,8 @@ if [ -d /var/www/$DOMAIN ]; then
     # Sobrescreve o arquivo de variáveis de ambiente do framework e gera a chave da aplicação.
     cp .env.testing .env && php artisan key:generate
     # Faz as configurações do banco de dados e armazenamento.
-    if [ -f storage/database.sqlite ]; then
-        sudo rm storage/database.sqlite
+    if [ -f database/database.sqlite ]; then
+        sudo rm database/database.sqlite
     fi
     touch database/database.sqlite && php artisan migrate --seed && php artisan storage:link
     # Muda o proprietário dos arquivos e diretórios.
