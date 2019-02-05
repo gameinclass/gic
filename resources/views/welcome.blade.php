@@ -51,6 +51,12 @@
             width: 350px;
             display: block;
         }
+        .description {
+            margin-top: 0;
+            font-size: 5em;
+            text-align: center;
+            color: black;
+        }
     </style>
 </head>
 <body>
