@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => 'api'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
     // User
     Route::get('user', 'User\UserController@index');
     Route::post('user', 'User\UserController@store');
