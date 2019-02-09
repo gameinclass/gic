@@ -50,22 +50,22 @@ class GameTest extends TestCase
         // CREATE
         $data = factory(Game::class)->make()->toArray();
         $response = $this->json('post', '/api/game', $data);
-        $response->assertStatus(403);
+        $response->assertStatus(401);
 
         // Cria um recurso no banco para testar o gerenciamento.
         $resource = factory(Game::class)->create()->toArray();
 
         // INDEX
         $response = $this->json('get', '/api/game');
-        $response->assertStatus(403);
+        $response->assertStatus(401);
         // EDIT
         $resource['title'] = 'Teste de atualização do título';
         $resource['description'] = 'Teste de atualização de outra descrição';
         $response = $this->json('put', '/api/game/' . $resource['id'], $resource);
-        $response->assertStatus(403);
+        $response->assertStatus(401);
         // DELETE
         $response = $this->json('delete', '/api/game/' . $resource['id']);
-        $response->assertStatus(403);
+        $response->assertStatus(401);
     }
 
     /**
@@ -77,7 +77,7 @@ class GameTest extends TestCase
     {
         // CREATE
         $data = factory(Game::class)->make()->toArray();
-        $response = $this->actingAs($this->administrator)->json('post', '/api/game', $data);
+        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game', $data);
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
 
@@ -85,25 +85,27 @@ class GameTest extends TestCase
         $resource = factory(Game::class)->create()->toArray();
 
         // INDEX
-        $response = $this->actingAs($this->administrator)->json('get', '/api/game');
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game');
         $response->assertStatus(200);
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "title", "description"]
+                ["id", "title", "description", "groups", "players"]
             ]
         ]);
         // EDIT
         $resource['title'] = 'Teste de atualização do título';
         $resource['description'] = 'Teste de atualização de outra descrição';
-        $response = $this->actingAs($this->administrator)->json('put', '/api/game/' . $resource['id'], $resource);
+        $response = $this->actingAs($this->administrator)
+            ->json('put', '/api/game/' . $resource['id'], $resource);
         $response->assertStatus(200);
         $response->assertJson(["data" => [
             "title" => $resource["title"],
             "description" => $resource["description"],
         ]]);
         // DELETE
-        $response = $this->actingAs($this->administrator)->json('delete', '/api/game/' . $resource['id']);
+        $response = $this->actingAs($this->administrator, 'api')
+            ->json('delete', '/api/game/' . $resource['id']);
         $response->assertStatus(204);
     }
 }

@@ -50,7 +50,7 @@ class UserTest extends TestCase
         $data = factory(User::class)->make()->toArray();
         $data['actor'] = factory(Actor::class)->make()->toArray();
         $response = $this->json('post', '/api/user', $data);
-        $response->assertStatus(403);
+        $response->assertStatus(401);
 
         // Cria um recurso no banco para testar o gerenciamento.
         $resource = factory(User::class)->create()->toArray();
@@ -58,16 +58,16 @@ class UserTest extends TestCase
 
         // INDEX
         $response = $this->json('get', '/api/user');
-        $response->assertStatus(403);
+        $response->assertStatus(401);
         // EDIT
         $resource['email'] = 'Teste de atualização do nome';
         $resource['email'] = str_random() . '@email.com';
         $resource['actor']['is_player'] = !$resource['actor']['is_player'];
         $response = $this->json('put', '/api/user/' . $resource['id'], $resource);
-        $response->assertStatus(403);
+        $response->assertStatus(401);
         // DELETE
         $response = $this->json('delete', '/api/user/' . $resource['id']);
-        $response->assertStatus(403);
+        $response->assertStatus(401);
     }
 
     /**
@@ -80,7 +80,8 @@ class UserTest extends TestCase
         // CREATE
         $data = factory(User::class)->make()->toArray();
         $data['actor'] = factory(Actor::class)->make()->toArray();
-        $response = $this->actingAs($this->administrator)->json('post', '/api/user', $data);
+        $response = $this->actingAs($this->administrator, 'api')
+            ->json('post', '/api/user', $data);
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
 
@@ -89,7 +90,7 @@ class UserTest extends TestCase
         $resource['actor'] = factory(Actor::class)->create(['user_id' => $resource['id']])->toArray();
 
         // INDEX
-        $response = $this->actingAs($this->administrator)->json('get', '/api/user');
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/user');
         $response->assertStatus(200);
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
@@ -101,7 +102,8 @@ class UserTest extends TestCase
         $resource['email'] = 'Teste de atualização do nome';
         $resource['email'] = str_random() . '@email.com';
         $resource['actor']['is_player'] = !$resource['actor']['is_player'];
-        $response = $this->actingAs($this->administrator)->json('put', '/api/user/' . $resource['id'], $resource);
+        $response = $this->actingAs($this->administrator, 'api')
+            ->json('put', '/api/user/' . $resource['id'], $resource);
         $response->assertStatus(200);
         $response->assertJson(["data" => [
             "name" => $resource["name"],
@@ -109,7 +111,8 @@ class UserTest extends TestCase
             "actor" => ["is_player" => $resource["actor"]["is_player"]]
         ]]);
         // DELETE
-        $response = $this->actingAs($this->administrator)->json('delete', '/api/user/' . $resource['id']);
+        $response = $this->actingAs($this->administrator, 'api')
+            ->json('delete', '/api/user/' . $resource['id']);
         $response->assertStatus(204);
     }
 }
