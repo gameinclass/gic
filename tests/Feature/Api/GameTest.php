@@ -47,7 +47,10 @@ class GameTest extends TestCase
         // Cria um usuário aleatório com nível de administrador
         $this->administrator = factory(User::class)->create();
         $this->assertDatabaseHas('users', $this->administrator->toArray());
-        $actor = factory(Actor::class)->create(['user_id' => $this->administrator->id, 'is_administrator' => true]);
+        $actor = factory(Actor::class)->create([
+            'user_id' => $this->administrator->id,
+            'is_administrator' => true
+        ]);
         $this->assertDatabaseHas('actors', $actor->toArray());
         $this->assertTrue($actor->is_administrator);
     }

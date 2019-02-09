@@ -9,18 +9,92 @@ use App\Models\Actor;
 class UserTest extends TestCase
 {
     /**
-     * Usuário administrador
+     * Usuário com nível de administrador
      *
      * @var User
      */
     protected $administrator;
 
     /**
-     * O recurso que será manipulado pelo atores.
+     * Usuário com nível de design
+     *
+     * @var User
+     */
+    protected $design;
+
+    /**
+     * Usuário com nível de player
+     *
+     * @var User
+     */
+    protected $player;
+
+    /**
+     * O recurso que será manipulado pelo atores
      *
      * @var User
      */
     protected $resource;
+
+    /**
+     * Configurar usuário administrador
+     *
+     * @return void
+     */
+    private function setUpUserAdministrator()
+    {
+        // Cria um usuário aleatório com nível de administrador
+        $this->administrator = factory(User::class)->create();
+        $this->assertDatabaseHas('users', $this->administrator->toArray());
+        $actor = factory(Actor::class)->create([
+            'user_id' => $this->administrator->id,
+            'is_administrator' => true
+        ]);
+        $this->assertDatabaseHas('actors', $actor->toArray());
+        $this->assertTrue($actor->is_administrator);
+    }
+
+    /**
+     * Configurar usuário design
+     *
+     * @return void
+     */
+    private function setUpUserDesign()
+    {
+        // Cria um usuário aleatório com nível de design
+        $this->design = factory(User::class)->create();
+        $this->assertDatabaseHas('users', $this->design->toArray());
+        $actor = factory(Actor::class)->create([
+            'user_id' => $this->design->id,
+            'is_administrator' => false,
+            'is_design' => true,
+            'is_player' => false
+        ]);
+        $this->assertDatabaseHas('actors', $actor->toArray());
+        $this->assertFalse($actor->is_administrator);
+        $this->assertTrue($actor->is_design);
+        $this->assertFalse($actor->is_player);
+    }
+
+    /**
+     * Configurar usuário jogador
+     */
+    private function setUpUserPlayer()
+    {
+        // Cria um usuário aleatório com nível de player
+        $this->player = factory(User::class)->create();
+        $this->assertDatabaseHas('users', $this->player->toArray());
+        $actor = factory(Actor::class)->create([
+            'user_id' => $this->player->id,
+            'is_administrator' => false,
+            'is_design' => false,
+            'is_player' => true
+        ]);
+        $this->assertDatabaseHas('actors', $actor->toArray());
+        $this->assertFalse($actor->is_administrator);
+        $this->assertFalse($actor->is_design);
+        $this->assertTrue($actor->is_player);
+    }
 
     /**
      * Setup the test environment.
@@ -30,13 +104,9 @@ class UserTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
-        // Cria um usuário aleatório com nível de administrador
-        $this->administrator = factory(User::class)->create();
-        $this->assertDatabaseHas('users', $this->administrator->toArray());
-        $actor = factory(Actor::class)->create(['user_id' => $this->administrator->id, 'is_administrator' => true]);
-        $this->assertDatabaseHas('actors', $actor->toArray());
-        $this->assertTrue($actor->is_administrator);
+        $this->setUpUserAdministrator();
+        $this->setUpUserDesign();
+        $this->setUpUserPlayer();
     }
 
     /**
