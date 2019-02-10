@@ -175,7 +175,11 @@ class GameTest extends TestCase
         $other['description'] = 'Teste de atualização de outra descrição';
         $response = $this->actingAs($this->administrator)
             ->json('put', '/api/game/' . $other['id'], $other);
-        $response->assertStatus(403);
+        $response->assertStatus(200);
+        $response->assertJson(["data" => [
+            "title" => $other["title"],
+            "description" => $other["description"],
+        ]]);
         // DELETE
         // Recurso do usuário
         $response = $this->actingAs($this->administrator, 'api')
@@ -184,7 +188,7 @@ class GameTest extends TestCase
         // Recurso de outros
         $response = $this->actingAs($this->administrator, 'api')
             ->json('delete', '/api/game/' . $other['id']);
-        $response->assertStatus(403);
+        $response->assertStatus(204);
     }
 
     /**
