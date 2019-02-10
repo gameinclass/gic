@@ -72,11 +72,10 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        // Verifica se a ação é autorizada ...
-        $this->authorize('update', User::class);
-        // Se sim, continua
-        // User
         $user = User::with('actor')->findOrFail($id);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('update', $user);
+
         // Atualiza os recursos
         $user->update($request->all());
         $user->actor->update($request->input('actor'));
@@ -93,11 +92,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        // Verifica se a ação é autorizada ...
-        $this->authorize('destroy', User::class);
-        // Se sim, continua
-        // User
         $user = User::findOrFail($id);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('destroy', $user);
+
         if ($user->delete()) {
             return response()->noContent();
         }
