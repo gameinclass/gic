@@ -24,7 +24,7 @@ build:
       - .env
   script:
     - cp .env.testing .env
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - composer install
 
 # TESTS
 PHP/codequality:
@@ -36,9 +36,9 @@ unit/integration:
   stage: test
   script:
     - touch database/database.sqlite
-    - php artisan key:generate
     - php artisan migrate --seed
     - vendor/bin/phpunit --coverage-text --colors=never
+    - cat storage/logs/*
 
 # DEPLOY
 .init_ssh: &init_ssh |
