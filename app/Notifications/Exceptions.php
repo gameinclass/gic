@@ -19,7 +19,7 @@ class Exceptions extends Notification
      */
     public function __construct($content)
     {
-        $this->content = $content;
+        $this->content = "`$content`";
     }
 
     /**
@@ -42,7 +42,6 @@ class Exceptions extends Notification
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-            ->error()
             ->content($this->content);
     }
 
