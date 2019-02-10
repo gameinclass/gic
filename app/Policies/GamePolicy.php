@@ -21,7 +21,7 @@ class GamePolicy
         if (!$user->actor) {
             return false;
         }
-        return $user->actor->is_administrator || $user->actor->is_design || $user->actor->is_player;
+        return $user->actor->is_administrator || $user->actor->is_design;
     }
 
     /**
@@ -53,7 +53,7 @@ class GamePolicy
         if ($user->actor->is_administrator) {
             return true;
         }
-        return $user->actor->is_design && ($user->id === $game->user_id);
+        return $user->actor->is_design && ($user->id == $game->user_id);
     }
 
     /**
@@ -71,6 +71,6 @@ class GamePolicy
         if ($user->actor->is_administrator) {
             return true;
         }
-        return $user->actor->is_design && ($user->id === $game->user_id);
+        return $user->actor->is_design && ($user->id == $game->user_id);
     }
 }

@@ -264,18 +264,18 @@ class GameTest extends TestCase
         // De outros
         $other = factory(Game::class)->create()->toArray();
         // INDEX
-        $response = $this->actingAs($this->design, 'api')->json('get', '/api/game');
+        $response = $this->actingAs($this->player, 'api')->json('get', '/api/game');
         $response->assertStatus(403);
         // EDIT
         // Recurso de outros
         $other['title'] = 'Teste de atualização do título';
         $other['description'] = 'Teste de atualização de outra descrição';
-        $response = $this->actingAs($this->design)
+        $response = $this->actingAs($this->player)
             ->json('put', '/api/game/' . $other['id'], $other);
         $response->assertStatus(403);
         // DELETE
         // Recurso de outros
-        $response = $this->actingAs($this->design, 'api')
+        $response = $this->actingAs($this->player, 'api')
             ->json('delete', '/api/game/' . $other['id']);
         $response->assertStatus(403);
     }
