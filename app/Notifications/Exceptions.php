@@ -22,7 +22,7 @@ class Exceptions extends Notification
         // NOME DO PROJETO
         $name = env('APP_NAME', '');
         // CONTEÚDO DA NOTIFICAÇÃO
-        $this->content = "$name: `$content`";
+        $this->content = "*$name*: ```$content```";
     }
 
     /**
@@ -45,19 +45,7 @@ class Exceptions extends Notification
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
+            ->warning()
             ->content($this->content);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
     }
 }

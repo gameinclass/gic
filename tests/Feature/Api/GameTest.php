@@ -140,12 +140,13 @@ class GameTest extends TestCase
     {
         // CREATE
         $data = factory(Game::class)->make()->toArray();
-        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game', $data);
+        $response = $this->actingAs($this->administrator, 'api')
+            ->json('post', '/api/game', $data);
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
 
-        // Cria um recurso no banco para testar o gerenciamento.
-        $resource = factory(Game::class)->create()->toArray();
+        //
+        $owner = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
 
         // INDEX
         $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game');
@@ -170,5 +171,20 @@ class GameTest extends TestCase
         $response = $this->actingAs($this->administrator, 'api')
             ->json('delete', '/api/game/' . $resource['id']);
         $response->assertStatus(204);
+    }
+
+    /**
+     * Testa se um usuário design pode gerenciar recurso de usuário na API.
+     *
+     * @return void
+     */
+    public function test_design_can_manage_game_resource_in_api()
+    {
+        // CREATE
+        $data = factory(Game::class)->make()->toArray();
+        $response = $this->actingAs($this->design, 'api')
+            ->json('post', '/api/game', $data);
+        $response->assertStatus(201);
+        $response->assertJsonStructure(["data" => ["id"]]);
     }
 }
