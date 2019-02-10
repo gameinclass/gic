@@ -30,6 +30,17 @@ class User extends Authenticatable
     ];
 
     /**
+     * Route notifications for the Slack channel.
+     *
+     * @param  \Illuminate\Notifications\Notification $notification
+     * @return string
+     */
+    public function routeNotificationForSlack($notification)
+    {
+        return 'https://hooks.slack.com/services/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';
+    }
+
+    /**
      * Obtém o ator atribuído a este usuário.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
