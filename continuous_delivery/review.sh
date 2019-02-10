@@ -39,12 +39,13 @@ if [ -d /var/www/$DOMAIN ]; then
     composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     # Sobrescreve o arquivo de variáveis de ambiente do framework e gera a chave da aplicação.
     cp .env.testing .env && php artisan key:generate
-    # Faz as configurações do banco de dados e armazenamento.
+    # Remove e adiciona o arquivo de banco de dados sqlite.
     if [ -f database/database.sqlite ]; then
         sudo rm database/database.sqlite
+        touch database/database.sqlite
     fi
-     # Configura banco de dados, Passport e armazenamento
-    touch database/database.sqlite && php artisan migrate --seed && php artisan passport:install && php artisan storage:link
+    # Configura e popula banco de dados, configura Passport e armazenamento
+    php artisan migrate --seed && php artisan passport:install && php artisan storage:link
     # Muda o proprietário dos arquivos e diretórios.
     sudo chown www-data:www-data . -R
     curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" $SLACK_WEBHOOK
@@ -68,16 +69,18 @@ if [ ! -d /var/www/$DOMAIN ]; then
     </VirtualHost>" | sudo tee /etc/apache2/sites-available/$DOMAIN.conf
     sudo a2ensite $DOMAIN
     sudo /etc/init.d/apache2 restart
-    # Vai para o diretório padrão do servidor Apache, cria um diretória para o site, e muda as permissões de usuário.
+    # Vai para o diretório padrão do servidor Apache, cria um diretório para o site, e muda as permissões de usuário.
     # Importante, o nome do diretório deve ser o domnínio sem o 'www'
     cd /var/www/ && sudo mkdir $DOMAIN && sudo chown $USER:$USER $DOMAIN -R
     git clone -b $GIT_BRANCH $GIT_REMOTE_SSH $DOMAIN && cd $DOMAIN
+    # Cria o arquivo de banco de dados sqlite
+    touch database/database.sqlite
     # Instala as dependências da aplicação
-    composer install
+    composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     # Adiciona o arquivo de variáveis de ambiente do framework e gera a chave da aplicação.
     cp .env.testing .env && php artisan key:generate
-    # Configura banco de dados, Passport e armazenamento
-    touch database/database.sqlite && php artisan migrate --seed && php artisan passport:install && php artisan storage:link
+    # Popula banco de dados, configura o Passport e armazenamento
+    php artisan migrate --seed && php artisan passport:install && php artisan storage:link
     sudo chown www-data:www-data . -R
     curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" $SLACK_WEBHOOK
     exit
