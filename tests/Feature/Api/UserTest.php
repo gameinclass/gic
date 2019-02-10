@@ -30,13 +30,6 @@ class UserTest extends TestCase
     protected $player;
 
     /**
-     * O recurso que será manipulado pelo atores
-     *
-     * @var User
-     */
-    protected $resource;
-
-    /**
      * Configurar usuário administrador
      *
      * @return void
@@ -169,7 +162,7 @@ class UserTest extends TestCase
             ]
         ]);
         // EDIT
-        $resource['email'] = 'Teste de atualização do nome';
+        $resource['name'] = 'Teste de atualização do nome';
         $resource['email'] = str_random() . '@email.com';
         $resource['actor']['is_player'] = !$resource['actor']['is_player'];
         $response = $this->actingAs($this->administrator, 'api')
@@ -183,6 +176,58 @@ class UserTest extends TestCase
         // DELETE
         $response = $this->actingAs($this->administrator, 'api')
             ->json('delete', '/api/user/' . $resource['id']);
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Testa se um usuário design pode gerenciar recurso de usuário na API.
+     *
+     * @return void
+     */
+    public function test_design_can_manage_user_resource_in_api()
+    {
+        // CREATE
+        $data = factory(User::class)->make()->toArray();
+        $data['actor'] = factory(Actor::class)->make()->toArray();
+        $response = $this->actingAs($this->design, 'api')
+            ->json('post', '/api/user', $data);
+        $response->assertStatus(403);
+
+        // Cria um recurso no banco para testar o gerenciamento.
+        $resource = factory(User::class)->create()->toArray();
+        $resource['actor'] = factory(Actor::class)->create(['user_id' => $resource['id']])->toArray();
+
+        // INDEX
+        $response = $this->actingAs($this->design, 'api')->json('get', '/api/user');
+        $response->assertStatus(403);
+
+        // EDIT
+        $resource['name'] = 'Teste de atualização do nome';
+        $resource['email'] = str_random() . '@email.com';
+        $resource['actor']['is_player'] = !$resource['actor']['is_player'];
+        $response = $this->actingAs($this->design, 'api')
+            ->json('put', '/api/user/' . $resource['id'], $resource);
+        $response->assertStatus(403);
+        // Atenção! Testa se o usuário pode mudar seus próprios dados.
+        $this->design->name = 'Teste de atualização do nome';
+        $this->design->email = str_random() . '@email.com';
+        $this->design->actor->is_player = !$this->design->actor->is_player;
+        $response = $this->actingAs($this->design, 'api')
+            ->json('put', '/api/user/' . $this->design->id, $this->design->toArray());
+        $response->assertStatus(200);
+        $response->assertJson(["data" => [
+            "name" => $this->design->name,
+            "email" => $this->design->email,
+            "actor" => ["is_player" => $this->design->actor->is_player]
+        ]]);
+        // DELETE
+        $response = $this->actingAs($this->design, 'api')
+            ->json('delete', '/api/user/' . $resource['id']);
+        $response->assertStatus(403);
+        // Atenção! Testa se o usuário pode se auto remover
+        // DELETE
+        $response = $this->actingAs($this->design, 'api')
+            ->json('delete', '/api/user/' . $this->design->id);
         $response->assertStatus(204);
     }
 }

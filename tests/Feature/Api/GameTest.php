@@ -31,13 +31,6 @@ class GameTest extends TestCase
     protected $player;
 
     /**
-     * O recurso que será manipulado pelo atores
-     *
-     * @var User
-     */
-    protected $resource;
-
-    /**
      * Configurar usuário administrador
      *
      * @return void
