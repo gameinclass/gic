@@ -264,7 +264,7 @@ class UserTest extends TestCase
         $this->player->name = 'Teste de atualização do nome';
         $this->player->email = str_random() . '@email.com';
         // Brecha de segurança !!!
-        $this->player->actor->is_player = $this->design->players->is_player;
+        $this->player->actor->is_player = $this->player->actor->is_player;
         $response = $this->actingAs($this->player, 'api')
             ->json('put', '/api/user/' . $this->player->id, $this->player->toArray());
         $response->assertStatus(200);
