@@ -208,9 +208,10 @@ class UserTest extends TestCase
         $response = $this->actingAs($this->design, 'api')
             ->json('put', '/api/user/' . $resource['id'], $resource);
         $response->assertStatus(403);
-        // Atenção! Testa se o usuário pode mudar seus próprios dados.
+        // Atenção! Testa se o usuário pode atualizar seus próprios dados.
         $this->design->name = 'Teste de atualização do nome';
         $this->design->email = str_random() . '@email.com';
+        // Brecha de segurança !!!
         $this->design->actor->is_player = !$this->design->actor->is_player;
         $response = $this->actingAs($this->design, 'api')
             ->json('put', '/api/user/' . $this->design->id, $this->design->toArray());
@@ -225,9 +226,60 @@ class UserTest extends TestCase
             ->json('delete', '/api/user/' . $resource['id']);
         $response->assertStatus(403);
         // Atenção! Testa se o usuário pode se auto remover
-        // DELETE
         $response = $this->actingAs($this->design, 'api')
             ->json('delete', '/api/user/' . $this->design->id);
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Testa se um usuário jogador pode gerenciar recurso de usuário na API.
+     *
+     * @return void
+     */
+    public function test_player_can_manage_user_resource_in_api()
+    {
+        // CREATE
+        $data = factory(User::class)->make()->toArray();
+        $data['actor'] = factory(Actor::class)->make()->toArray();
+        $response = $this->actingAs($this->player, 'api')
+            ->json('post', '/api/user', $data);
+        $response->assertStatus(403);
+
+        // Cria um recurso no banco para testar o gerenciamento.
+        $resource = factory(User::class)->create()->toArray();
+        $resource['actor'] = factory(Actor::class)->create(['user_id' => $resource['id']])->toArray();
+
+        // INDEX
+        $response = $this->actingAs($this->player, 'api')->json('get', '/api/user');
+        $response->assertStatus(403);
+
+        // EDIT
+        $resource['name'] = 'Teste de atualização do nome';
+        $resource['email'] = str_random() . '@email.com';
+        $resource['actor']['is_player'] = !$resource['actor']['is_player'];
+        $response = $this->actingAs($this->player, 'api')
+            ->json('put', '/api/user/' . $resource['id'], $resource);
+        $response->assertStatus(403);
+        // Atenção! Testa se o usuário pode atualizar seus próprios dados.
+        $this->player->name = 'Teste de atualização do nome';
+        $this->player->email = str_random() . '@email.com';
+        // Brecha de segurança !!!
+        $this->player->actor->is_player = $this->design->players->is_player;
+        $response = $this->actingAs($this->player, 'api')
+            ->json('put', '/api/user/' . $this->player->id, $this->player->toArray());
+        $response->assertStatus(200);
+        $response->assertJson(["data" => [
+            "name" => $this->player->name,
+            "email" => $this->player->email,
+            "actor" => ["is_player" => $this->player->actor->is_player]
+        ]]);
+        // DELETE
+        $response = $this->actingAs($this->player, 'api')
+            ->json('delete', '/api/user/' . $resource['id']);
+        $response->assertStatus(403);
+        // Atenção! Testa se o usuário pode se auto remover
+        $response = $this->actingAs($this->player, 'api')
+            ->json('delete', '/api/user/' . $this->player->id);
         $response->assertStatus(204);
     }
 }
