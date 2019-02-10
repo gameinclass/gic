@@ -145,8 +145,10 @@ class GameTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
 
-        //
-        $owner = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        // Do usuário
+        $owner = factory(Game::class)->create(['user_id' => $this->administrator->id])->toArray();
+        // De outros
+        $other = factory(Game::class)->create()->toArray();
 
         // INDEX
         $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game');
@@ -158,19 +160,31 @@ class GameTest extends TestCase
             ]
         ]);
         // EDIT
-        $resource['title'] = 'Teste de atualização do título';
-        $resource['description'] = 'Teste de atualização de outra descrição';
+        // recurso do usuário
+        $owner['title'] = 'Teste de atualização do título';
+        $owner['description'] = 'Teste de atualização de outra descrição';
         $response = $this->actingAs($this->administrator)
-            ->json('put', '/api/game/' . $resource['id'], $resource);
+            ->json('put', '/api/game/' . $owner['id'], $owner);
         $response->assertStatus(200);
         $response->assertJson(["data" => [
-            "title" => $resource["title"],
-            "description" => $resource["description"],
+            "title" => $owner["title"],
+            "description" => $owner["description"],
         ]]);
+        // Recurso de outros
+        $other['title'] = 'Teste de atualização do título';
+        $other['description'] = 'Teste de atualização de outra descrição';
+        $response = $this->actingAs($this->administrator)
+            ->json('put', '/api/game/' . $other['id'], $other);
+        $response->assertStatus(403);
         // DELETE
+        // Recurso do usuário
         $response = $this->actingAs($this->administrator, 'api')
-            ->json('delete', '/api/game/' . $resource['id']);
+            ->json('delete', '/api/game/' . $owner['id']);
         $response->assertStatus(204);
+        // Recurso de outros
+        $response = $this->actingAs($this->administrator, 'api')
+            ->json('delete', '/api/game/' . $other['id']);
+        $response->assertStatus(403);
     }
 
     /**
@@ -186,5 +200,79 @@ class GameTest extends TestCase
             ->json('post', '/api/game', $data);
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
+
+        // Do usuário
+        $owner = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        // De outros
+        $other = factory(Game::class)->create()->toArray();
+        // INDEX
+        $response = $this->actingAs($this->design, 'api')->json('get', '/api/game');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
+            "links" => ["first", "last", "prev", "next"], "data" => [
+                ["id", "title", "description", "groups", "players"]
+            ]
+        ]);
+        // EDIT
+        // recurso do usuário
+        $owner['title'] = 'Teste de atualização do título';
+        $owner['description'] = 'Teste de atualização de outra descrição';
+        $response = $this->actingAs($this->design)
+            ->json('put', '/api/game/' . $owner['id'], $owner);
+        $response->assertStatus(200);
+        $response->assertJson(["data" => [
+            "title" => $owner["title"],
+            "description" => $owner["description"],
+        ]]);
+        // Recurso de outros
+        $other['title'] = 'Teste de atualização do título';
+        $other['description'] = 'Teste de atualização de outra descrição';
+        $response = $this->actingAs($this->design)
+            ->json('put', '/api/game/' . $other['id'], $other);
+        $response->assertStatus(403);
+        // DELETE
+        // Recurso do usuário
+        $response = $this->actingAs($this->design, 'api')
+            ->json('delete', '/api/game/' . $owner['id']);
+        $response->assertStatus(204);
+        // Recurso de outros
+        $response = $this->actingAs($this->design, 'api')
+            ->json('delete', '/api/game/' . $other['id']);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Testa se um usuário design pode gerenciar recurso de usuário na API.
+     *
+     * @return void
+     */
+    public function test_player_can_manage_game_resource_in_api()
+    {
+        // CREATE
+        $data = factory(Game::class)->make()->toArray();
+        $response = $this->actingAs($this->player, 'api')
+            ->json('post', '/api/game', $data);
+        $response->assertStatus(403);
+
+        // Jogador não cria jogo
+        // $owner = factory(Game::class)->create(['user_id' => $this->player->id])->toArray();
+        // De outros
+        $other = factory(Game::class)->create()->toArray();
+        // INDEX
+        $response = $this->actingAs($this->design, 'api')->json('get', '/api/game');
+        $response->assertStatus(403);
+        // EDIT
+        // Recurso de outros
+        $other['title'] = 'Teste de atualização do título';
+        $other['description'] = 'Teste de atualização de outra descrição';
+        $response = $this->actingAs($this->design)
+            ->json('put', '/api/game/' . $other['id'], $other);
+        $response->assertStatus(403);
+        // DELETE
+        // Recurso de outros
+        $response = $this->actingAs($this->design, 'api')
+            ->json('delete', '/api/game/' . $other['id']);
+        $response->assertStatus(403);
     }
 }
