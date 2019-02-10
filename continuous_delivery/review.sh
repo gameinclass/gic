@@ -43,7 +43,8 @@ if [ -d /var/www/$DOMAIN ]; then
     if [ -f database/database.sqlite ]; then
         sudo rm database/database.sqlite
     fi
-    touch database/database.sqlite && php artisan migrate --seed && php artisan storage:link
+     # Configura banco de dados, Passport e armazenamento
+    touch database/database.sqlite && php artisan migrate --seed && php artisan passport:install && php artisan storage:link
     # Muda o proprietário dos arquivos e diretórios.
     sudo chown www-data:www-data . -R
     curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" $SLACK_WEBHOOK
@@ -72,11 +73,11 @@ if [ ! -d /var/www/$DOMAIN ]; then
     cd /var/www/ && sudo mkdir $DOMAIN && sudo chown $USER:$USER $DOMAIN -R
     git clone -b $GIT_BRANCH $GIT_REMOTE_SSH $DOMAIN && cd $DOMAIN
     # Instala as dependências da aplicação
-    composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    composer install
     # Adiciona o arquivo de variáveis de ambiente do framework e gera a chave da aplicação.
     cp .env.testing .env && php artisan key:generate
-    # Configura o banco de dados e armazenamento
-    touch database/database.sqlite && php artisan migrate --seed && php artisan storage:link
+    # Configura banco de dados, Passport e armazenamento
+    touch database/database.sqlite && php artisan migrate --seed && php artisan passport:install && php artisan storage:link
     sudo chown www-data:www-data . -R
     curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" $SLACK_WEBHOOK
     exit

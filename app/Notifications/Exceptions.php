@@ -19,7 +19,10 @@ class Exceptions extends Notification
      */
     public function __construct($content)
     {
-        $this->content = "`$content`";
+        // NOME DO PROJETO
+        $name = env('APP_NAME', '');
+        // CONTEÚDO DA NOTIFICAÇÃO
+        $this->content = "$name: `$content`";
     }
 
     /**
