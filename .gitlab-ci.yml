@@ -15,13 +15,11 @@ build:
   cache:
     key: ${CI_COMMIT_REF_SLUG}-environment
     paths:
-      - storage/logs
       - vendor/
       - .env
   artifacts:
     expire_in: 1h
     paths:
-      - storage/logs
       - vendor/
       - .env
   script:
@@ -38,6 +36,7 @@ unit/integration:
   stage: test
   script:
     - touch database/database.sqlite
+    - php artisan key:generate
     - php artisan migrate --seed
     - vendor/bin/phpunit --coverage-text --colors=never
 
