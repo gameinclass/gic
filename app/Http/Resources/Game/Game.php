@@ -2,7 +2,8 @@
 
 namespace App\Http\Resources\Game;
 
-use App\Http\Resources\Group\Group as Group;
+use App\Http\Resources\Group\Group;
+use App\Http\Resources\Player\Player;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Game extends JsonResource
@@ -20,6 +21,7 @@ class Game extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'groups' => Group::collection($this->groups),
+            'players' => Player::collection($this->players),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

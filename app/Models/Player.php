@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Player extends Model
 {
-
     /**
      * Obtém o usuário pertencente a este jogador.
      *

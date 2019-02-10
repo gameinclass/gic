@@ -43,4 +43,14 @@ class Game extends Model
     {
         return $this->hasMany(Group::class);
     }
+
+    /**
+     * Obtém os jogadores pertencente a este jogo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function players()
+    {
+        return $this->hasMany(Player::class);
+    }
 }
