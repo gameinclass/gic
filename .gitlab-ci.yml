@@ -37,8 +37,7 @@ unit/integration:
   script:
     - touch database/database.sqlite
     - php artisan migrate --seed
-    - vendor/bin/phpunit --coverage-text --colors=never
-    - cat storage/logs/*
+    - vendor/bin/phpunit --coverage-text --colors=never --verbose
 
 # DEPLOY
 .init_ssh: &init_ssh |
