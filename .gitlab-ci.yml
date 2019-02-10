@@ -37,6 +37,7 @@ unit/integration:
   script:
     - touch database/database.sqlite
     - php artisan migrate --seed
+    - php artisan passport:install
     - vendor/bin/phpunit --coverage-text --colors=never --verbose
 
 # DEPLOY
