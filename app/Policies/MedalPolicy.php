@@ -10,12 +10,30 @@ class MedalPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Determine whether the user can view the game.
      *
-     * @return void
+     * @param  \App\Models\User $user
+     * @return mixed
      */
-    public function __construct()
+    public function index(User $user)
     {
-        //
+        if (!$user->actor) {
+            return false;
+        }
+        return $user->actor->is_administrator || $user->actor->is_design;
+    }
+
+    /**
+     * Determine whether the user can create games.
+     *
+     * @param  \App\Models\User $user
+     * @return mixed
+     */
+    public function store(User $user)
+    {
+        if (!$user->actor) {
+            return false;
+        }
+        return $user->actor->is_administrator || $user->actor->is_design;
     }
 }

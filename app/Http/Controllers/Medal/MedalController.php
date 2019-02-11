@@ -23,24 +23,29 @@ class MedalController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(MedalStoreRequest $request)
     {
-        //
+        // Verifica se a ação é autorizada ...
+        $this->authorize('store', Medal::class);
+        $medal = new Medal($request->all());
+        // Adiciona o usuário da requisição.
+        $medal->user_id = $request->user()->id;
+        // Adicionado o caminho do arquivo no disco.
+        $medal->path = $request->file('image')->store('medals');
+        // Salva o recurso no banco de dados
+        if ($medal->save()) {
+            return (new MedalResource($medal))
+                ->response()
+                ->setStatusCode(201);
+        }
+        return (new MedalResource($medal))
+            ->response()
+            ->setStatusCode(422);
     }
 
     /**
@@ -55,24 +60,13 @@ class MedalController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MedalUpdateRequest $request, $id)
     {
         //
     }
