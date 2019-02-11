@@ -64,11 +64,20 @@ class MedalController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(MedalUpdateRequest $request, $id)
     {
-        //
+        $medal = Medal::findOrFail($id);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('update', $medal);
+        // Adiciona o usuário da requisição.
+        $medal->user_id = $request->user()->id;
+        // Atualiza o recurso no banco de dados
+        $medal->update($request->all());
+        return (new MedalResource($medal))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -79,6 +88,13 @@ class MedalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $medal = Medal::findOrFail($id);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('destroy', $medal);
+        // Remove o recurso do banco de dados
+        if ($medal->delete()) {
+            return response()->noContent();
+        }
+        return response('', 422);
     }
 }
