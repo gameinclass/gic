@@ -12,7 +12,20 @@ $factory->define(\App\Models\Medal::class, function (Faker $faker) {
     $path = $uploaded->store('medals', 'public');
 
     return [
-        'user_id' => $faker->randomElement(\App\Models\User::pluck('id')->toArray()),
+        'user_id' => function () {
+            // Atenção! each retorna Illuminate\Database\Eloquent\Collection
+            $user = factory(\App\Models\User::class, 1)->create()->each(function ($user) {
+                // Faker Factory
+                $boolean = \Faker\Factory::create()->boolean;
+                $user->actor()->save(factory(\App\Models\Actor::class)->make([
+                    // Atenção! Somente administrador e design pode criar jogo.
+                    'is_administrator' => $boolean,
+                    'is_design' => !$boolean,
+                    'is_player' => false,
+                ]));
+            });
+            return $user[0]->id;
+        },
         'title' => $faker->text(),
         'description' => $faker->randomHtml(),
         'path' => $path

@@ -22,4 +22,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('game', 'Game\GameController@store');
     Route::put('game/{game}', 'Game\GameController@update')->where('game', '[0-9]+');
     Route::delete('game/{game}', 'Game\GameController@destroy')->where('game', '[0-9]+');
+    // Medal
+    Route::get('medal', 'Medal\MedalController@index');
+    Route::post('medal', 'Medal\MedalController@store');
+    Route::put('medal/{medal}', 'Medal\MedalController@update')->where('medal', '[0-9]+');
+    Route::delete('medal/{medal}', 'Medal\MedalController@destroy')->where('medal', '[0-9]+');
 });
