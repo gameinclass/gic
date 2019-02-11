@@ -20,7 +20,6 @@ class GameController extends Controller
     {
         // Verifica se a ação é autorizada ...
         $this->authorize('index', Game::class);
-
         // Se o usuário for administrador vê todos os registros.
         if (Auth::user()->actor && Auth::user()->actor->is_administrator) {
             return GameResource::collection(Game::paginate());

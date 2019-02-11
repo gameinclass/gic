@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\Medal;
 
-use Illuminate\Http\Request;
+use App\Models\Medal;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Medal\MedalStoreRequest;
+use App\Http\Requests\Medal\MedalUpdateRequest;
+use App\Http\Resources\Medal\Medal as MedalResource;
 
 class MedalController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
      */
     public function index()
     {
-        //
+        // Verifica se a ação é autorizada ...
+        $this->authorize('index', Medal::class);
+        return MedalResource::collection(Medal::paginate());
     }
 
     /**
@@ -30,7 +35,7 @@ class MedalController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +46,7 @@ class MedalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -52,7 +57,7 @@ class MedalController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -63,8 +68,8 @@ class MedalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -75,7 +80,7 @@ class MedalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
