@@ -8,7 +8,7 @@ use App\Models\Actor;
 use App\Models\Medal;
 use Illuminate\Http\UploadedFile;
 
-class GameTest extends TestCase
+class MedalTest extends TestCase
 {
     /**
      * Usuário com nível de administrador
@@ -205,7 +205,7 @@ class GameTest extends TestCase
      *
      * @return void
      */
-    public function test_design_can_manage_game_resource_in_api()
+    public function test_design_can_manage_medal_resource_in_api()
     {
         // Arquivo de imagem falsa com dimensão e tamanho aleatório.
         $image = UploadedFile::fake()->image('image.jpg', rand(100, 800), rand(100, 800))->size(rand(100, 800));
@@ -264,7 +264,7 @@ class GameTest extends TestCase
      *
      * @return void
      */
-    public function test_player_can_manage_game_resource_in_api()
+    public function test_player_can_manage_medal_resource_in_api()
     {
         // Arquivo de imagem falsa com dimensão e tamanho aleatório.
         $image = UploadedFile::fake()->image('image.jpg', rand(100, 800), rand(100, 800))->size(rand(100, 800));
