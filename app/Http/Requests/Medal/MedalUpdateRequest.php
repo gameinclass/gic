@@ -13,7 +13,7 @@ class MedalUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class MedalUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|min:1|max:255',
+            'description' => 'required',
         ];
     }
 }
