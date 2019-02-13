@@ -19,7 +19,8 @@ class GamePolicyTest extends TestCase
     {
         $policy = new GamePolicy();
 
-        $user = new User(['id' => 1, 'name' => 'Test', 'email' => 'email@email.com', 'senha' => 'secret']);
+        $user = new User();
+        $user->id = 1;
         $this->assertFalse($policy->index($user));
 
         $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
@@ -41,7 +42,8 @@ class GamePolicyTest extends TestCase
     {
         $policy = new GamePolicy();
 
-        $user = new User(['id' => 1, 'name' => 'Test', 'email' => 'email@email.com', 'senha' => 'secret']);
+        $user = new User();
+        $user->id = 1;
         $this->assertFalse($policy->store($user));
 
         $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
@@ -52,5 +54,70 @@ class GamePolicyTest extends TestCase
 
         $user->actor = new Actor(['is_administrator' => false, 'is_design' => false, 'is_player' => true]);
         $this->assertFalse($policy->store($user));
+    }
+
+    /**
+     * Testa a lógica do policiamento
+     *
+     * @return void
+     */
+    public function test_update_policy_rules()
+    {
+        $policy = new GamePolicy();
+
+        $user = new User();
+        $user->id = 1;
+        $game = new Game();
+        $game->user_id = 1;
+        $this->assertFalse($policy->update($user, $game));
+
+        $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
+        $game->user_id = 1;
+        $this->assertTrue($policy->update($user, $game));
+        $game->user_id = 2;
+        $this->assertTrue($policy->update($user, $game));
+
+        $user->actor = new Actor(['is_administrator' => false, 'is_design' => true, 'is_player' => false]);
+        $game->user_id = 1;
+        $this->assertTrue($policy->update($user, $game));
+        $game->user_id = 2;
+        $this->assertFalse($policy->update($user, $game));
+
+        $user->actor = new Actor(['is_administrator' => false, 'is_design' => false, 'is_player' => true]);
+        $game->user_id = 1;
+        $this->assertFalse($policy->update($user, $game));
+    }
+
+    /**
+     * Testa a lógica do policiamento
+     *
+     * @return void
+     */
+    public function test_destroy_policy_rules()
+    {
+        $policy = new GamePolicy();
+
+        $user = new User();
+        $user->id = 1;
+        $game = new Game();
+        $game->user_id = 1;
+        $this->assertFalse($policy->destroy($user, $game));
+
+        $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
+        $game->user_id = 1;
+        $this->assertTrue($policy->destroy($user, $game));
+        $game->user_id = 2;
+        $this->assertTrue($policy->destroy($user, $game));
+
+
+        $user->actor = new Actor(['is_administrator' => false, 'is_design' => true, 'is_player' => false]);
+        $game->user_id = 1;
+        $this->assertTrue($policy->destroy($user, $game));
+        $game->user_id = 2;
+        $this->assertFalse($policy->destroy($user, $game));
+
+        $user->actor = new Actor(['is_administrator' => false, 'is_design' => false, 'is_player' => true]);
+        $game->user_id = 1;
+        $this->assertFalse($policy->destroy($user, $game));
     }
 }
