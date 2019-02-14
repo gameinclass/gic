@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupsTable extends Migration
+class CreatePhasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id')->comment("Chave primaria para grupos");
+        Schema::create('phases', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('game_id')->unsigned()->comment("Chave estrangeira para jogos");
-            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade'); // On delete cascade
-            $table->string('name')->comment('Nome do grupo');
+            $table->foreign('game_id')->references('id')->on('games');
+            $table->string('name')->comment('Nome da fase do jogo');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('phases');
     }
 }
