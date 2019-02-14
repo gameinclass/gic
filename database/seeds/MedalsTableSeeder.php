@@ -12,17 +12,11 @@ class MedalsTableSeeder extends Seeder
     public function run()
     {
         $d = Storage::disk('public')->deleteDirectory('medals');
-        factory(\App\Models\Medal::class, 50)->create()->each(function ($medal) {
-            // Cada medalha será atribuído a um jogador ou grupo.
-            if (rand(0, 1)) {
-                // Atribui a um jogador aleatório.
-                $player = \App\Models\Player::all()->random();
-                $medal->players()->sync($player);
-            } else {
-                // Atribui a um grupo aleatório.
-                $group = \App\Models\Group::all()->random();
-                $medal->groups()->sync($group);
-            }
+        factory(\App\Models\Medal::class, 2999)->create()->each(function ($medal) {
+            // Cada medalha criada será atribuida para um jogo específico.
+            // Atribui a medalha a um jogo aleatório.
+            $game = \App\Models\Game::all()->random();
+            $medal->games()->sync($game);
         });
     }
 }

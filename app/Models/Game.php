@@ -35,6 +35,16 @@ class Game extends Model
     }
 
     /**
+     * Obtém as medalhas pertencente a este jogo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function medals()
+    {
+        return $this->hasMany(Medal::class);
+    }
+
+    /**
      * Obtém os grupos pertencente a este jogo.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

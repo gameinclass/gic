@@ -12,13 +12,16 @@ $factory->define(\App\Models\Medal::class, function (Faker $faker) {
     $path = $uploaded->store('medals', 'public');
 
     return [
+        // Para cada medalha é criado um usuário admiminstrador ou design, pois somente esses usuários pode
+        // adicionar medalhas ao sistema.
         'user_id' => function () {
             // Atenção! each retorna Illuminate\Database\Eloquent\Collection
             $user = factory(\App\Models\User::class, 1)->create()->each(function ($user) {
                 // Faker Factory
                 $boolean = \Faker\Factory::create()->boolean;
                 $user->actor()->save(factory(\App\Models\Actor::class)->make([
-                    // Atenção! Somente administrador e design pode criar jogo.
+
+                    // Atenção! Somente o administrador ou o design pode criar medalhas.
                     'is_administrator' => $boolean,
                     'is_design' => !$boolean,
                     'is_player' => false,

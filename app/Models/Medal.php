@@ -16,8 +16,25 @@ class Medal extends Model
     ];
 
     /**
-     * Obtém todos os jogadores atribuídos a essa medalha.
+     * Obtém o usuário pertencente a este jogo.
      *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Obtém todos os jogos pertencente a esta medalha.
+     */
+    public function games()
+    {
+        return $this->morphedByMany(Game::class, 'medallable');
+    }
+
+    /**
+     * Obtém todos os jogadores atribuídos a essa medalha.
      */
     public function players()
     {
