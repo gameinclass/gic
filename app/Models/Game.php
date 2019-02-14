@@ -45,6 +45,16 @@ class Game extends Model
     }
 
     /**
+     * Obtém os pontos pertencente a este jogo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
+
+    /**
      * Obtém os grupos pertencente a este jogo.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

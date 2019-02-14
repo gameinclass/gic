@@ -11,17 +11,11 @@ class ScoresTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Score::class, 800)->create()->each(function ($score) {
-            // Cada ponto será atribuído a um jogador ou grupo.
-            if (rand(0, 1)) {
-                // Atribui a um jogador aleatório.
-                $player = \App\Models\Player::all()->random();
-                $score->players()->sync($player);
-            } else {
-                // Atribui a um grupo aleatório.
-                $group = \App\Models\Group::all()->random();
-                $score->groups()->sync($group);
-            }
+        factory(\App\Models\Score::class, 600)->create()->each(function ($score) {
+            // Cada medalha criada será atribuida para um jogo específico.
+            // Atribui o ponto a vários jogos aleatório.
+            $game = \App\Models\Game::all()->random(15);
+            $score->games()->sync($game);
         });
     }
 }

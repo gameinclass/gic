@@ -15,7 +15,7 @@ class MedalsTableSeeder extends Seeder
         factory(\App\Models\Medal::class, 2999)->create()->each(function ($medal) {
             // Cada medalha criada será atribuida para um jogo específico.
             // Atribui a medalha a um jogo aleatório.
-            $game = \App\Models\Game::all()->random();
+            $game = \App\Models\Game::all()->random(5);
             $medal->games()->sync($game);
         });
     }

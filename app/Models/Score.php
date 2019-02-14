@@ -16,6 +16,14 @@ class Score extends Model
     ];
 
     /**
+     * Obtém todos os jogos pertencente a esta ponto.
+     */
+    public function games()
+    {
+            return $this->morphedByMany(Game::class, 'scorable');
+    }
+
+    /**
      * Obtém todos os jogadores atribuídos a esse ponto.
      */
     public function players()
