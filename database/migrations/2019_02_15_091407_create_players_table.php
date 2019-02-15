@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlayerablesTable extends Migration
+class CreatePlayersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreatePlayerablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('playerables', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->integer('player_id')->unsigned();
-            $table->integer('playerable_id')->unsigned();
-            $table->string('playerable_type');
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->comment("Chave estrangeira para usuário");
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +29,6 @@ class CreatePlayerablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('playerables');
+        Schema::dropIfExists('players');
     }
 }
