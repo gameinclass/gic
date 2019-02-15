@@ -15,4 +15,14 @@ class Player extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Obtém o jogo pertencente a este jogador.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
+    }
 }
