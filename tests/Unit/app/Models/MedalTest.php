@@ -31,6 +31,30 @@ class MedalTest extends TestCase
     }
 
     /**
+     * Testa o relacionamento entre medalha e usuário.
+     *
+     * @return void
+     */
+    public function test_belongs_to_user_relation()
+    {
+        // Model
+        $medal = new Medal();
+        // Assertions
+        $this->assertInstanceOf(BelongsTo::class, $medal->user());
+    }
+
+    /**
+     * Testa o relacionamento entre medalha e jogador.
+     */
+    public function test_morph_to_many_games_relation()
+    {
+        // Model
+        $medal = new Medal();
+        // Assertions
+        $this->assertInstanceOf(MorphToMany::class, $medal->games());
+    }
+
+    /**
      * Testa o relacionamento entre medalha e jogador.
      */
     public function test_morph_to_many_players_relation()

@@ -16,7 +16,7 @@ class Medal extends Model
     ];
 
     /**
-     * Obtém o usuário pertencente a este jogo.
+     * Obtém o usuário pertencente a esta medalha.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -31,6 +31,14 @@ class Medal extends Model
     public function games()
     {
         return $this->morphedByMany(Game::class, 'medallable');
+    }
+
+    /**
+     * Obtém todos os jogadores atribuídos a essa medalha.
+     */
+    public function players()
+    {
+        return $this->morphedByMany(Player::class, 'playerable');
     }
 
     /**
