@@ -14,7 +14,7 @@ class TestController extends Controller
     public function index()
     {
         //
-        $game = Game::with(['medals', 'scores', 'phases', 'players'])->find(1);
+        $game = Game::with(['medals', 'scores', 'phases', 'players', 'players.user'])->find(1);
 
         return response()->json($game);
     }

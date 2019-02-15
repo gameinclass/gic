@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Game;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class GameTest extends TestCase
 {
@@ -45,13 +46,54 @@ class GameTest extends TestCase
     }
 
     /**
-     * Testa o relacionamento entre jogo e grupo
+     * Testa o relacionamento entre jogo e medalha.
+     *
+     * @return void
      */
-    public function test_has_many_groups_relation()
+    public function test_morph_to_many_medals_relation()
     {
         // Model
         $game = new Game();
         // Assertions
-        $this->assertInstanceOf(HasMany::class, $game->groups());
+        $this->assertInstanceOf(MorphToMany::class, $game->medals());
+    }
+
+    /**
+     * Testa o relacionamento entre jogo e ponto.
+     *
+     * @return void
+     */
+    public function test_morph_to_many_scores_relation()
+    {
+        // Model
+        $game = new Game();
+        // Assertions
+        $this->assertInstanceOf(MorphToMany::class, $game->scores());
+    }
+
+    /**
+     * Testa o relacionamento entre jogo e fase.
+     *
+     * @return void
+     */
+    public function test_has_many_phases_relation()
+    {
+        // Model
+        $game = new Game();
+        // Assertions
+        $this->assertInstanceOf(HasMany::class, $game->phases());
+    }
+
+    /**
+     * Testa o relacionamento entre jogo e jogadores.
+     *
+     * @return void
+     */
+    public function test_has_many_players_relation()
+    {
+        // Model
+        $game = new Game();
+        // Assertions
+        $this->assertInstanceOf(HasMany::class, $game->players());
     }
 }
