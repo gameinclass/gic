@@ -37,21 +37,21 @@ class Game extends Model
     /**
      * Obtém as medalhas pertencente a este jogo.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function medals()
     {
-        return $this->hasMany(Medal::class);
+        return $this->morphToMany(Medal::class, 'medallable');
     }
 
     /**
      * Obtém os pontos pertencente a este jogo.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function scores()
     {
-        return $this->hasMany(Score::class);
+        return $this->morphToMany(Score::class, 'scorable');
     }
 
     /**
