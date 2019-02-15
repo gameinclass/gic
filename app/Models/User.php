@@ -62,6 +62,7 @@ class User extends Authenticatable
 
     /**
      * Obtém os jodagores atribuídos a este usuário.
+     * Atenção! Somente usuário jogadores podem ser adicionados.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

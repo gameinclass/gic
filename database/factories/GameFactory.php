@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(\App\Models\Game::class, function (Faker $faker) {
     return [
         'user_id' => function () {
-            // Atenção! each retorna Illuminate\Database\Eloquent\Collection
+            // Atenção! Each retorna Illuminate\Database\Eloquent\Collection
             $user = factory(\App\Models\User::class, 1)->create()->each(function ($user) {
                 // Faker Factory
                 $boolean = \Faker\Factory::create()->boolean;
