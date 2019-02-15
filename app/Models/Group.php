@@ -25,16 +25,6 @@ class Group extends Model
     ];
 
     /**
-     * Obtém o jogo pertencente a este grupo.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function game()
-    {
-        return $this->belongsTo(Game::class);
-    }
-
-    /**
      * Obtém todas as medalhas atribuída a este grupo.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany

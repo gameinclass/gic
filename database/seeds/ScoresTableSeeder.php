@@ -12,7 +12,7 @@ class ScoresTableSeeder extends Seeder
     public function run()
     {
         factory(\App\Models\Score::class, 600)->create()->each(function ($score) {
-            // Cada medalha criada será atribuida para um jogo específico.
+            // Cada ponto criada será atribuido para um jogo específico.
             // Atribui o ponto a vários jogos aleatório.
             $game = \App\Models\Game::all()->random(15);
             $score->games()->sync($game);

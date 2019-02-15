@@ -55,13 +55,13 @@ class Game extends Model
     }
 
     /**
-     * Obtém os grupos pertencente a este jogo.
+     * Obtém os fases pertencente a este jogo.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function groups()
+    public function phases()
     {
-        return $this->hasMany(Group::class);
+        return $this->hasMany(Phase::class);
     }
 
     /**
