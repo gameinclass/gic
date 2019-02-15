@@ -4,6 +4,7 @@ namespace Tests\Unit\app\Models;
 
 use Tests\TestCase;
 use App\Models\Medal;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class MedalTest extends TestCase

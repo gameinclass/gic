@@ -25,4 +25,24 @@ class Player extends Model
     {
         return $this->belongsTo(Game::class);
     }
+
+    /**
+     * Obtém as medalhas pertencente a este jogador.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function medals()
+    {
+        return $this->morphToMany(Medal::class, 'medallable');
+    }
+
+    /**
+     * Obtém os pontos pertencente a este jogador.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function scores()
+    {
+        return $this->morphToMany(Score::class, 'scorable');
+    }
 }

@@ -16,7 +16,7 @@ class Score extends Model
     ];
 
     /**
-     * Obtém todos os jogos pertencente a esta ponto.
+     * Obtém todos os jogos pertencente a este ponto.
      */
     public function games()
     {
@@ -24,10 +24,18 @@ class Score extends Model
     }
 
     /**
-     * Obtém todos os grupos atribuídos a esse ponto.
+     * Obtém todos os grupos atribuídos a este ponto.
      */
     public function groups()
     {
         return $this->morphedByMany(Group::class, 'scorable');
+    }
+
+    /**
+     * Obtém todos os jogadores atribuídos a este ponto.
+     */
+    public function players()
+    {
+        return $this->morphedByMany(Player::class, 'scorable');
     }
 }

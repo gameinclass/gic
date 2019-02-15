@@ -32,19 +32,6 @@ class GroupTest extends TestCase
     }
 
     /**
-     * Testa o relacionamento entre grupo e jogo.
-     *
-     * @return void
-     */
-    public function test_belongs_to_game_relation()
-    {
-        // Model
-        $group = new Group();
-        // Assertions
-        $this->assertInstanceOf(BelongsTo::class, $group->game());
-    }
-
-    /**
      * Testa o relacionamento entre grupo e medalha
      */
     public function test_morph_to_many_medals_relation()
