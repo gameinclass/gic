@@ -22,6 +22,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('game', 'Game\GameController@store');
     Route::put('game/{game}', 'Game\GameController@update')->where('game', '[0-9]+');
     Route::delete('game/{game}', 'Game\GameController@destroy')->where('game', '[0-9]+');
+    // Game / Player
+    Route::get('game/{game}/player', 'Game\PlayerController@index');
+    Route::post('game/{game}/player', 'Game\PlayerController@store');
+    Route::put('game/{game}/player/{player}', 'Game\PlayerController@update')->where('game', '[0-9]+');
+    Route::delete('game/{game}/player/{player}', 'Game\PlayerController@destroy')->where('game', '[0-9]+');
+    // Game / Phase
+    Route::get('game/{game}/phase', 'Game\PhaseController@index');
+    Route::post('game/{game}/phase', 'Game\PhaseController@store');
+    Route::put('game/{game}/phase/{phase}', 'Game\PhaseController@update')->where('game', '[0-9]+');
+    Route::delete('game/{game}/phase/{phase}', 'Game\PhaseController@destroy')->where('game', '[0-9]+');
     // Medal
     Route::get('medal', 'Medal\MedalController@index');
     Route::post('medal', 'Medal\MedalController@store');
