@@ -3,24 +3,11 @@
 : '
     Atenção! Mude o valor das variáveis abaixo com informações do projeto.
 '
-
 PROJECT="GiC"
 DOMAIN="gic.unscode.com"
 GIT_BRANCH="master"
 GIT_REMOTE_SSH="git@gitlab.com:unscode/gic.git"
 SLACK_WEBHOOK="https://hooks.slack.com/services/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"
-MESSAGE="
-{
-    \"attachments\": [
-        {
-            \"pretext\": \"Olá, tem algo novo do projeto *$PROJECT*\",
-            \"color\": \"#36a64f\",
-            \"title\": \"http://$DOMAIN\",
-            \"title_link\": \"http://$DOMAIN\",
-            \"text\": \"Acesse o link acima para verificar e validar as alterações\",
-        }
-    ]
-}"
 
 # Remove o diretório root do projeto.
 if [ -d /var/www/$DOMAIN ]; then
@@ -53,5 +40,5 @@ cp .env.testing .env && php artisan key:generate
 # Popula banco de dados, configura o Passport e armazenamento
 php artisan migrate --seed && php artisan passport:install && php artisan storage:link
 sudo chown www-data:www-data . -R
-url -X POST -H 'Content-type: application/json' --data "$MESSAGE" $SLACK_WEBHOOK
+curl -X POST -H 'Content-type: application/json' $SLACK_WEBHOOK --data @message.json
 exit
