@@ -29,8 +29,8 @@ RUN apt update -y && apt upgrade -y &&\
     apt autoremove -y
 
 # Copia as configurações necessários para o container
-COPY ci/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ci/etc/apache2/apache2.conf /etc/apache2/apache2.conf
+COPY etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY etc/apache2/apache2.conf /etc/apache2/apache2.conf
 # Diretório de trabalho
 WORKDIR /var/www
 # Importante! Inicia o Apache
