@@ -20,7 +20,6 @@ class Game extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'groups' => Group::collection($this->groups),
             'players' => Player::collection($this->players),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

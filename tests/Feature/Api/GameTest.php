@@ -156,7 +156,7 @@ class GameTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "title", "description", "groups", "players"]
+                ["id", "title", "description", "players"]
             ]
         ]);
         // EDIT
@@ -215,7 +215,7 @@ class GameTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "title", "description", "groups", "players"]
+                ["id", "title", "description", "players"]
             ]
         ]);
         // EDIT
