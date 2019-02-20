@@ -53,17 +53,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -96,7 +85,7 @@ class UserController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('destroy', $user);
 
-        if ($user->delete()) {
+        if ($user->actor->delete() && $user->delete()) {
             return response()->noContent();
         }
         return response('', 422);
