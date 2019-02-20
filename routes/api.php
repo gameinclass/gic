@@ -24,13 +24,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('game.player', 'Game\PlayerController', [
         'except' => ['create', 'edit', 'show']
     ]);
-    // Game / Player
+    // Game / Player / Medal
     Route::resource('game.player.medal', 'Game\Player\MedalController', [
-        'except' => ['create', 'edit', 'show']
+        'except' => ['create', 'edit', 'update', 'show']
     ]);
-    // Game / Player
+    // Game / Player / Score
     Route::resource('game.player.score', 'Game\Player\ScoreController', [
-        'except' => ['create', 'edit', 'show']
+        'except' => ['create', 'edit', 'update', 'show']
     ]);
     // Game / Phase
     Route::resource('game.phase', 'Game\PhaseController', [

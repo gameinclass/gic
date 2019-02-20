@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\User;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserCollection extends ResourceCollection
+class User extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -18,6 +18,7 @@ class UserCollection extends ResourceCollection
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'actor' => $this->actor,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -7,7 +7,7 @@ use App\Models\Actor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\User\User as UserResource;
 
 class UserController extends Controller
 {
