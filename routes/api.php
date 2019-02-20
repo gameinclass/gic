@@ -29,7 +29,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         'except' => ['create', 'edit', 'show']
     ]);
     // Medal
-
     Route::resource('medal', 'Medal\MedalController', [
         'except' => ['create', 'edit', 'show']
     ]);

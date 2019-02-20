@@ -21,7 +21,6 @@ class GamePolicyTest extends TestCase
 
         $user = new User();
         $user->id = 1;
-        $this->assertFalse($policy->index($user));
 
         $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
         $this->assertTrue($policy->index($user));
@@ -44,7 +43,6 @@ class GamePolicyTest extends TestCase
 
         $user = new User();
         $user->id = 1;
-        $this->assertFalse($policy->store($user));
 
         $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
         $this->assertTrue($policy->store($user));
@@ -69,7 +67,6 @@ class GamePolicyTest extends TestCase
         $user->id = 1;
         $game = new Game();
         $game->user_id = 1;
-        $this->assertFalse($policy->update($user, $game));
 
         $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
         $game->user_id = 1;
@@ -101,7 +98,6 @@ class GamePolicyTest extends TestCase
         $user->id = 1;
         $game = new Game();
         $game->user_id = 1;
-        $this->assertFalse($policy->destroy($user, $game));
 
         $user->actor = new Actor(['is_administrator' => true, 'is_design' => false, 'is_player' => true]);
         $game->user_id = 1;
