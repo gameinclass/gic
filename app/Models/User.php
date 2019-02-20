@@ -70,26 +70,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Player::class);
     }
-
-    /**
-     * Obtém os medalhas atribuidas a este usuário.
-     * Atenção! Somente usuários jogadores podem ter medalhas.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function medals()
-    {
-        return $this->morphedByMany(Medal::class, 'playerable');
-    }
-
-    /**
-     * Obtém os pontos atribuidas a este usuário.
-     * Atenção! Somente usuários jogadores podem ter pontos.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function scores()
-    {
-        return $this->morphedByMany(Score::class, 'playerable');
-    }
 }

@@ -73,26 +73,4 @@ class UserTest extends TestCase
         // Assertions
         $this->assertInstanceOf(HasMany::class, $user->players());
     }
-
-    /**
-     * Testa o relacionamento entre usuário e medalha.
-     */
-    public function test_has_morphed_by_many_medals_relation()
-    {
-        // Model
-        $user = new User();
-        // Assertions
-        $this->assertInstanceOf(MorphToMany::class, $user->medals());
-    }
-
-    /**
-     * Testa o relacionamento entre usuário e ponto.
-     */
-    public function test_has_morphed_by_many_scores_relation()
-    {
-        // Model
-        $user = new User();
-        // Assertions
-        $this->assertInstanceOf(MorphToMany::class, $user->scores());
-    }
 }

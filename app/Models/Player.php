@@ -27,22 +27,24 @@ class Player extends Model
     }
 
     /**
-     * Obtém as medalhas pertencente a este jogador.
+     * Obtém os medalhas atribuidas a este usuário.
+     * Atenção! Somente usuários jogadores podem ter medalhas.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function medals()
     {
-        return $this->morphToMany(Medal::class, 'medallable');
+        return $this->morphedByMany(Medal::class, 'playerable');
     }
 
     /**
-     * Obtém os pontos pertencente a este jogador.
+     * Obtém os pontos atribuidas a este usuário.
+     * Atenção! Somente usuários jogadores podem ter pontos.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function scores()
     {
-        return $this->morphToMany(Score::class, 'scorable');
+        return $this->morphedByMany(Score::class, 'playerable');
     }
 }
