@@ -36,9 +36,15 @@ unit/integration:
   stage: test
   script:
     - touch database/database.sqlite
-    - php artisan migrate --seed
+    - php artisan migrate
     - php artisan passport:install
     - vendor/bin/phpunit --coverage-text --colors=never --verbose
+
+database/seed:
+  stage: test
+  script:
+    - touch database/database.sqlite
+    - php artisan migrate --seed
 
 # DEPLOY
 .init_ssh: &init_ssh |
