@@ -18,6 +18,8 @@ class CreatePhasesTable extends Migration
             $table->integer('game_id')->unsigned()->comment("Chave estrangeira para jogos");
             $table->foreign('game_id')->references('id')->on('games');
             $table->string('name')->comment('Nome da fase do jogo');
+            $table->timestamp('from')->useCurrent()->comment('Data de inicio para a fase do jogo');
+            $table->timestamp('to')->useCurrent()->comment('Data final para a fase do jogo');
             $table->timestamps();
         });
     }

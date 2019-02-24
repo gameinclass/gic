@@ -9,10 +9,20 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class MedalTest extends TestCase
 {
+    /**
+     * Os atributos que são atribuíveis em massa
+     *
+     * @var array
+     */
     protected $fillable = [
         'title', 'description', 'path',
     ];
 
+    /**
+     * Os atributos excluídos do formulário JSON do modelo.
+     *
+     * @var array
+     */
     protected $hidden = [
 
     ];
