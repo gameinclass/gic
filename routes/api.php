@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Acima, OK!!!
 
     // Game / Phase
-    Route::resource('game.phase', 'Game\PhaseController', [
+    Route::resource('game.phase', 'Game\Phase\PhaseController', [
         'except' => ['create', 'edit', 'show']
     ]);
 
