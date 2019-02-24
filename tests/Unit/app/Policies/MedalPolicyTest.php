@@ -4,11 +4,11 @@ namespace Tests\Unit\app\Policies;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Game;
 use App\Models\Actor;
-use App\Policies\GamePolicy;
+use App\Models\Medal;
+use App\Policies\MedalPolicy;
 
-class GamePolicyTest extends TestCase
+class MedalPolicyTest extends TestCase
 {
     /**
      * Usuário administrador
@@ -65,7 +65,7 @@ class GamePolicyTest extends TestCase
      */
     public function test_index_policy_rules()
     {
-        $policy = new GamePolicy();
+        $policy = new MedalPolicy();
         $this->assertTrue($policy->index($this->administrator()));
         $this->assertTrue($policy->index($this->design()));
         $this->assertFalse($policy->index($this->player()));
@@ -78,7 +78,7 @@ class GamePolicyTest extends TestCase
      */
     public function test_store_policy_rules()
     {
-        $policy = new GamePolicy();
+        $policy = new MedalPolicy();
         $this->assertTrue($policy->index($this->administrator()));
         $this->assertTrue($policy->index($this->design()));
         $this->assertFalse($policy->index($this->player()));
@@ -91,24 +91,24 @@ class GamePolicyTest extends TestCase
      */
     public function test_update_policy_rules()
     {
-        $policy = new GamePolicy();
-        // Um jogo
-        $game = new Game();
+        $policy = new MedalPolicy();
+        // Uma medalha
+        $medal = new Medal();
 
-        $game->user_id = 1;
-        $this->assertTrue($policy->update($this->administrator(), $game));
-        $game->user_id = 2;
-        $this->assertTrue($policy->update($this->administrator(), $game));
+        $medal->user_id = 1;
+        $this->assertTrue($policy->update($this->administrator(), $medal));
+        $medal->user_id = 2;
+        $this->assertTrue($policy->update($this->administrator(), $medal));
 
-        $game->user_id = 1;
-        $this->assertTrue($policy->update($this->design(), $game));
-        $game->user_id = 2;
-        $this->assertFalse($policy->update($this->design(), $game));
+        $medal->user_id = 1;
+        $this->assertTrue($policy->update($this->design(), $medal));
+        $medal->user_id = 2;
+        $this->assertFalse($policy->update($this->design(), $medal));
 
-        $game->user_id = 1;
-        $this->assertFalse($policy->update($this->player(), $game));
-        $game->user_id = 2;
-        $this->assertFalse($policy->update($this->player(), $game));
+        $medal->user_id = 1;
+        $this->assertFalse($policy->update($this->player(), $medal));
+        $medal->user_id = 2;
+        $this->assertFalse($policy->update($this->player(), $medal));
     }
 
     /**
@@ -118,23 +118,23 @@ class GamePolicyTest extends TestCase
      */
     public function test_destroy_policy_rules()
     {
-        $policy = new GamePolicy();
-        // Um jogo
-        $game = new Game();
+        $policy = new MedalPolicy();
+        // Uma medalha
+        $medal = new Medal();
 
-        $game->user_id = 1;
-        $this->assertTrue($policy->update($this->administrator(), $game));
-        $game->user_id = 2;
-        $this->assertTrue($policy->update($this->administrator(), $game));
+        $medal->user_id = 1;
+        $this->assertTrue($policy->update($this->administrator(), $medal));
+        $medal->user_id = 2;
+        $this->assertTrue($policy->update($this->administrator(), $medal));
 
-        $game->user_id = 1;
-        $this->assertTrue($policy->update($this->design(), $game));
-        $game->user_id = 2;
-        $this->assertFalse($policy->update($this->design(), $game));
+        $medal->user_id = 1;
+        $this->assertTrue($policy->update($this->design(), $medal));
+        $medal->user_id = 2;
+        $this->assertFalse($policy->update($this->design(), $medal));
 
-        $game->user_id = 1;
-        $this->assertFalse($policy->update($this->player(), $game));
-        $game->user_id = 2;
-        $this->assertFalse($policy->update($this->player(), $game));
+        $medal->user_id = 1;
+        $this->assertFalse($policy->update($this->player(), $medal));
+        $medal->user_id = 2;
+        $this->assertFalse($policy->update($this->player(), $medal));
     }
 }
