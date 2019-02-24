@@ -79,9 +79,9 @@ class GamePolicyTest extends TestCase
     public function test_store_policy_rules()
     {
         $policy = new GamePolicy();
-        $this->assertTrue($policy->index($this->administrator()));
-        $this->assertTrue($policy->index($this->design()));
-        $this->assertFalse($policy->index($this->player()));
+        $this->assertTrue($policy->store($this->administrator()));
+        $this->assertTrue($policy->store($this->design()));
+        $this->assertFalse($policy->store($this->player()));
     }
 
     /**
@@ -123,18 +123,18 @@ class GamePolicyTest extends TestCase
         $game = new Game();
 
         $game->user_id = 1;
-        $this->assertTrue($policy->update($this->administrator(), $game));
+        $this->assertTrue($policy->destroy($this->administrator(), $game));
         $game->user_id = 2;
-        $this->assertTrue($policy->update($this->administrator(), $game));
+        $this->assertTrue($policy->destroy($this->administrator(), $game));
 
         $game->user_id = 1;
-        $this->assertTrue($policy->update($this->design(), $game));
+        $this->assertTrue($policy->destroy($this->design(), $game));
         $game->user_id = 2;
-        $this->assertFalse($policy->update($this->design(), $game));
+        $this->assertFalse($policy->destroy($this->design(), $game));
 
         $game->user_id = 1;
-        $this->assertFalse($policy->update($this->player(), $game));
+        $this->assertFalse($policy->destroy($this->player(), $game));
         $game->user_id = 2;
-        $this->assertFalse($policy->update($this->player(), $game));
+        $this->assertFalse($policy->destroy($this->player(), $game));
     }
 }

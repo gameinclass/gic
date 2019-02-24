@@ -23,10 +23,12 @@ class PhasePolicy
         if (!$user->actor) {
             return false;
         }
+        // Se o usuário for administrador, pode fazer tudo !!!
         if ($user->actor->is_administrator) {
             return true;
         }
-        return $user->actor->is_administrator && ($user->id === $game->id);
+
+        return $user->actor->is_design && ($user->id === $game->user_id);
     }
 
     /**
@@ -41,10 +43,12 @@ class PhasePolicy
         if (!$user->actor) {
             return false;
         }
+        // Se o usuário for administrador, pode fazer tudo !!!
         if ($user->actor->is_administrator) {
             return true;
         }
-        return $user->actor->is_administrator && ($user->id === $game->id);
+
+        return $user->actor->is_design && ($user->id === $game->user_id);
     }
 
     /**
@@ -60,12 +64,14 @@ class PhasePolicy
         if (!$user->actor) {
             return false;
         }
+        // Se o usuário for administrador, pode fazer tudo !!!
         if ($user->actor->is_administrator) {
             return true;
         }
+
         return $user->actor->is_design &&
-            ($user->id === $game->id) &&
-            ($phase->game_id === $game->id);
+            ($user->id === $game->user_id) &&
+            ($game->id === $phase->game_id);
     }
 
     /**
@@ -81,11 +87,13 @@ class PhasePolicy
         if (!$user->actor) {
             return false;
         }
+        // Se o usuário for administrador, pode fazer tudo !!!
         if ($user->actor->is_administrator) {
             return true;
         }
+
         return $user->actor->is_design &&
-            ($user->id === $game->id) &&
-            ($phase->game_id === $game->id);
+            ($user->id === $game->user_id) &&
+            ($game->id === $phase->game_id);
     }
 }

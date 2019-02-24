@@ -78,9 +78,9 @@ class UserPolicyTest extends TestCase
     public function test_store_policy_rules()
     {
         $policy = new UserPolicy();
-        $this->assertTrue($policy->index($this->administrator()));
-        $this->assertFalse($policy->index($this->design()));
-        $this->assertFalse($policy->index($this->player()));
+        $this->assertTrue($policy->store($this->administrator()));
+        $this->assertFalse($policy->store($this->design()));
+        $this->assertFalse($policy->store($this->player()));
     }
 
     /**
@@ -117,13 +117,13 @@ class UserPolicyTest extends TestCase
         $user = new User();
         $user->id = 2;
 
-        $this->assertTrue($policy->update($this->administrator(), $this->administrator()));
-        $this->assertTrue($policy->update($this->administrator(), $user));
+        $this->assertTrue($policy->destroy($this->administrator(), $this->administrator()));
+        $this->assertTrue($policy->destroy($this->administrator(), $user));
 
-        $this->assertTrue($policy->update($this->design(), $this->design()));
-        $this->assertFalse($policy->update($this->design(), $user));
+        $this->assertTrue($policy->destroy($this->design(), $this->design()));
+        $this->assertFalse($policy->destroy($this->design(), $user));
 
-        $this->assertTrue($policy->update($this->player(), $this->player()));
-        $this->assertFalse($policy->update($this->player(), $user));
+        $this->assertTrue($policy->destroy($this->player(), $this->player()));
+        $this->assertFalse($policy->destroy($this->player(), $user));
     }
 }

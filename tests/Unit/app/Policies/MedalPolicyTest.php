@@ -79,9 +79,9 @@ class MedalPolicyTest extends TestCase
     public function test_store_policy_rules()
     {
         $policy = new MedalPolicy();
-        $this->assertTrue($policy->index($this->administrator()));
-        $this->assertTrue($policy->index($this->design()));
-        $this->assertFalse($policy->index($this->player()));
+        $this->assertTrue($policy->store($this->administrator()));
+        $this->assertTrue($policy->store($this->design()));
+        $this->assertFalse($policy->store($this->player()));
     }
 
     /**
@@ -123,18 +123,18 @@ class MedalPolicyTest extends TestCase
         $medal = new Medal();
 
         $medal->user_id = 1;
-        $this->assertTrue($policy->update($this->administrator(), $medal));
+        $this->assertTrue($policy->destroy($this->administrator(), $medal));
         $medal->user_id = 2;
-        $this->assertTrue($policy->update($this->administrator(), $medal));
+        $this->assertTrue($policy->destroy($this->administrator(), $medal));
 
         $medal->user_id = 1;
-        $this->assertTrue($policy->update($this->design(), $medal));
+        $this->assertTrue($policy->destroy($this->design(), $medal));
         $medal->user_id = 2;
-        $this->assertFalse($policy->update($this->design(), $medal));
+        $this->assertFalse($policy->destroy($this->design(), $medal));
 
         $medal->user_id = 1;
-        $this->assertFalse($policy->update($this->player(), $medal));
+        $this->assertFalse($policy->destroy($this->player(), $medal));
         $medal->user_id = 2;
-        $this->assertFalse($policy->update($this->player(), $medal));
+        $this->assertFalse($policy->destroy($this->player(), $medal));
     }
 }
