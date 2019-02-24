@@ -12,6 +12,7 @@
 */
 
 Route::group(['middleware' => 'auth:api'], function () {
+
     // User
     Route::resource('user', 'User\UserController', [
         'except' => ['create', 'edit', 'show']
@@ -20,24 +21,27 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('game', 'Game\GameController', [
         'except' => ['create', 'edit', 'show']
     ]);
+    // Medal
+    Route::resource('medal', 'Medal\MedalController', [
+        'except' => ['create', 'edit', 'show']
+    ]);
+
+    // Acima, OK!!!
+
     // Game / Player
     Route::resource('game.player', 'Game\PlayerController', [
         'except' => ['create', 'edit', 'show']
     ]);
     // Game / Player / Medal
     Route::resource('game.player.medal', 'Game\Player\MedalController', [
-        'except' => ['create', 'edit', 'update', 'show']
+        'except' => ['create', 'edit', 'show']
     ]);
     // Game / Player / Score
     Route::resource('game.player.score', 'Game\Player\ScoreController', [
-        'except' => ['create', 'edit', 'update', 'show']
+        'except' => ['create', 'edit', 'show']
     ]);
     // Game / Phase
     Route::resource('game.phase', 'Game\PhaseController', [
-        'except' => ['create', 'edit', 'show']
-    ]);
-    // Medal
-    Route::resource('medal', 'Medal\MedalController', [
         'except' => ['create', 'edit', 'show']
     ]);
 });
