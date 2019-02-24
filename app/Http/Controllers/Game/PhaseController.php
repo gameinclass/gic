@@ -2,72 +2,50 @@
 
 namespace App\Http\Controllers\Game;
 
-use Illuminate\Http\Request;
+use App\Models\Game;
+use App\Models\Phase;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Game\Phase\PhaseStoreRequest;
+use App\Http\Requests\Game\Phase\PhaseUpdateRequest;
 
 class PhaseController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  int  $gameId
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($gameId)
     {
-        //
-    }
+        $game = Game::findOrFail($gameId);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('index', $game);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Game\Phase\PhaseStoreRequest  $request
+     * @param  int  $gameId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PhaseStoreRequest $request, $gameId)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\Game\Phase\PhaseUpdateRequest  $request
+     * @param  int  $gameId
+     * @param  int  $phaseId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PhaseUpdateRequest $request, $gameId, $phaseId)
     {
         //
     }
@@ -75,10 +53,11 @@ class PhaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $gameId
+     * @param  int  $phaseId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($gameId, $phaseId)
     {
         //
     }
