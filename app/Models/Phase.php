@@ -21,7 +21,7 @@ class Phase extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'game_id'
+        'game_id'
     ];
 
     /**

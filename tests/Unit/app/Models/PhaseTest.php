@@ -23,7 +23,7 @@ class PhaseTest extends TestCase
      * @var array
      */
     protected $hidden = [
-        'id', 'game_id'
+        'game_id'
     ];
 
     /**

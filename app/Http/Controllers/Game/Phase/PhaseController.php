@@ -37,11 +37,11 @@ class PhaseController extends Controller
     {
         $game = Game::findOrFail($gameId);
         // Verifica se a ação é autorizada ...
-        $this->authorize('index', $game);
+        $this->authorize('store', $game);
 
         $phase = new Phase($request->all());
         // Salva o recurso no banco de dados
-        if ($game->phase->save($phase)) {
+        if ($game->phases()->save($phase)) {
             return (new PhaseResource($phase))
                 ->response()
                 ->setStatusCode(201);
@@ -64,7 +64,7 @@ class PhaseController extends Controller
         $game = Game::findOrFail($gameId);
         $phase = Phase::findOrFail($phaseId);
         // Verifica se a ação é autorizada ...
-        $this->authorize('index', $game, $phase);
+        $this->authorize('update', $game, $phase);
 
         // Atualiza o recurso no banco de dados
         $phase->update($request->all());
@@ -85,7 +85,7 @@ class PhaseController extends Controller
         $game = Game::findOrFail($gameId);
         $phase = Phase::findOrFail($phaseId);
         // Verifica se a ação é autorizada ...
-        $this->authorize('index', $game, $phase);
+        $this->authorize('destroy', $game, $phase);
 
         // Remove o recurso do banco de dados
         if ($phase->delete()) {

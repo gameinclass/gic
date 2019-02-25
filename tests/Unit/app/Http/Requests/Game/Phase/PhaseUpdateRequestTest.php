@@ -27,8 +27,8 @@ class PhaseUpdateRequestTest extends TestCase
     {
         $rules = [
             'name' => 'required|min:1|max:255',
-            'from' => 'required|date',
-            'to' => 'required|date'
+            'from' => 'required|date_format:Y-m-d H:i:s',
+            'to' => 'required|date_format:Y-m-d H:i:s'
         ];
         $phaseUpdateRequest = new PhaseUpdateRequest();
         $this->assertEquals($rules, $phaseUpdateRequest->rules());
