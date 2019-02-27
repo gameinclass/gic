@@ -25,6 +25,15 @@ class Phase extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
+
+    /**
      * Obtém o jogo pertencente a esta fase.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

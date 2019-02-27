@@ -10,12 +10,32 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class GameTest extends TestCase
 {
+    /**
+     * Os atributos que são atribuíveis em massa
+     *
+     * @var array
+     */
     protected $fillable = [
         'title', 'description'
     ];
 
+    /**
+     * Os atributos excluídos do formulário JSON do modelo.
+     *
+     * @var array
+     */
     protected $hidden = [
         'user_id'
+    ];
+
+    /**
+     * Os atributos que devem ser convertidos em tipos nativos.
+     *
+     * @var array
+     */
+    protected $casts = [
+        "id" => "int",
+        'user_id' => 'integer',
     ];
 
     /**
@@ -30,6 +50,7 @@ class GameTest extends TestCase
         // Assertions
         $this->assertEquals($this->fillable, $game->getFillable());
         $this->assertEquals($this->hidden, $game->getHidden());
+        $this->assertEquals($this->casts, $game->getCasts());
     }
 
     /**

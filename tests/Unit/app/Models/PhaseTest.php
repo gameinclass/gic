@@ -27,6 +27,16 @@ class PhaseTest extends TestCase
     ];
 
     /**
+     * Os atributos que devem ser convertidos em tipos nativos.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'int',
+        'user_id' => 'integer',
+    ];
+
+    /**
      * Testa alguns atributos para configuração do model.
      *
      * @return void
@@ -38,6 +48,7 @@ class PhaseTest extends TestCase
         // Assertions
         $this->assertEquals($this->fillable, $phase->getFillable());
         $this->assertEquals($this->hidden, $phase->getHidden());
+        $this->assertEquals($this->casts, $phase->getCasts());
     }
 
     /**

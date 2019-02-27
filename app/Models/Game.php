@@ -23,6 +23,7 @@ class Game extends Model
     protected $hidden = [
         'user_id'
     ];
+
     /**
      * The attributes that should be cast to native types.
      *

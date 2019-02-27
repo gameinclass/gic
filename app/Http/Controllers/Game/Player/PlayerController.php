@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Game\Player;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MedalController extends Controller
+class PlayerController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Game;
+namespace App\Http\Controllers\Game\Player\Score;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PlayerController extends Controller
+class ScoreController extends Controller
 {
     /**
      * Display a listing of the resource.
