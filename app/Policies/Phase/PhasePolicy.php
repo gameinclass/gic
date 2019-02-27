@@ -20,12 +20,15 @@ class PhasePolicy
      */
     public function index(User $user, Game $game)
     {
+        if (!$user->actor) {
+            return false;
+        }
         // Se o usuário for administrador, pode fazer tudo !!!
-        if ($user->actor && $user->actor->is_administrator) {
+        if ($user->actor->is_administrator) {
             return true;
         }
-        // Se o usuário for design, pode criar estário somente para o próprio jogo.
-        if ($user->actor && $user->actor->is_design) {
+        // Se o usuário for design, pode criar fase para o jogo somente para o próprio jogo.
+        if ($user->actor->is_design) {
             return $user->id === $game->user_id;
         }
         // Do contrário ...
@@ -41,12 +44,15 @@ class PhasePolicy
      */
     public function store(User $user, Game $game)
     {
+        if (!$user->actor) {
+            return false;
+        }
         // Se o usuário for administrador, pode fazer tudo !!!
-        if ($user->actor && $user->actor->is_administrator) {
+        if ($user->actor->is_administrator) {
             return true;
         }
-        // Se o usuário for design, pode criar estário somente para o próprio jogo.
-        if ($user->actor && $user->actor->is_design) {
+        // Se o usuário for design, pode criar fase para o jogo somente para o próprio jogo.
+        if ($user->actor->is_design) {
             return $user->id === $game->user_id;
         }
         // Do contrário ...

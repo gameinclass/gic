@@ -229,7 +229,7 @@ class PhaseTest extends TestCase
         $response->assertJsonStructure(["data" => ["id"]]);
         // Tenta criar fase para o jogo alheio
         $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameTwo['id'] . '/phase', $data);
-        $response->assertStatus(401);
+        $response->assertStatus(403);
 
         // INDEX
         // Tenta visualizar fases do proprio jogo
@@ -243,7 +243,7 @@ class PhaseTest extends TestCase
         ]);
         // Tenta visualizar fases do jogo alheio
         $response = $this->actingAs($this->design, 'api')->json('get', '/api/game/' . $gameTwo['id'] . '/phase');
-        $response->assertStatus(401);
+        $response->assertStatus(403);
 
         // EDIT
         // Fase do jogo do priprietário.
@@ -261,7 +261,7 @@ class PhaseTest extends TestCase
         // Tenta editar fase do jogo alheio
         $gameTwoPhaseOne['name'] = 'Atualizado nome de fase';
         $response = $this->actingAs($this->design, 'api')->json('put', '/api/game/' . $gameTwo['id'] . '/phase/' . $gameTwoPhaseOne['id'], $gameTwoPhaseOne);
-        $response->assertStatus(401);
+        $response->assertStatus(403);
 
         // DELETE
         // Tenta remover fase do proprio jogo
@@ -269,6 +269,6 @@ class PhaseTest extends TestCase
         $response->assertStatus(204);
         // Tenta remover fase do jogo alheio
         $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo['id'] . '/phase/' . $gameTwoPhaseOne['id']);
-        $response->assertStatus(401);
+        $response->assertStatus(403);
     }
 }

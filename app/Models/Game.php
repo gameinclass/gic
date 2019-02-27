@@ -23,6 +23,14 @@ class Game extends Model
     protected $hidden = [
         'user_id'
     ];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
 
     /**
      * Obtém o usuário pertencente a este jogo.
