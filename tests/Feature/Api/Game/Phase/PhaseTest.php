@@ -142,7 +142,7 @@ class PhaseTest extends TestCase
      */
     public function test_administrator_can_manage_game_phase_resource_in_api()
     {
-        // Jogo do priprietário.
+        // Jogo do proprietário.
         $gameOne = factory(Game::class)->create(['user_id' => $this->administrator->id])->toArray();
         // Jogo de outro proprietário.
         $gameTwo = factory(Game::class)->create()->toArray();
@@ -216,7 +216,7 @@ class PhaseTest extends TestCase
      */
     public function test_design_can_manage_game_phase_resource_in_api()
     {
-        // Jogo do priprietário.
+        // Jogo do proprietário.
         $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
         // Jogo de outro proprietário.
         $gameTwo = factory(Game::class)->create()->toArray();
@@ -269,6 +269,60 @@ class PhaseTest extends TestCase
         $response->assertStatus(204);
         // Tenta remover fase do jogo alheio
         $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo['id'] . '/phase/' . $gameTwoPhaseOne['id']);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Teste de integração
+     * Testa se um usuário design pode gerenciar recurso de fase de jogo na API.
+     *
+     * @return void
+     */
+    public function test_player_can_manage_game_phase_resource_in_api()
+    {
+        // Jogo de outro proprietário.
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        // Jogo de outro proprietário.
+        $gameTwo = factory(Game::class)->create()->toArray();
+
+        // CREATE
+        $data = factory(Phase::class)->make()->toArray();
+        // Tenta criar fase para o proprio jogo
+        $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameOne['id'] . '/phase', $data);
+        $response->assertStatus(403);
+        // Tenta criar fase para o jogo alheio
+        $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameTwo['id'] . '/phase', $data);
+        $response->assertStatus(403);
+
+        // INDEX
+        // Tenta visualizar fases do proprio jogo
+        $response = $this->actingAs($this->player, 'api')->json('get', '/api/game/' . $gameOne['id'] . '/phase');
+        $response->assertStatus(403);
+        // Tenta visualizar fases do jogo alheio
+        $response = $this->actingAs($this->player, 'api')->json('get', '/api/game/' . $gameTwo['id'] . '/phase');
+        $response->assertStatus(403);
+
+        // EDIT
+        // Fase do jogo do priprietário.
+        $gameOnePhaseOne = factory(Phase::class)->create(['game_id' => $gameOne['id']])->toArray();
+        // Fase do jogo de outro proprietário.
+        $gameTwoPhaseOne = factory(Phase::class)->create(['game_id' => $gameTwo['id']])->toArray();
+
+        // Tenta editar fase do proprio jogo
+        $gameOnePhaseOne['name'] = 'Atualizado nome de fase';
+        $response = $this->actingAs($this->player, 'api')->json('put', '/api/game/' . $gameOne['id'] . '/phase/' . $gameOnePhaseOne['id'], $gameOnePhaseOne);
+        $response->assertStatus(403);
+        // Tenta editar fase do jogo alheio
+        $gameTwoPhaseOne['name'] = 'Atualizado nome de fase';
+        $response = $this->actingAs($this->player, 'api')->json('put', '/api/game/' . $gameTwo['id'] . '/phase/' . $gameTwoPhaseOne['id'], $gameTwoPhaseOne);
+        $response->assertStatus(403);
+
+        // DELETE
+        // Tenta remover fase do proprio jogo
+        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne['id'] . '/phase/' . $gameOnePhaseOne['id']);
+        $response->assertStatus(403);
+        // Tenta remover fase do jogo alheio
+        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameTwo['id'] . '/phase/' . $gameTwoPhaseOne['id']);
         $response->assertStatus(403);
     }
 }

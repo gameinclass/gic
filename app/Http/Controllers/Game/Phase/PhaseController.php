@@ -22,9 +22,10 @@ class PhaseController extends Controller
     {
         $game = Game::findOrFail($gameId);
         // Verifica se a ação é autorizada ...
-        if (Gate::denies('game-phase-index', $game)) {
-            return response()->json([])->setStatusCode(403);
-        }
+        $this->authorize('index', [Phase::class, $game]);
+        /* if (Gate::denies('game-phase-index', $game)) {
+             return response()->json([])->setStatusCode(403);
+         }*/
         // Retorna o uma coleção de recursos.
         return PhaseResource::collection(Phase::where('game_id', $game->id)->paginate());
     }
@@ -39,13 +40,14 @@ class PhaseController extends Controller
     public function store(PhaseStoreRequest $request, $gameId)
     {
         $game = Game::findOrFail($gameId);
+        $this->authorize('store', [Phase::class, $game]);
         $phase = new Phase($request->all());
         // Verifica se a ação é autorizada ...
-        if (Gate::denies('game-phase-store', $game)) {
+        /*if (Gate::denies('game-phase-store', $game)) {
             return (new PhaseResource($phase))
                 ->response()
                 ->setStatusCode(403);
-        }
+        }*/
         // Salva o recurso no banco de dados
         if ($game->phases()->save($phase)) {
             return (new PhaseResource($phase))
@@ -84,7 +86,7 @@ class PhaseController extends Controller
      *
      * @param  int $gameId
      * @param  int $phaseId
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($gameId, $phaseId)
     {
@@ -97,6 +99,8 @@ class PhaseController extends Controller
         if ($phase->delete()) {
             return response()->noContent();
         }
-        return response('', 422);
+        return (new PhaseResource($phase))
+            ->response()
+            ->setStatusCode(422);
     }
 }
