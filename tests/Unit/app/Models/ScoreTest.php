@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Unit\app\Models;
 
 use Tests\TestCase;
@@ -7,11 +8,30 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class ScoreTest extends TestCase
 {
+    /**
+     * Os atributos que são atribuíveis em massa
+     *
+     * @var array
+     */
     protected $fillable = [
         'title', 'value'
     ];
 
+    /**
+     * Os atributos excluídos do formulário JSON do modelo.
+     *
+     * @var array
+     */
     protected $hidden = [];
+
+    /**
+     * Os atributos que devem ser convertidos em tipos nativos.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer'
+    ];
 
     /**
      * Testa alguns atributos para configuração do model.
@@ -25,6 +45,18 @@ class ScoreTest extends TestCase
         // Assertions
         $this->assertEquals($this->fillable, $score->getFillable());
         $this->assertEquals($this->hidden, $score->getHidden());
+        $this->assertEquals($this->casts, $score->getCasts());
+    }
+
+    /**
+     * Testa o relacionamento entre ponto e jogos.
+     */
+    public function test_morph_to_many_games_relation()
+    {
+        // Model
+        $score = new Score();
+        // Assertions
+        $this->assertInstanceOf(MorphToMany::class, $score->games());
     }
 
     /**

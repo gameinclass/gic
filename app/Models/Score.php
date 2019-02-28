@@ -16,11 +16,27 @@ class Score extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer'
+    ];
+
+    /**
      * Obtém todos os jogos pertencente a este ponto.
      */
     public function games()
     {
-            return $this->morphedByMany(Game::class, 'scorable');
+        return $this->morphedByMany(Game::class, 'scorable');
     }
 
     /**

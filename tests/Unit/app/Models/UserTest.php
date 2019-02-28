@@ -4,21 +4,41 @@ namespace Tests\Unit\app\Models;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Notifications\Notification;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class UserTest extends TestCase
 {
+    /**
+     * Os atributos que são atribuíveis em massa
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
+    /**
+     * Os atributos excluídos do formulário JSON do modelo.
+     *
+     * @var array
+     */
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    /**
+     * Os atributos que devem ser convertidos em tipos nativos.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer'
     ];
 
     /**
@@ -33,6 +53,22 @@ class UserTest extends TestCase
         // Assertions
         $this->assertEquals($this->fillable, $model->getFillable());
         $this->assertEquals($this->hidden, $model->getHidden());
+        $this->assertEquals($this->casts, $model->getCasts());
+    }
+
+    /**
+     * Route notifications for the Slack channel.
+     *
+     * @return void
+     */
+    public function test_route_notification_for_slack()
+    {
+        // Model
+        $model = new User();
+        //
+        $notification = new Notification();
+        // Assertions
+        $this->assertStringStartsWith('https://hooks.slack.com/services/', $model->routeNotificationForSlack($notification));
     }
 
     /**
