@@ -2,84 +2,75 @@
 
 namespace App\Http\Controllers\Game\Player;
 
-use Illuminate\Http\Request;
+use App\Http\Resources\Game\Phase\Phase;
+use App\Models\Game;
+use App\Models\Player;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Game\Player\PlayerStoreRequest;
+use App\Http\Resources\Player\Player as PlayerResource;
 
 class PlayerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  int $gameId
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index($gameId)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $game = Game::findOrFail($gameId);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('index', [Player::class, $game]);
+        // Retorna a coleção de recursos.
+        return PlayerResource::collection(Player::where('game_id', $game->id)->paginate());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Game\Player\PlayerStoreRequest $request
+     * @param  int $gameId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(PlayerStoreRequest $request, $gameId)
     {
-        //
-    }
+        $game = Game::findOrFail($gameId);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('store', [Player::class, $game]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $player = new Player($request->all());
+        // Salva o recurso no banco de dados
+        if ($game->players()->save($player)) {
+            return (new PlayerResource($player))
+                ->response()
+                ->setStatusCode(201);
+        }
+        return (new PlayerResource($player))
+            ->response()
+            ->setStatusCode(422);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $gameId
+     * @param  int $playerId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($gameId, $playerId)
     {
-        //
+        $game = Game::findOrFail($gameId);
+        $player = Player::findOrFail($playerId);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('destroy', $game, $player);
+
+        // Remove o recurso do banco de dados
+        if ($player->delete()) {
+            return response()->noContent();
+        }
+        return (new PlayerResource($player))
+            ->response()
+            ->setStatusCode(422);
     }
 }
