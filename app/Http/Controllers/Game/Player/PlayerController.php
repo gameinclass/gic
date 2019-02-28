@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Game\Player;
 
-use App\Http\Resources\Game\Phase\Phase;
 use App\Models\Game;
 use App\Models\Player;
 use App\Http\Controllers\Controller;

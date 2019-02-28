@@ -21,7 +21,7 @@ class Player extends Model
      * @var array
      */
     protected $hidden = [
-        'user_id', 'game_id'
+        //'user_id', 'game_id'
     ];
 
     /**

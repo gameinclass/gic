@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Acima, OK!!!
 
     // Game / Player
-    Route::resource('game.player', 'Game\PlayerController', [
+    Route::resource('game.player', 'Game\Player\PlayerController', [
         'except' => ['create', 'edit', 'show']
     ]);
 

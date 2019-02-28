@@ -30,7 +30,7 @@ class PlayerTest extends TestCase
      * @var array
      */
     protected $hidden = [
-        'user_id', 'game_id'
+        // 'user_id', 'game_id'
     ];
 
     /**

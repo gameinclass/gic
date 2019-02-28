@@ -8,7 +8,6 @@ use App\Models\Game;
 use App\Models\Phase;
 use App\Models\Actor;
 
-
 class PhaseTest extends TestCase
 {
     /**
@@ -105,7 +104,6 @@ class PhaseTest extends TestCase
         $this->setUpUserPlayer();
     }
 
-
     /**
      * Teste de integração
      * Testa se um usuário anônimo pode gerenciar recurso de fase de jogo na API.
@@ -179,7 +177,7 @@ class PhaseTest extends TestCase
         ]);
 
         // EDIT
-        // Fase do jogo do priprietário.
+        // Fase do jogo do proprietário.
         $gameOnePhaseOne = factory(Phase::class)->create(['game_id' => $gameOne['id']])->toArray();
         // Fase do jogo de outro proprietário.
         $gameTwoPhaseOne = factory(Phase::class)->create(['game_id' => $gameTwo['id']])->toArray();

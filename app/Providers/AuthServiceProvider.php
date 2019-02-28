@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Models\Game;
 use App\Models\Medal;
 use App\Models\Phase;
+use App\Models\Player;
 use App\Models\User;
 use App\Policies\GamePolicy;
 use App\Policies\MedalPolicy;
 use App\Policies\Phase\PhasePolicy;
+use App\Policies\Player\PlayerPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
@@ -28,6 +30,8 @@ class AuthServiceProvider extends ServiceProvider
         Game::class => GamePolicy::class,
         // Policiamento para CRUD das fases do jogo
         Phase::class => PhasePolicy::class,
+        // Policiamento para CRUD de jogadores do jogo.
+        Player::class => PlayerPolicy::class,
         // Policiamento para CRUD de medalhas.
         Medal::class => MedalPolicy::class,
     ];

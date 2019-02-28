@@ -15,7 +15,7 @@ class Player extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->user->name
+            'id' => $this->id,
         ];
     }
 }
