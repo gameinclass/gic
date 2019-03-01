@@ -192,4 +192,97 @@ class MedalTest extends TestCase
         $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['medal'][0]);
         $response->assertStatus(204);
     }
+
+    /**
+     * Teste de integração
+     * Testa se um usuário design pode gerenciar recurso de medalha do jogador de um jogo na API.
+     *
+     * @return void
+     */
+    public function test_design_can_manage_game_player_medal_resource_in_api()
+    {
+        // Jogo do proprietário.
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        // Jogo de outro proprietário.
+        $gameTwo = factory(Game::class)->create()->toArray();
+
+        // Cria 3 medalhas para cada um dos jogos.
+        $gameOneMedals = factory(Medal::class, 3)->create();
+        $gameOne->medals()->sync($gameOneMedals);
+        $gameTwoMedals = factory(Medal::class, 3)->create();
+        $gameTwo->medals()->sync($gameTwoMedals);
+
+        // Cria um jogador para cada um dos jogos.
+        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne->id]);
+        $gameTwoPlayerOne = factory(Player::class)->create(['game_id' => $gameTwo->id]);
+
+        // CREATE
+        // Tenta adicionar medalhas aos jogadores do próprio jogo.
+        $dataOne['medal'] = $gameOne->medals()->pluck('id')->toArray();
+        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
+        $response->assertStatus(201);
+        // Tenta adicionar medalhas aos jogadores de jogo alheio
+        $dataTwo['medal'] = $gameTwo->medals()->pluck('id')->toArray();
+        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal', $dataTwo);
+        $response->assertStatus(403);
+
+        // INDEX
+        // Tenta visualizar medalhas dos jogadores do próprio jogo
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
+            "links" => ["first", "last", "prev", "next"], "data" => [
+                ["id"]
+            ]
+        ]);
+        // Tenta visualizar medalhas dos jogadores de jogo alheio.
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal');
+        $response->assertStatus(403);
+
+        // DELETE
+        // Tenta remover medalhas dos jogadores do proprio jogo.
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
+        $response->assertStatus(204);
+        // Tenta remover medalhas dos jogadores de jogo alheio.
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['medal'][0]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Teste de integração
+     * Testa se um usuário jogador pode gerenciar recurso de medalha do jogador de um jogo na API.
+     *
+     * @return void
+     */
+    public function test_player_can_manage_game_player_medal_resource_in_api()
+    {
+        // Jogo do proprietário.
+        // Atenção! O usuário não pode criar jogo, esse teste esta sendo feito no policimento, e o factory
+        // não permite o usuário criar jogo.
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+
+        // Cria 3 medalhas para cada um dos jogos.
+        $gameOneMedals = factory(Medal::class, 3)->create();
+        $gameOne->medals()->sync($gameOneMedals);
+
+        // Cria um jogador para cada um dos jogos.
+        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne->id]);
+
+        // CREATE
+        // Tenta adicionar medalhas aos jogadores do jogo alheio.
+        $dataOne['medal'] = $gameOne->medals()->pluck('id')->toArray();
+        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
+        $response->assertStatus(403);
+
+        // INDEX
+        // Tenta visualizar medalhas dos jogadores do jogo alheio
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal');
+        $response->assertStatus(403);
+
+        // DELETE
+        // Tenta remover medalhas dos jogadores do jogo alheio.
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
+        $response->assertStatus(403);
+    }
 }
