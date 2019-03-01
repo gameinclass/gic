@@ -174,36 +174,96 @@ class PlayerTest extends TestCase
             ]
         ]);
 
-
-        // EDIT
+        // DELETE
+        // Tenta remover um usuário jogador do proprio jogo
         // Usuário jogador do jogo do proprietário.
         $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
         // Usuário jogador do jogo de outro proprietário.
         $gameTwoPlayerOne = factory(Player::class)->create(['game_id' => $gameTwo['id']])->toArray();
-
-        /* Não há edição de jogadores do jogo.
-        // Tenta editar um usuário jogador do proprio jogo
-        $gameOnePlayerOne['name'] = 'Atualizado nome de fase';
-        $response = $this->actingAs($this->administrator, 'api')->json('put', '/api/game/' . $gameOne['id'] . '/player/' . $gameOnePlayerOne['id'], $gameOnePlayerOne);
-        $response->assertStatus(200);
-        $response->assertJson(['data' => [
-            'name' => $gameOnePlayerOne['name']
-        ]]);
-        // Tenta editar um usuário jogador do jogo alheio
-        $gameTwoPlayerOne['name'] = 'Atualizado nome de fase';
-        $response = $this->actingAs($this->administrator, 'api')->json('put', '/api/game/' . $gameTwo['id'] . '/player/' . $gameTwoPlayerOne['id'], $gameTwoPlayerOne);
-        $response->assertStatus(200);
-        $response->assertJson(['data' => [
-            'name' => $gameOnePlayerOne['name']
-        ]]);
-        */
-
-        // DELETE
-        // Tenta remover um usuário jogador do proprio jogo
         $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne['id'] . '/player/' . $gameOnePlayerOne['id']);
         $response->assertStatus(204);
         // Tenta remover um usuário jogador do jogo alheio
         $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo['id'] . '/player/' . $gameTwoPlayerOne['id']);
         $response->assertStatus(204);
+    }
+
+    /**
+     * Teste de integração
+     * Testa se um usuário design pode gerenciar recurso de jogador do jogo na API.
+     *
+     * @return void
+     */
+    public function test_design_can_manage_game_player_resource_in_api() {
+        // Jogo do proprietário.
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        // Jogo de outro proprietário.
+        $gameTwo = factory(Game::class)->create()->toArray();
+
+        // CREATE
+        $data = factory(Player::class)->make()->toArray();
+        // Tenta adicionar um jogador para o proprio jogo
+        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne['id'] . '/player', $data);
+        $response->assertStatus(201);
+        $response->assertJsonStructure(["data" => ["id"]]);
+        // Tenta adicionar um jogador para o jogo alheio
+        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameTwo['id'] . '/player', $data);
+        $response->assertStatus(403);
+
+        // INDEX
+        // Tenta visualizar fases do proprio jogo
+        $response = $this->actingAs($this->design, 'api')->json('get', '/api/game/' . $gameOne['id'] . '/player');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
+            "links" => ["first", "last", "prev", "next"], "data" => [
+                ["id"]
+            ]
+        ]);
+        // Tenta visualizar fases do jogo alheio
+        $response = $this->actingAs($this->design, 'api')->json('get', '/api/game/' . $gameTwo['id'] . '/player');
+        $response->assertStatus(403);
+
+        // DELETE
+        // Usuário jogador do jogo do proprietário.
+        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
+        // Usuário jogador do jogo de outro proprietário.
+        $gameTwoPlayerOne = factory(Player::class)->create(['game_id' => $gameTwo['id']])->toArray();
+        // Tenta remover um usuário jogador do proprio jogo
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameOne['id'] . '/player/' . $gameOnePlayerOne['id']);
+        $response->assertStatus(204);
+        // Tenta remover um usuário jogador do jogo alheio
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo['id'] . '/player/' . $gameTwoPlayerOne['id']);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Teste de integração
+     * Testa se um usuário design pode gerenciar recurso de jogador do jogo na API.
+     *
+     * @return void
+     */
+    public function test_player_can_manage_game_player_resource_in_api() {
+        // Jogo do proprietário.
+        // Atenção! O usuário não pode criar jogo, esse teste esta sendo feito no policimento, e o factory
+        // não permite o usuário criar jogo.
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+
+        // CREATE
+        $data = factory(Player::class)->make()->toArray();
+        // Tenta adicionar um jogador para o jogo alheio
+        $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameOne['id'] . '/player', $data);
+        $response->assertStatus(403);
+
+        // INDEX
+        // Tenta visualizar fases do jogo alheio
+        $response = $this->actingAs($this->player, 'api')->json('get', '/api/game/' . $gameOne['id'] . '/player');
+        $response->assertStatus(403);
+
+        // DELETE
+        // Usuário jogador do jogo do proprietário.
+        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
+        // Tenta remover um usuário jogador do jogo alheio
+        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne['id'] . '/player/' . $gameOnePlayerOne['id']);
+        $response->assertStatus(403);
     }
 }
