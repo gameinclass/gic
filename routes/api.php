@@ -41,11 +41,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Acima, OK!!!
 
     // Game / Player / Medal
-    Route::resource('game.player.medal', 'Game\Player\MedalController', [
+    Route::resource('game.player.medal', 'Game\Player\Medal\MedalController', [
         'except' => ['create', 'edit', 'show']
     ]);
+
     // Game / Player / Score
-    Route::resource('game.player.score', 'Game\Player\ScoreController', [
+    Route::resource('game.player.score', 'Game\Player\Score\ScoreController', [
         'except' => ['create', 'edit', 'show']
     ]);
 });
