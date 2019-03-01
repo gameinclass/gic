@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Game / Player / Medal
     Route::resource('game.player.medal', 'Game\Player\Medal\MedalController', [
-        'except' => ['create', 'edit', 'show']
+        'except' => ['create', 'edit', 'update', 'show']
     ]);
 
     // Game / Player / Score
