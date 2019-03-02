@@ -140,9 +140,9 @@ class MedalTest extends TestCase
     public function test_administrator_can_manage_game_player_medal_resource_in_api()
     {
         // Jogo do proprietário.
-        $gameOne = factory(Game::class)->create(['user_id' => $this->administrator->id])->toArray();
+        $gameOne = factory(Game::class)->create(['user_id' => $this->administrator->id]);
         // Jogo de outro proprietário.
-        $gameTwo = factory(Game::class)->create()->toArray();
+        $gameTwo = factory(Game::class)->create();
 
         // Cria 3 medalhas para cada um dos jogos.
         $gameOneMedals = factory(Medal::class, 3)->create();
@@ -202,9 +202,9 @@ class MedalTest extends TestCase
     public function test_design_can_manage_game_player_medal_resource_in_api()
     {
         // Jogo do proprietário.
-        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id]);
         // Jogo de outro proprietário.
-        $gameTwo = factory(Game::class)->create()->toArray();
+        $gameTwo = factory(Game::class)->create();
 
         // Cria 3 medalhas para cada um dos jogos.
         $gameOneMedals = factory(Medal::class, 3)->create();
@@ -260,7 +260,7 @@ class MedalTest extends TestCase
         // Jogo do proprietário.
         // Atenção! O usuário não pode criar jogo, esse teste esta sendo feito no policimento, e o factory
         // não permite o usuário criar jogo.
-        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id]);
 
         // Cria 3 medalhas para cada um dos jogos.
         $gameOneMedals = factory(Medal::class, 3)->create();

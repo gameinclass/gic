@@ -2,84 +2,79 @@
 
 namespace App\Http\Controllers\Game\Player\Medal;
 
-use Illuminate\Http\Request;
+use App\Models\Game;
+use App\Models\Player;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Medal\Medal as MedalResource;
+use App\Http\Requests\Game\Player\Medal\MedalStoreRequest;
 
 class MedalController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  int $gameId
+     * @param  int $playerId
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index($gameId, $playerId)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $game = Game::findOrFail($gameId);
+        $player = Player::findOrFail($playerId);
+        // Verifica se a ação é autorizada ...
+        // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
+        $this->authorize('index', [Player::class, $game]);
+        // Retorna a coleção de recursos.
+        return MedalResource::collection($player->medals()->paginate());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  int $gameId
+     * @param  int $playerId
+     * @param  \App\Http\Requests\Game\Player\Medal\MedalStoreRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(MedalStoreRequest $request, $gameId, $playerId)
     {
-        //
-    }
+        $game = Game::findOrFail($gameId);
+        $player = Player::findOrFail($playerId);
+        // Verifica se a ação é autorizada ...
+        // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
+        $this->authorize('store', [Player::class, $game]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        // Salva todos os medalhas para o jogador.
+        if ($player->medals()->sync($request->input('medal'))) {
+            return MedalResource::collection($player->medals()->paginate())
+                ->response()
+                ->setStatusCode(201);
+        }
+        return MedalResource::collection($player->medals()->paginate())
+            ->response()
+            ->setStatusCode(422);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $gameId
+     * @param  int $playerId
+     * @param  int $gameId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($gameId, $playerId, $medalId)
     {
-        //
+        $game = Game::findOrFail($gameId);
+        $player = Player::findOrFail($playerId);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('destroy', $game, $player);
+
+        if ($player->medals()->detach([$medalId])) {
+            return response()->noContent();
+        }
+        return MedalResource::collection($player->medals()->paginate())
+            ->response()
+            ->setStatusCode(422);
     }
 }
