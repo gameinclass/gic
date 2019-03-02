@@ -45,6 +45,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Game / Player / Score
     Route::resource('game.player.score', 'Game\Player\Score\ScoreController', [
-        'except' => ['create', 'edit', 'update', 'show']
+        'except' => ['create', 'edit', 'show']
     ]);
 });
