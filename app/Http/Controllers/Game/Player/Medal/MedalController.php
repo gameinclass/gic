@@ -45,7 +45,7 @@ class MedalController extends Controller
         $this->authorize('store', [Player::class, $game]);
 
         // Salva todos os medalhas para o jogador.
-        if ($player->medals()->sync($request->input('medal'))) {
+        if ($player->medals()->attach($request->input('medal'))) {
             return MedalResource::collection($player->medals()->paginate())
                 ->response()
                 ->setStatusCode(201);
