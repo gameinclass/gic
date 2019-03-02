@@ -219,16 +219,16 @@ class MedalTest extends TestCase
         // CREATE
         // Tenta adicionar medalhas aos jogadores do próprio jogo.
         $dataOne['medal'] = $gameOne->medals()->pluck('id')->toArray();
-        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
+        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
         $response->assertStatus(201);
-        // Tenta adicionar medalhas aos jogadores de jogo alheio
+        // Tenta adicionar medalhas aos jogadores de jogo alheio.
         $dataTwo['medal'] = $gameTwo->medals()->pluck('id')->toArray();
-        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal', $dataTwo);
+        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal', $dataTwo);
         $response->assertStatus(403);
 
         // INDEX
         // Tenta visualizar medalhas dos jogadores do próprio jogo
-        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal');
+        $response = $this->actingAs($this->design, 'api')->json('get', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal');
         $response->assertStatus(200);
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
@@ -237,15 +237,15 @@ class MedalTest extends TestCase
             ]
         ]);
         // Tenta visualizar medalhas dos jogadores de jogo alheio.
-        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal');
+        $response = $this->actingAs($this->design, 'api')->json('get', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal');
         $response->assertStatus(403);
 
         // DELETE
         // Tenta remover medalhas dos jogadores do proprio jogo.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
         $response->assertStatus(204);
         // Tenta remover medalhas dos jogadores de jogo alheio.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['medal'][0]);
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['medal'][0]);
         $response->assertStatus(403);
     }
 
@@ -272,17 +272,17 @@ class MedalTest extends TestCase
         // CREATE
         // Tenta adicionar medalhas aos jogadores do jogo alheio.
         $dataOne['medal'] = $gameOne->medals()->pluck('id')->toArray();
-        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
+        $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
         $response->assertStatus(403);
 
         // INDEX
         // Tenta visualizar medalhas dos jogadores do jogo alheio
-        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal');
+        $response = $this->actingAs($this->player, 'api')->json('get', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal');
         $response->assertStatus(403);
 
         // DELETE
         // Tenta remover medalhas dos jogadores do jogo alheio.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
+        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
         $response->assertStatus(403);
     }
 }
