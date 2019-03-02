@@ -122,7 +122,7 @@ class ScoreTest extends TestCase
         $player = factory(Player::class)->create(['game_id' => $game->id]);
 
         // CREATE
-        $data['score'][0] = $game->scores()->first()->toArray();
+        $data = $game->scores()->first()->toArray();
         $response = $this->json('post', '/api/game/' . $game->id . '/player/' . $player->id . '/score', $data);
         $response->assertStatus(401);
 
@@ -131,12 +131,12 @@ class ScoreTest extends TestCase
         $response->assertStatus(401);
 
         // EDIT
-        $data['score'][0]['title'] = 'Titulo atualizado';
-        $response = $this->json('put', '/api/game/' . $game->id . '/player/' . $player->id . '/score/' . $data['score'][0]['id'], $data);
+        $data['title'] = 'Titulo atualizado';
+        $response = $this->json('put', '/api/game/' . $game->id . '/player/' . $player->id . '/score/' . $data['id'], $data);
         $response->assertStatus(401);
 
         // DELETE
-        $response = $this->json('delete', '/api/game/' . $game->id . '/player/' . $player->id . '/score/' . $data['score'][0]['id']);
+        $response = $this->json('delete', '/api/game/' . $game->id . '/player/' . $player->id . '/score/' . $data['id']);
         $response->assertStatus(401);
     }
 
@@ -165,11 +165,11 @@ class ScoreTest extends TestCase
 
         // CREATE
         // Tenta adicionar pontos dos jogadores do próprio jogo.
-        $dataOne['score'][0] = $gameOne->scores()->first()->toArray();
+        $dataOne = $gameOne->scores()->first()->toArray();
         $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score', $dataOne);
         $response->assertStatus(201);
         // Tenta adicionar pontos dos jogadores de jogo alheio
-        $dataTwo['score'][0] = $gameTwo->medals()->first()->toArray();
+        $dataTwo = $gameTwo->scores()->first()->toArray();
         $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score', $dataTwo);
         $response->assertStatus(201);
 
@@ -195,20 +195,20 @@ class ScoreTest extends TestCase
 
         // EDIT
         // Tenta editar pontos dos jogadores do próprio jogo.
-        $dataOne['score'][0]['title'] = 'Título atualizado';
-        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne[0]['id'], $dataOne[0]);
+        $dataOne['title'] = 'Título atualizado';
+        $response = $this->actingAs($this->administrator, 'api')->json('put', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['id'], $dataOne);
         $response->assertStatus(200);
         // Tenta adicionar pontos dos jogadores de jogo alheio
-        $dataTwo['score'][0]['title'] = 'Título atualizado';
-        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo[0]['id'], $dataTwo[0]);
+        $dataTwo['title'] = 'Título atualizado';
+        $response = $this->actingAs($this->administrator, 'api')->json('put', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo['id'], $dataTwo);
         $response->assertStatus(200);
 
         // DELETE
         // Tenta remover pontos dos jogadores do proprio jogo.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['score'][0]['id']);
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['id']);
         $response->assertStatus(204);
         // Tenta remover pontos dos jogadores de jogo alheio.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo['score'][0]['id']);
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo['id']);
         $response->assertStatus(204);
     }
 
@@ -237,11 +237,11 @@ class ScoreTest extends TestCase
 
         // CREATE
         // Tenta adicionar pontos aos jogadores do próprio jogo.
-        $dataOne['score'][0] = $gameOne->scores()->first()->toArray();
+        $dataOne = $gameOne->scores()->first()->toArray();
         $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score', $dataOne);
         $response->assertStatus(201);
         // Tenta adicionar pontos aos jogadores de jogo alheio
-        $dataTwo['score'][0] = $gameTwo->medals()->first()->toArray();
+        $dataTwo = $gameTwo->scores()->first()->toArray();
         $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score', $dataTwo);
         $response->assertStatus(403);
 
@@ -258,29 +258,23 @@ class ScoreTest extends TestCase
         // Tenta visualizar pontos dos jogadores de jogo alheio.
         $response = $this->actingAs($this->design, 'api')->json('get', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score');
         $response->assertStatus(403);
-        $response->assertJsonStructure([
-            "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
-            "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id"]
-            ]
-        ]);
 
         // EDIT
         // Tenta editar pontos dos jogadores do próprio jogo.
-        $dataOne['score'][0]['title'] = 'Título atualizado';
-        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne[0]['id'], $dataOne[0]);
+        $dataOne['title'] = 'Título atualizado';
+        $response = $this->actingAs($this->design, 'api')->json('put', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['id'], $dataOne);
         $response->assertStatus(200);
         // Tenta adicionar pontos dos jogadores de jogo alheio
-        $dataTwo['score'][0]['title'] = 'Título atualizado';
-        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo[0]['id'], $dataTwo[0]);
+        $dataTwo['title'] = 'Título atualizado';
+        $response = $this->actingAs($this->design, 'api')->json('put', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo['id'], $dataTwo);
         $response->assertStatus(403);
 
         // DELETE
         // Tenta remover pontos dos jogadores do proprio jogo.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['score'][0]);
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['id']);
         $response->assertStatus(204);
         // Tenta remover pontos dos jogadores de jogo alheio.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo['score'][0]);
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/score/' . $dataTwo['id']);
         $response->assertStatus(403);
     }
 
@@ -306,24 +300,24 @@ class ScoreTest extends TestCase
 
         // CREATE
         // Tenta adicionar pontos aos jogadores do jogo alheio.
-        $dataOne['score'][0] = $gameOne->scores()->first()->toArray();
+        $dataOne = $gameOne->scores()->first()->toArray();
         $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score', $dataOne);
         $response->assertStatus(403);
 
         // INDEX
         // Tenta visualizar pontos dos jogadores do jogo olheio
         $response = $this->actingAs($this->player, 'api')->json('get', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score');
-        $response->assertStatus(402);
+        $response->assertStatus(403);
 
         // EDIT
         // Tenta editar pontos dos jogadores do jogo alheio.
-        $dataOne['score'][0]['title'] = 'Título atualizado';
-        $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne[0]['id'], $dataOne[0]);
+        $dataOne['title'] = 'Título atualizado';
+        $response = $this->actingAs($this->player, 'api')->json('put', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['id'], $dataOne);
         $response->assertStatus(403);
 
         // DELETE
         // Tenta remover pontos dos jogadores do jogo alheio.
-        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['score'][0]);
+        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/score/' . $dataOne['id']);
         $response->assertStatus(403);
     }
 }

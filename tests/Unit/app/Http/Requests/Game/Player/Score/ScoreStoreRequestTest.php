@@ -25,9 +25,8 @@ class ScoreStoreRequestTest extends TestCase
     public function test_rules()
     {
         $rules = [
-            'score.*.id' => 'integer',
-            'score.*.title' => 'required|min:1|max:255',
-            'score.*.value' => 'required|numeric',
+            'title' => 'required|min:1|max:255',
+            'value' => 'required|numeric',
         ];
         $scoreStoreRequest = new ScoreStoreRequest();
         $this->assertEquals($rules, $scoreStoreRequest->rules());

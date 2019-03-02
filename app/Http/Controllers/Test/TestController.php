@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Test;
 
-use App\Models\Game;
+use App\Models\Player;
 use App\Http\Controllers\Controller;
+use App\Models\Score;
 
 class TestController extends Controller
 {
@@ -13,8 +14,8 @@ class TestController extends Controller
      */
     public function index()
     {
-        $game = Game::findOrFail(5);
+        $player = Player::findOrFail(2);
 
-        return response()->json($game->medals()->get());
+        return response()->json($player->scores()->get());
     }
 }
