@@ -16,6 +16,6 @@ class TestController extends Controller
     {
         $player = Player::findOrFail(2);
 
-        return response()->json($player->scores()->get());
+        return response()->json($player->medals()->find(1));
     }
 }

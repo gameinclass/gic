@@ -156,11 +156,13 @@ class MedalTest extends TestCase
 
         // CREATE
         // Tenta adicionar medalhas aos jogadores do próprio jogo.
-        $dataOne['medal'] = $gameOne->medals()->pluck('id')->toArray();
+        $dataOne = $gameOne->medals()->first()->toArray();
+        $dataOne['medal_id'] = $dataOne['id'];
         $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
         $response->assertStatus(201);
         // Tenta adicionar medalhas aos jogadores de jogo alheio
-        $dataTwo['medal'] = $gameTwo->medals()->pluck('id')->toArray();
+        $dataTwo = $gameTwo->medals()->first()->toArray();
+        $dataTwo['medal_id'] = $dataTwo['id'];
         $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal', $dataTwo);
         $response->assertStatus(201);
 
@@ -186,10 +188,10 @@ class MedalTest extends TestCase
 
         // DELETE
         // Tenta remover medalhas dos jogadores do proprio jogo.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['id']);
         $response->assertStatus(204);
         // Tenta remover medalhas dos jogadores de jogo alheio.
-        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['medal'][0]);
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['id']);
         $response->assertStatus(204);
     }
 
@@ -218,11 +220,13 @@ class MedalTest extends TestCase
 
         // CREATE
         // Tenta adicionar medalhas aos jogadores do próprio jogo.
-        $dataOne['medal'] = $gameOne->medals()->pluck('id')->toArray();
+        $dataOne = $gameOne->medals()->first()->toArray();
+        $dataOne['medal_id'] = $dataOne['id'];
         $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
         $response->assertStatus(201);
         // Tenta adicionar medalhas aos jogadores de jogo alheio.
-        $dataTwo['medal'] = $gameTwo->medals()->pluck('id')->toArray();
+        $dataTwo = $gameTwo->medals()->first()->toArray();
+        $dataTwo['medal_id'] = $dataTwo['id'];
         $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal', $dataTwo);
         $response->assertStatus(403);
 
@@ -242,10 +246,10 @@ class MedalTest extends TestCase
 
         // DELETE
         // Tenta remover medalhas dos jogadores do proprio jogo.
-        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['id']);
         $response->assertStatus(204);
         // Tenta remover medalhas dos jogadores de jogo alheio.
-        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['medal'][0]);
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/player/' . $gameTwoPlayerOne->id . '/medal/' . $dataTwo['id']);
         $response->assertStatus(403);
     }
 
@@ -271,7 +275,8 @@ class MedalTest extends TestCase
 
         // CREATE
         // Tenta adicionar medalhas aos jogadores do jogo alheio.
-        $dataOne['medal'] = $gameOne->medals()->pluck('id')->toArray();
+        $dataOne = $gameOne->medals()->first()->toArray();
+        $dataOne['medal_id'] = $dataOne['id'];
         $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal', $dataOne);
         $response->assertStatus(403);
 
@@ -282,7 +287,7 @@ class MedalTest extends TestCase
 
         // DELETE
         // Tenta remover medalhas dos jogadores do jogo alheio.
-        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['medal'][0]);
+        $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne->id . '/player/' . $gameOnePlayerOne->id . '/medal/' . $dataOne['id']);
         $response->assertStatus(403);
     }
 }

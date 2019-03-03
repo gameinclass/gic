@@ -114,22 +114,20 @@ class UserTest extends TestCase
         $data['actor'] = factory(Actor::class)->make()->toArray();
         $response = $this->json('post', '/api/user', $data);
         $response->assertStatus(401);
-
         // Cria um recurso no banco para testar o gerenciamento.
-        $resource = factory(User::class)->create()->toArray();
-        $resource['actor'] = factory(Actor::class)->create(['user_id' => $resource['id']])->toArray();
-
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
         // INDEX
         $response = $this->json('get', '/api/user');
         $response->assertStatus(401);
         // EDIT
-        $resource['email'] = 'Teste de atualização do nome';
-        $resource['email'] = str_random() . '@email.com';
-        $resource['actor']['is_player'] = !$resource['actor']['is_player'];
-        $response = $this->json('put', '/api/user/' . $resource['id'], $resource);
+        $data['email'] = 'Teste de atualização do nome';
+        $data['email'] = str_random() . '@email.com';
+        $data['actor']['is_player'] = !$data['actor']['is_player'];
+        $response = $this->json('put', '/api/user/' . $data['id'], $data);
         $response->assertStatus(401);
         // DELETE
-        $response = $this->json('delete', '/api/user/' . $resource['id']);
+        $response = $this->json('delete', '/api/user/' . $data['id']);
         $response->assertStatus(401);
     }
 
@@ -147,10 +145,9 @@ class UserTest extends TestCase
             ->json('post', '/api/user', $data);
         $response->assertStatus(201);
         $response->assertJsonStructure(["data" => ["id"]]);
-
         // Cria um recurso no banco para testar o gerenciamento.
-        $resource = factory(User::class)->create()->toArray();
-        $resource['actor'] = factory(Actor::class)->create(['user_id' => $resource['id']])->toArray();
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
 
         // INDEX
         $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/user');
@@ -162,20 +159,20 @@ class UserTest extends TestCase
             ]
         ]);
         // EDIT
-        $resource['name'] = 'Teste de atualização do nome';
-        $resource['email'] = str_random() . '@email.com';
-        $resource['actor']['is_player'] = !$resource['actor']['is_player'];
+        $data['name'] = 'Teste de atualização do nome';
+        $data['email'] = str_random() . '@email.com';
+        $data['actor']['is_player'] = !$data['actor']['is_player'];
         $response = $this->actingAs($this->administrator, 'api')
-            ->json('put', '/api/user/' . $resource['id'], $resource);
+            ->json('put', '/api/user/' . $data['id'], $data);
         $response->assertStatus(200);
         $response->assertJson(["data" => [
-            "name" => $resource["name"],
-            "email" => $resource["email"],
-            "actor" => ["is_player" => $resource["actor"]["is_player"]]
+            "name" => $data["name"],
+            "email" => $data["email"],
+            "actor" => ["is_player" => $data["actor"]["is_player"]]
         ]]);
         // DELETE
         $response = $this->actingAs($this->administrator, 'api')
-            ->json('delete', '/api/user/' . $resource['id']);
+            ->json('delete', '/api/user/' . $data['id']);
         $response->assertStatus(204);
     }
 
@@ -194,19 +191,19 @@ class UserTest extends TestCase
         $response->assertStatus(403);
 
         // Cria um recurso no banco para testar o gerenciamento.
-        $resource = factory(User::class)->create()->toArray();
-        $resource['actor'] = factory(Actor::class)->create(['user_id' => $resource['id']])->toArray();
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
 
         // INDEX
         $response = $this->actingAs($this->design, 'api')->json('get', '/api/user');
         $response->assertStatus(403);
 
         // EDIT
-        $resource['name'] = 'Teste de atualização do nome';
-        $resource['email'] = str_random() . '@email.com';
-        $resource['actor']['is_player'] = !$resource['actor']['is_player'];
+        $data['name'] = 'Teste de atualização do nome';
+        $data['email'] = str_random() . '@email.com';
+        $data['actor']['is_player'] = !$data['actor']['is_player'];
         $response = $this->actingAs($this->design, 'api')
-            ->json('put', '/api/user/' . $resource['id'], $resource);
+            ->json('put', '/api/user/' . $data['id'], $data);
         $response->assertStatus(403);
         // Atenção! Testa se o usuário pode atualizar seus próprios dados.
         $this->design->name = 'Teste de atualização do nome';
@@ -223,7 +220,7 @@ class UserTest extends TestCase
         ]]);
         // DELETE
         $response = $this->actingAs($this->design, 'api')
-            ->json('delete', '/api/user/' . $resource['id']);
+            ->json('delete', '/api/user/' . $data['id']);
         $response->assertStatus(403);
         // Atenção! Testa se o usuário pode se auto remover
         $response = $this->actingAs($this->design, 'api')
@@ -246,19 +243,19 @@ class UserTest extends TestCase
         $response->assertStatus(403);
 
         // Cria um recurso no banco para testar o gerenciamento.
-        $resource = factory(User::class)->create()->toArray();
-        $resource['actor'] = factory(Actor::class)->create(['user_id' => $resource['id']])->toArray();
+        $data = factory(User::class)->create()->toArray();
+        $data['actor'] = factory(Actor::class)->create(['user_id' => $data['id']])->toArray();
 
         // INDEX
         $response = $this->actingAs($this->player, 'api')->json('get', '/api/user');
         $response->assertStatus(403);
 
         // EDIT
-        $resource['name'] = 'Teste de atualização do nome';
-        $resource['email'] = str_random() . '@email.com';
-        $resource['actor']['is_player'] = !$resource['actor']['is_player'];
+        $data['name'] = 'Teste de atualização do nome';
+        $data['email'] = str_random() . '@email.com';
+        $data['actor']['is_player'] = !$data['actor']['is_player'];
         $response = $this->actingAs($this->player, 'api')
-            ->json('put', '/api/user/' . $resource['id'], $resource);
+            ->json('put', '/api/user/' . $data['id'], $data);
         $response->assertStatus(403);
         // Atenção! Testa se o usuário pode atualizar seus próprios dados.
         $this->player->name = 'Teste de atualização do nome';
@@ -275,7 +272,7 @@ class UserTest extends TestCase
         ]]);
         // DELETE
         $response = $this->actingAs($this->player, 'api')
-            ->json('delete', '/api/user/' . $resource['id']);
+            ->json('delete', '/api/user/' . $data['id']);
         $response->assertStatus(403);
         // Atenção! Testa se o usuário pode se auto remover
         $response = $this->actingAs($this->player, 'api')
