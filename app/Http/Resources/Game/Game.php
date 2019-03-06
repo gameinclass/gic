@@ -2,14 +2,20 @@
 
 namespace App\Http\Resources\Game;
 
-use App\Http\Resources\Game\Phase\Phase;
-use App\Http\Resources\Group\Group;
 use App\Http\Resources\Medal\Medal;
 use App\Http\Resources\Player\Player;
+use App\Http\Resources\Game\Phase\Phase;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Game extends JsonResource
 {
+    /**
+     * Indicates if the resource's collection keys should be preserved.
+     *
+     * @var bool
+     */
+    public $preserveKeys = true;
+
     /**
      * Transform the resource into an array.
      *
@@ -22,9 +28,9 @@ class Game extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'medals' => Medal::collection($this->medals)->keyBy('id'),
-            'players' => Player::collection($this->players)->keyBy('id'),
-            'phases' => Phase::collection($this->phases)->keyBy('id'),
+            'medals' => Medal::collection($this->medals)->keyBy->id,
+            'players' => Player::collection($this->players)->keyBy->id,
+            'phases' => Phase::collection($this->phases)->keyBy->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -95,7 +95,7 @@ class GameTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->setUpUserAdministrator();
@@ -156,7 +156,7 @@ class GameTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "title", "description", "medals", "players"]
+                "*" => ["id", "title", "description", "medals", "players", "phases"]
             ]
         ]);
         // EDIT
@@ -215,7 +215,7 @@ class GameTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "title", "description", "players"]
+                "*" => ["id", "title", "description", "medals", "players", "phases"]
             ]
         ]);
         // EDIT

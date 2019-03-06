@@ -8,13 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Game\GameStoreRequest;
 use App\Http\Requests\Game\GameUpdateRequest;
 use App\Http\Resources\Game\Game as GameResource;
+use App\Http\Resources\Game\GameCollection;
 
 class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \App\Http\Resources\Game\GameCollection
      */
     public function index()
     {
@@ -22,10 +23,10 @@ class GameController extends Controller
         $this->authorize('index', Game::class);
         // Se o usuário for administrador vê todos os registros.
         if (Auth::user()->actor && Auth::user()->actor->is_administrator) {
-            return GameResource::collection(Game::orderBy('created_at', 'desc')
+            return new GameCollection(Game::orderBy('created_at', 'desc')
                 ->paginate());
         } else { // Senão, vê somente os seus registros.
-            return GameResource::collection(Game::where('user_id', Auth::user()->id)
+            return new GameCollection(Game::where('user_id', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
                 ->paginate());
         }

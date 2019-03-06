@@ -2,11 +2,17 @@
 
 namespace App\Http\Resources\Medal;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Medal extends JsonResource
 {
+    /**
+     * Indicates if the resource's collection keys should be preserved.
+     *
+     * @var bool
+     */
+    public $preserveKeys = true;
+
     /**
      * Transform the resource into an array.
      *

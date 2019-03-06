@@ -96,7 +96,7 @@ class PlayerTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->setUpUserAdministrator();
@@ -110,7 +110,8 @@ class PlayerTest extends TestCase
      *
      * @return void
      */
-    public function test_anonymous_can_manage_game_player_resource_in_api() {
+    public function test_anonymous_can_manage_game_player_resource_in_api()
+    {
         // Cria um recurso de jogo no banco de dados.
         $game = factory(Game::class)->create()->toArray();
 
@@ -137,7 +138,8 @@ class PlayerTest extends TestCase
      *
      * @return void
      */
-    public function test_administrator_can_manage_game_player_resource_in_api() {
+    public function test_administrator_can_manage_game_player_resource_in_api()
+    {
         // Jogo do proprietário.
         $gameOne = factory(Game::class)->create(['user_id' => $this->administrator->id])->toArray();
         // Jogo de outro proprietário.
@@ -193,7 +195,8 @@ class PlayerTest extends TestCase
      *
      * @return void
      */
-    public function test_design_can_manage_game_player_resource_in_api() {
+    public function test_design_can_manage_game_player_resource_in_api()
+    {
         // Jogo do proprietário.
         $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
         // Jogo de outro proprietário.
@@ -242,7 +245,8 @@ class PlayerTest extends TestCase
      *
      * @return void
      */
-    public function test_player_can_manage_game_player_resource_in_api() {
+    public function test_player_can_manage_game_player_resource_in_api()
+    {
         // Jogo do proprietário.
         // Atenção! O usuário não pode criar jogo, esse teste esta sendo feito no policimento, e o factory
         // não permite o usuário criar jogo.

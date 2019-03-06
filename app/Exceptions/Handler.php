@@ -45,8 +45,8 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         if ($this->shouldReport($exception)) {
-            Notification::route('slack', $this->route)
-                ->notify(new Exceptions($exception->getMessage()));
+            /*Notification::route('slack', $this->route)
+                ->notify(new Exceptions($exception->getMessage()));*/
         }
         parent::report($exception);
     }
