@@ -22,9 +22,12 @@ class GameController extends Controller
         $this->authorize('index', Game::class);
         // Se o usuário for administrador vê todos os registros.
         if (Auth::user()->actor && Auth::user()->actor->is_administrator) {
-            return GameResource::collection(Game::paginate());
+            return GameResource::collection(Game::orderBy('created_at', 'desc')
+                ->paginate());
         } else { // Senão, vê somente os seus registros.
-            return GameResource::collection(Game::where('user_id', Auth::user()->id)->paginate());
+            return GameResource::collection(Game::where('user_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate());
         }
     }
 

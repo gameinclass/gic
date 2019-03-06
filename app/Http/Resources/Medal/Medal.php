@@ -19,7 +19,7 @@ class Medal extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'url' => Storage::url($this->path),
+            'url' => url('storage/' . $this->path),
         ];
     }
 }

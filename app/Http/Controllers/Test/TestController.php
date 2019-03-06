@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Test;
 
+use App\Models\Game;
 use App\Models\Player;
 use App\Http\Controllers\Controller;
 use App\Models\Score;
@@ -14,8 +15,9 @@ class TestController extends Controller
      */
     public function index()
     {
-        $player = Player::findOrFail(2);
+        $game = Game::orderBy('created_at', 'desc')
+            ->paginate();
 
-        return response()->json($player->medals()->find(1));
+        return response()->json($game);
     }
 }
