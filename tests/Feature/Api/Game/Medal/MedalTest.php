@@ -113,21 +113,147 @@ class MedalTest extends TestCase
     public function test_anonymous_can_manage_game_medal_resource_in_api()
     {
         // Cria um jogo no banco de dados.
-        $game = factory(Game::class)->create();
-        // Cria e adicionada 3 tipos de pontos para o jogo.
-        $medal = factory(Medal::class)->create();
+        $gameOne = factory(Game::class)->create();
+        // Crima uma medalha para vincular ao jogo.
+        $gameOneMedalOne = factory(Medal::class)->create();
 
         // CREATE
-        $data = $medal->toArray();
+        $data = $gameOneMedalOne->toArray();
         $data['medal_id'] = $data['id'];
-        $response = $this->json('post', '/api/game/'. $game->id . '/medal', $data);
+        $response = $this->json('post', '/api/game/' . $gameOne->id . '/medal', $data);
         $response->assertStatus(401);
         // INDEX
-        $response = $this->json('get', '/api/game/'. $game->id . '/medal');
+        $response = $this->json('get', '/api/game/' . $gameOne->id . '/medal');
         $response->assertStatus(401);
         // DELETE
-        $game->medals()->attach($medal);
-        $response = $this->json('delete', '/api/game/'. $game->id . '/medal/' . $medal->id);
+        // Vincula a medalha ao jogo para testar sua desvinculação
+        $gameOne->medals()->attach($gameOneMedalOne);
+        $response = $this->json('delete', '/api/game/' . $gameOne->id . '/medal/' . $gameOneMedalOne->id);
         $response->assertStatus(401);
+    }
+
+    /**
+     * Testa se um usuário administrador pode gerenciar medalhas de um jogo na API.
+     *
+     * @return void
+     */
+    public function test_administrador_can_manage_game_medal_resource_in_api()
+    {
+        // Jogo do proprietário.
+        $gameOne = factory(Game::class)->create(['user_id' => $this->administrator->id]);
+        // Jogo de outro proprietário.
+        $gameTwo = factory(Game::class)->create();
+
+        // Uma medalha
+        $medalOne = factory(Medal::class)->create();
+
+        // CREATE
+        $data = $medalOne->toArray();
+        $data['medal_id'] = $data['id'];
+        // Verifica se o usuário pode vincular medalha ao próprio jogo.
+        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/medal', $data);
+        $response->assertStatus(201);
+        $response->assertJsonStructure(["data" => ["id"]]);
+        // Verifica se o usuário pode vincular medalha ao jogo de outro proprietário.
+        $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameTwo->id . '/medal', $data);
+        $response->assertStatus(201);
+        $response->assertJsonStructure(["data" => ["id"]]);
+
+        /** Não aplicado ainda
+        // INDEX
+        // Verifica se o usuário pode visualizar medalhas do próprio jogo.
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameOne->id . '/medal');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
+            "links" => ["first", "last", "prev", "next"], "data" => [
+                "*" => ["id", "name", "description"]
+            ]
+        ]);
+        // Verifica se o usuário pode visualizar medalhas do jogo de outro proprietário.
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameTwo->id . '/medal');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
+            "links" => ["first", "last", "prev", "next"], "data" => [
+                "*" => ["id", "name", "description"]
+            ]
+        ]); Não aplicado ainda */
+
+        // Cria e vincula a medalha ao jogo para teste de desvinculação de medalha do jogo.
+        $gameOneMedalOne = factory(Medal::class)->create();
+        $gameTwoMedalOne = factory(Medal::class)->create();
+        $gameOne->medals()->attach($gameOneMedalOne);
+        $gameTwo->medals()->attach($gameTwoMedalOne);
+
+        // DELETE
+        // Verifica se o usuário pode desvincular medalha do pŕoprio jogo
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne->id . '/medal/' . $gameOneMedalOne->id);
+        $response->assertStatus(204);
+        // Verifica se o usuário pode desvincular medalha do jogo de outro proprietário
+        $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/medal/' . $gameTwoMedalOne->id);
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Testa se um usuário design pode gerenciar medalhas de um jogo na API.
+     *
+     * @return void
+     */
+    public function test_design_can_manage_game_medal_resource_in_api()
+    {
+        // Jogo do proprietário.
+        $gameOne = factory(Game::class)->create(['user_id' => $this->design->id]);
+        // Jogo de outro proprietário.
+        $gameTwo = factory(Game::class)->create();
+
+        // Uma medalha
+        $medalOne = factory(Medal::class)->create();
+
+        // CREATE
+        $data = $medalOne->toArray();
+        $data['medal_id'] = $data['id'];
+        // Verifica se o usuário pode vincular medalha ao próprio jogo.
+        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne->id . '/medal', $data);
+        $response->assertStatus(201);
+        $response->assertJsonStructure(["data" => ["id"]]);
+        // Verifica se o usuário pode vincular medalha ao jogo de outro proprietário.
+        $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameTwo->id . '/medal', $data);
+        $response->assertStatus(403);
+
+        /** Não aplicado ainda
+        // INDEX
+        // Verifica se o usuário pode visualizar medalhas do próprio jogo.
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameOne->id . '/medal');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+        "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
+        "links" => ["first", "last", "prev", "next"], "data" => [
+        "*" => ["id", "name", "description"]
+        ]
+        ]);
+        // Verifica se o usuário pode visualizar medalhas do jogo de outro proprietário.
+        $response = $this->actingAs($this->administrator, 'api')->json('get', '/api/game/' . $gameTwo->id . '/medal');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+        "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
+        "links" => ["first", "last", "prev", "next"], "data" => [
+        "*" => ["id", "name", "description"]
+        ]
+        ]); Não aplicado ainda */
+
+        // Cria e vincula a medalha ao jogo para teste de desvinculação de medalha do jogo.
+        $gameOneMedalOne = factory(Medal::class)->create();
+        $gameTwoMedalOne = factory(Medal::class)->create();
+        $gameOne->medals()->attach($gameOneMedalOne);
+        $gameTwo->medals()->attach($gameTwoMedalOne);
+
+        // DELETE
+        // Verifica se o usuário pode desvincular medalha do pŕoprio jogo
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameOne->id . '/medal/' . $gameOneMedalOne->id);
+        $response->assertStatus(204);
+        // Verifica se o usuário pode desvincular medalha do jogo de outro proprietário
+        $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameTwo->id . '/medal/' . $gameTwoMedalOne->id);
+        $response->assertStatus(403);
     }
 }

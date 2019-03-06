@@ -150,31 +150,31 @@ class MedalPolicyTest extends TestCase
         // Jogo deste usuário e medalha deste jogo
         $this->assertTrue($policy->update($this->administrator(), $gameOne, $gameOneMedalOne));
         // Jogo deste usuário e medalha de outro jogo
-        $this->assertTrue($policy->update($this->administrator(), $gameOne, $gameTwoMedalOne));
+        // (404) $this->assertTrue($policy->update($this->administrator(), $gameOne, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha do jogo
         $this->assertTrue($policy->update($this->administrator(), $gameTwo, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha de outro jogo
-        $this->assertTrue($policy->update($this->administrator(), $gameTwo, $gameOneMedalOne));
+        // (404) $this->assertTrue($policy->update($this->administrator(), $gameTwo, $gameOneMedalOne));
 
         // Jogo deste usuário e medalha deste jogo
         $this->assertTrue($policy->update($this->design(), $gameOne, $gameOneMedalOne));
         // Jogo deste usuário e medalha de outro jogo
-        $this->assertFalse($policy->update($this->design(), $gameOne, $gameTwoMedalOne));
+        // (404) $this->assertFalse($policy->update($this->design(), $gameOne, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha do jogo
         $this->assertFalse($policy->update($this->design(), $gameTwo, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha de outro jogo
-        $this->assertFalse($policy->update($this->design(), $gameTwo, $gameOneMedalOne));
+        // (404) $this->assertFalse($policy->update($this->design(), $gameTwo, $gameOneMedalOne));
 
 
         // Atenção, este ator não cria jogo.
         // Jogo de outro usuário e medalha deste jogo
         $this->assertFalse($policy->update($this->player(), $gameOne, $gameOneMedalOne));
         // Jogo de outro  usuário e medalha de outro jogo
-        $this->assertFalse($policy->update($this->player(), $gameOne, $gameTwoMedalOne));
+        // (404) $this->assertFalse($policy->update($this->player(), $gameOne, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha do jogo
         $this->assertFalse($policy->update($this->player(), $gameTwo, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha de outro jogo
-        $this->assertFalse($policy->update($this->player(), $gameTwo, $gameOneMedalOne));
+        // (404) $this->assertFalse($policy->update($this->player(), $gameTwo, $gameOneMedalOne));
     }
 
     /**
@@ -214,30 +214,30 @@ class MedalPolicyTest extends TestCase
         // Jogo deste usuário e medalha deste jogo
         $this->assertTrue($policy->destroy($this->administrator(), $gameOne, $gameOneMedalOne));
         // Jogo deste usuário e medalha de outro jogo
-        $this->assertTrue($policy->destroy($this->administrator(), $gameOne, $gameTwoMedalOne));
+        // (404) $this->assertTrue($policy->destroy($this->administrator(), $gameOne, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha do jogo
         $this->assertTrue($policy->destroy($this->administrator(), $gameTwo, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha de outro jogo
-        $this->assertTrue($policy->destroy($this->administrator(), $gameTwo, $gameOneMedalOne));
+        // (404) $this->assertTrue($policy->destroy($this->administrator(), $gameTwo, $gameOneMedalOne));
 
         // Jogo deste usuário e medalha deste jogo
         $this->assertTrue($policy->destroy($this->design(), $gameOne, $gameOneMedalOne));
         // Jogo deste usuário e medalha de outro jogo
-        $this->assertFalse($policy->destroy($this->design(), $gameOne, $gameTwoMedalOne));
+        // (404) $this->assertFalse($policy->destroy($this->design(), $gameOne, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha do jogo
         $this->assertFalse($policy->destroy($this->design(), $gameTwo, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha de outro jogo
-        $this->assertFalse($policy->destroy($this->design(), $gameTwo, $gameOneMedalOne));
+        // (404) $this->assertFalse($policy->destroy($this->design(), $gameTwo, $gameOneMedalOne));
 
 
         // Atenção, este ator não cria jogo.
         // Jogo de outro usuário e medalha deste jogo
         $this->assertFalse($policy->destroy($this->player(), $gameOne, $gameOneMedalOne));
         // Jogo de outro  usuário e medalha de outro jogo
-        $this->assertFalse($policy->destroy($this->player(), $gameOne, $gameTwoMedalOne));
+        // (404) $this->assertFalse($policy->destroy($this->player(), $gameOne, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha do jogo
         $this->assertFalse($policy->destroy($this->player(), $gameTwo, $gameTwoMedalOne));
         // Jogo de outro usuário com medalha de outro jogo
-        $this->assertFalse($policy->destroy($this->player(), $gameTwo, $gameOneMedalOne));
+        // (404) $this->assertFalse($policy->destroy($this->player(), $gameTwo, $gameOneMedalOne));
     }
 }

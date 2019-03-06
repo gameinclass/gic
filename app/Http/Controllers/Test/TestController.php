@@ -16,8 +16,9 @@ class TestController extends Controller
      */
     public function index()
     {
-        $medal = Game::find(1)->medals()->find(24);
+        $game = Game::find(1);
+        dd($game->medals()->detach([2525]));
 
-        return response()->json($medal->pivot->medallable_id);
+        return response()->json($game->medals());
     }
 }

@@ -78,7 +78,8 @@ class MedalPolicy
         }
         return $user->actor->is_design &&
             ($user->id === $game->user_id) &&
-            ($game->id === $medal->pivot->medallable_id);
+            // 1 == "1" = true
+            ($game->id == $medal->pivot->medallable_id);
     }
 
     /**
@@ -98,8 +99,10 @@ class MedalPolicy
         if ($user->actor->is_administrator) {
             return true;
         }
+
         return $user->actor->is_design &&
             ($user->id === $game->user_id) &&
-            ($game->id === $medal->pivot->medallable_id);
+            // 1 == "1" = true
+            ($game->id == $medal->pivot->medallable_id);
     }
 }
