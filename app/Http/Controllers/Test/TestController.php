@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Test;
 
+use App\Models\Medal;
 use App\Models\Game;
 use App\Models\Player;
 use App\Http\Controllers\Controller;
@@ -15,9 +16,8 @@ class TestController extends Controller
      */
     public function index()
     {
-        $game = Game::orderBy('created_at', 'desc')
-            ->paginate();
+        $medal = Game::find(1)->medals()->find(24);
 
-        return response()->json($game);
+        return response()->json($medal->pivot->medallable_id);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Game;
+namespace App\Http\Controllers\Game\Medal;
 
 use App\Models\Game;
 use App\Models\Medal;

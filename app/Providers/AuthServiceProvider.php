@@ -12,8 +12,8 @@ use App\Policies\MedalPolicy;
 use App\Policies\Phase\PhasePolicy;
 use App\Policies\Player\PlayerPolicy;
 use App\Policies\UserPolicy;
-use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -46,9 +46,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // Gates
-        // Resource: Game / Phase
-        // Gate::define('game-phase-index', 'App\Policies\Phase\PhasePolicy@index');
-        // Gate::define('game-phase-store', 'App\Policies\Phase\PhasePolicy@store');
+        // Resource: Game / Medal
+        Gate::define('game-medal-store', 'App\Policies\Game\Medal\MedalPolicy@store');
+        Gate::define('game-medal-destroy', 'App\Policies\Game\Medal\MedalPolicy@destroy');
 
         // Passport
         Passport::routes();
