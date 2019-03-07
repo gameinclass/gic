@@ -155,7 +155,7 @@ class UserTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "name", "email", "actor" => ["is_administrator", "is_design", "is_player"]]
+                "*" => ["id", "name", "email", "actor" => ["is_administrator", "is_design", "is_player"]]
             ]
         ]);
         // EDIT
@@ -196,7 +196,7 @@ class UserTest extends TestCase
 
         // INDEX
         $response = $this->actingAs($this->design, 'api')->json('get', '/api/user');
-        $response->assertStatus(403);
+        $response->assertStatus(200);
 
         // EDIT
         $data['name'] = 'Teste de atualização do nome';
@@ -208,15 +208,12 @@ class UserTest extends TestCase
         // Atenção! Testa se o usuário pode atualizar seus próprios dados.
         $this->design->name = 'Teste de atualização do nome';
         $this->design->email = str_random() . '@email.com';
-        // Brecha de segurança !!!
-        $this->design->actor->is_player = !$this->design->actor->is_player;
         $response = $this->actingAs($this->design, 'api')
             ->json('put', '/api/user/' . $this->design->id, $this->design->toArray());
         $response->assertStatus(200);
         $response->assertJson(["data" => [
             "name" => $this->design->name,
             "email" => $this->design->email,
-            "actor" => ["is_player" => $this->design->actor->is_player]
         ]]);
         // DELETE
         $response = $this->actingAs($this->design, 'api')
@@ -260,15 +257,12 @@ class UserTest extends TestCase
         // Atenção! Testa se o usuário pode atualizar seus próprios dados.
         $this->player->name = 'Teste de atualização do nome';
         $this->player->email = str_random() . '@email.com';
-        // Brecha de segurança !!!
-        $this->player->actor->is_player = $this->player->actor->is_player;
         $response = $this->actingAs($this->player, 'api')
             ->json('put', '/api/user/' . $this->player->id, $this->player->toArray());
         $response->assertStatus(200);
         $response->assertJson(["data" => [
             "name" => $this->player->name,
             "email" => $this->player->email,
-            "actor" => ["is_player" => $this->player->actor->is_player]
         ]]);
         // DELETE
         $response = $this->actingAs($this->player, 'api')

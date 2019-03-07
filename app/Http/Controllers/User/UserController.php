@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\User as UserResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -67,7 +68,10 @@ class UserController extends Controller
 
         // Atualiza os recursos
         $user->update($request->all());
-        $user->actor->update($request->input('actor'));
+        // Atualizado o tipo de ator somente se for administrador
+        if (Auth::user()->actor->is_administrator) {
+            $user->actor->update($request->input('actor'));
+        }
         return (new UserResource($user))
             ->response()
             ->setStatusCode(200);

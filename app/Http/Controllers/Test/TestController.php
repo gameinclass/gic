@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Test;
 
+use App\Models\User;
 use App\Models\Medal;
 use App\Models\Game;
 use App\Models\Player;
-use App\Http\Controllers\Controller;
 use App\Models\Score;
+use App\Http\Controllers\Controller;
 
 class TestController extends Controller
 {
@@ -16,9 +17,9 @@ class TestController extends Controller
      */
     public function index()
     {
-        $game = Game::find(1);
-        dd($game->medals()->detach([2525]));
-
-        return response()->json($game->medals());
+        $search = "@example.net";
+        $users = User::with('actor')->whereHas('actor', function ($query) {
+            $query->where('is_player', true);
+        })->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%")->take(10)->get();
     }
 }

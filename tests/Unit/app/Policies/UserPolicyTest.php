@@ -66,7 +66,7 @@ class UserPolicyTest extends TestCase
     {
         $policy = new UserPolicy();
         $this->assertTrue($policy->index($this->administrator()));
-        $this->assertFalse($policy->index($this->design()));
+        $this->assertTrue($policy->index($this->design()));
         $this->assertFalse($policy->index($this->player()));
     }
 

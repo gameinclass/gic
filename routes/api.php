@@ -14,6 +14,7 @@
 Route::group(['middleware' => 'auth:api'], function () {
     /* -------------------------------------------------------------------------------------------------------*/
     // User
+    Route::get('user/player/search/{search}', 'User\Actor\PlayerController@search');
     Route::resource('user', 'User\UserController', [
         'except' => ['create', 'edit', 'show']
     ]);
@@ -40,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     ]);
     /* -------------------------------------------------------------------------------------------------------*/
     // Medal
+    Route::get('medal/search/{search}', 'Medal\MedalController@search');
     Route::resource('medal', 'Medal\MedalController', [
         'except' => ['create', 'edit', 'show']
     ]);

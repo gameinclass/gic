@@ -11,6 +11,20 @@ use App\Http\Resources\Medal\Medal as MedalResource;
 class MedalController extends Controller
 {
     /**
+     * Exibe uma liste de recurso de acordo com a pesquisa
+     *
+     * @param  string $search
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+     */
+    public function search($search)
+    {
+        // Verifica se a ação é autorizada ...
+        $this->authorize('index', Medal::class);
+        // Os valores retornados da pesquisa
+        return MedalResource::collection(Medal::where('title', 'like', "%{$search}%")->take(3)->get());
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection;

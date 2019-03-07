@@ -17,7 +17,8 @@ class UserPolicy
      */
     public function index(User $user)
     {
-        return $user->actor && $user->actor->is_administrator;
+        // Atenção, o usuário design só pode listar os usuários jogadores.
+        return $user->actor && ($user->actor->is_administrator ||  $user->actor->is_design);
     }
 
     /**
