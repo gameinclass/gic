@@ -19,6 +19,7 @@ class PlayerController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('index', User::class);
 
+        // Pesquisa pelo usuários que são jogadores.
         $players = User::where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%")
             ->whereHas('actor', function ($query) {
                 $query->where('is_player', true);

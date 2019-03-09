@@ -24,10 +24,10 @@ class Phase extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'from' => $this->from,
-            'to' => $this->to,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            // 'from' => $this->from,
+            // 'to' => $this->to,
+            // 'created_at' => $this->created_at,
+            // 'updated_at' => $this->updated_at,
         ];
     }
 }
