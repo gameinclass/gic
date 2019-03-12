@@ -26,7 +26,7 @@ class PlayerStoreRequestTest extends TestCase
     public function test_rules()
     {
         $rules = [
-            'user_id' => 'required|integer',
+            'id' => 'required|integer',
         ];
         $plauerStoreRequest = new PlayerStoreRequest();
         $this->assertEquals($rules, $plauerStoreRequest->rules());

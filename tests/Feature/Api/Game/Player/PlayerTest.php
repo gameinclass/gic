@@ -142,11 +142,15 @@ class PlayerTest extends TestCase
     {
         // Jogo do proprietário.
         $gameOne = factory(Game::class)->create(['user_id' => $this->administrator->id])->toArray();
+        // Usuário jogador do jogo do proprietário.
+        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
         // Jogo de outro proprietário.
         $gameTwo = factory(Game::class)->create()->toArray();
+        // Usuário jogador do jogo de outro proprietário.
+        $gameTwoPlayerOne = factory(Player::class)->create(['game_id' => $gameTwo['id']])->toArray();
 
         // CREATE
-        $data = factory(Player::class)->make()->toArray();
+        $data = $gameOnePlayerOne;
         // Tenta adicionar um jogador para o proprio jogo
         $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne['id'] . '/player', $data);
         $response->assertStatus(201);
@@ -178,10 +182,6 @@ class PlayerTest extends TestCase
 
         // DELETE
         // Tenta remover um usuário jogador do proprio jogo
-        // Usuário jogador do jogo do proprietário.
-        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
-        // Usuário jogador do jogo de outro proprietário.
-        $gameTwoPlayerOne = factory(Player::class)->create(['game_id' => $gameTwo['id']])->toArray();
         $response = $this->actingAs($this->administrator, 'api')->json('delete', '/api/game/' . $gameOne['id'] . '/player/' . $gameOnePlayerOne['id']);
         $response->assertStatus(204);
         // Tenta remover um usuário jogador do jogo alheio
@@ -199,11 +199,15 @@ class PlayerTest extends TestCase
     {
         // Jogo do proprietário.
         $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        // Usuário jogador do jogo do proprietário.
+        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
         // Jogo de outro proprietário.
         $gameTwo = factory(Game::class)->create()->toArray();
+        // Usuário jogador do jogo de outro proprietário.
+        $gameTwoPlayerOne = factory(Player::class)->create(['game_id' => $gameTwo['id']])->toArray();
 
         // CREATE
-        $data = factory(Player::class)->make()->toArray();
+        $data = $gameOnePlayerOne;
         // Tenta adicionar um jogador para o proprio jogo
         $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne['id'] . '/player', $data);
         $response->assertStatus(201);
@@ -227,10 +231,6 @@ class PlayerTest extends TestCase
         $response->assertStatus(403);
 
         // DELETE
-        // Usuário jogador do jogo do proprietário.
-        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
-        // Usuário jogador do jogo de outro proprietário.
-        $gameTwoPlayerOne = factory(Player::class)->create(['game_id' => $gameTwo['id']])->toArray();
         // Tenta remover um usuário jogador do proprio jogo
         $response = $this->actingAs($this->design, 'api')->json('delete', '/api/game/' . $gameOne['id'] . '/player/' . $gameOnePlayerOne['id']);
         $response->assertStatus(204);
@@ -251,9 +251,11 @@ class PlayerTest extends TestCase
         // Atenção! O usuário não pode criar jogo, esse teste esta sendo feito no policimento, e o factory
         // não permite o usuário criar jogo.
         $gameOne = factory(Game::class)->create(['user_id' => $this->design->id])->toArray();
+        // Usuário jogador do jogo do proprietário.
+        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
 
         // CREATE
-        $data = factory(Player::class)->make()->toArray();
+        $data = $gameOnePlayerOne;
         // Tenta adicionar um jogador para o jogo alheio
         $response = $this->actingAs($this->player, 'api')->json('post', '/api/game/' . $gameOne['id'] . '/player', $data);
         $response->assertStatus(403);
@@ -264,8 +266,6 @@ class PlayerTest extends TestCase
         $response->assertStatus(403);
 
         // DELETE
-        // Usuário jogador do jogo do proprietário.
-        $gameOnePlayerOne = factory(Player::class)->create(['game_id' => $gameOne['id']])->toArray();
         // Tenta remover um usuário jogador do jogo alheio
         $response = $this->actingAs($this->player, 'api')->json('delete', '/api/game/' . $gameOne['id'] . '/player/' . $gameOnePlayerOne['id']);
         $response->assertStatus(403);

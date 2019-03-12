@@ -26,7 +26,8 @@ class MedalController extends Controller
             return response()->json($request->all())->setStatusCode(403);
         }
         // Procura peda medalha no banco de dados
-        $medal = Medal::findOrFail($request->get('medal_id'));
+        $medal = Medal::findOrFail($request->get('id'));
+
         // Faz a associação da medalha com o jogo.
         $game->medals()->attach($medal);
         // Verifica se a medalha foi adicionado, pois o código acima retorna void

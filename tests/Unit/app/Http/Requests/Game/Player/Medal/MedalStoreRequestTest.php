@@ -25,7 +25,7 @@ class MedalStoreRequestTest extends TestCase
     public function test_rules()
     {
         $rules = [
-            'medal_id' => 'required|integer',
+            'id' => 'required|integer',
         ];
         $medalStoreRequest = new MedalStoreRequest();
         $this->assertEquals($rules, $medalStoreRequest->rules());

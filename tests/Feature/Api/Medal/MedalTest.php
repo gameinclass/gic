@@ -165,7 +165,7 @@ class MedalTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "title", "description", "url"]
+                "*" => ["id", "title", "description", "url"]
             ]
         ]);
         // EDIT
@@ -228,7 +228,7 @@ class MedalTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "title", "description", "url"]
+                "*" => ["id", "title", "description", "url"]
             ]
         ]);
         // EDIT

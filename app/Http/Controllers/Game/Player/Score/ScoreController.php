@@ -6,7 +6,7 @@ use App\Models\Game;
 use App\Models\Score;
 use App\Models\Player;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Score\Score as ScoreResource;
+use App\Http\Resources\Game\Score\Score as ScoreResource;
 use App\Http\Requests\Game\Player\Score\ScoreStoreRequest;
 use App\Http\Requests\Game\Player\Score\ScoreUpdateRequest;
 
@@ -77,7 +77,7 @@ class ScoreController extends Controller
         // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
         $this->authorize('update', $game, $player);
 
-        $score = Player::findOrFail($scoreId);
+        $score = Score::findOrFail($scoreId);
         // Atualiza os dados do recurso
         $score->update($request->all());
         return (new ScoreResource($score))

@@ -45,7 +45,8 @@ class MedalController extends Controller
         $this->authorize('store', [Player::class, $game]);
 
         // Procura pela medalha entre as medalhas do jogo.
-        $medal = $game->medals()->find($request->input('medal_id'));
+        $medal = $game->medals()->find($request->input('id'));
+
         // Recupera a medalha atribuída ao jogador.
         if ($medal) {
             // Faz a associação da medalha ao jogador.

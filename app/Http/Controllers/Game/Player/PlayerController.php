@@ -38,6 +38,9 @@ class PlayerController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('store', [Player::class, $game]);
 
+        // Adiciona o identificador de relacionamento com o usuário.
+        $request->merge(['user_id' => $request->input('id')]);
+
         $player = new Player($request->all());
         // Salva o recurso no banco de dados
         if ($game->players()->save($player)) {

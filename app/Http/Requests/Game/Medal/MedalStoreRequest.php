@@ -24,7 +24,7 @@ class MedalStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'medal_id' => 'required|integer',
+            'id' => 'required|integer',
         ];
     }
 }

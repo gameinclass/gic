@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     /* -------------------------------------------------------------------------------------------------------*/
     // Game
     Route::resource('game', 'Game\GameController', [
-        'except' => ['create', 'edit', 'show']
+        'except' => ['create', 'edit']
     ]);
     // Game / Medal
     Route::resource('game.medal', 'Game\Medal\MedalController', [
@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Medal
     Route::get('medal/search/{search}', 'Medal\MedalController@search');
     Route::resource('medal', 'Medal\MedalController', [
-        'except' => ['create', 'edit', 'show']
+        'except' => ['create', 'edit']
     ]);
     /* -------------------------------------------------------------------------------------------------------*/
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Medal;
 
 use App\Models\Medal;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\Medal\MedalCollection;
 use App\Http\Requests\Medal\MedalStoreRequest;
 use App\Http\Requests\Medal\MedalUpdateRequest;
 use App\Http\Resources\Medal\Medal as MedalResource;
@@ -27,13 +29,14 @@ class MedalController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+     * @return \App\Http\Resources\Medal\MedalCollection;
      */
     public function index()
     {
         // Verifica se a ação é autorizada ...
         $this->authorize('index', Medal::class);
-        return MedalResource::collection(Medal::paginate());
+        return new MedalCollection(Medal::orderBy('created_at', 'desc')
+            ->paginate());
     }
 
     /**
@@ -50,7 +53,7 @@ class MedalController extends Controller
         // Adiciona o usuário da requisição.
         $medal->user_id = $request->user()->id;
         // Adicionado o caminho do arquivo no disco.
-        $medal->path = $request->file('image')->store('medals');
+        $medal->path = $request->file('image')->store('medals', 'public');
         // Salva o recurso no banco de dados
         if ($medal->save()) {
             return (new MedalResource($medal))
@@ -65,24 +68,29 @@ class MedalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param  int $medalId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($medalId)
     {
-        //
+        $medal = Medal::findOrFail($medalId);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('update', $medal);
+        return (new MedalResource($medal))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  int $medalId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(MedalUpdateRequest $request, $id)
+    public function update(MedalUpdateRequest $request, $medalId)
     {
-        $medal = Medal::findOrFail($id);
+        $medal = Medal::findOrFail($medalId);
         // Verifica se a ação é autorizada ...
         $this->authorize('update', $medal);
         // Adiciona o usuário da requisição.
@@ -97,18 +105,22 @@ class MedalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param  int $medalId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($medalId)
     {
-        $medal = Medal::findOrFail($id);
+        $medal = Medal::findOrFail($medalId);
         // Verifica se a ação é autorizada ...
         $this->authorize('destroy', $medal);
         // Remove o recurso do banco de dados
         if ($medal->delete()) {
+            // Remove o arquivo da medalha do storage
+            Storage::disk('public')->delete($medal->path);
             return response()->noContent();
         }
-        return response('', 422);
+        return (new MedalResource($medal))
+            ->response()
+            ->setStatusCode(422);
     }
 }

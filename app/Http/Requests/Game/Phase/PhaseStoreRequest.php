@@ -25,8 +25,8 @@ class PhaseStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|min:1|max:255',
-            'from' => 'required|date_format:d/m/Y H:i',
-            'to' => 'required|date_format:d/m/Y H:i'
+            'from' => 'required|date_format:Y-m-d H:i:s',
+            'to' => 'required|date_format:Y-m-d H:i:s'
         ];
     }
 }

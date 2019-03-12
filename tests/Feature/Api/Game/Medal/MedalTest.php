@@ -119,7 +119,6 @@ class MedalTest extends TestCase
 
         // CREATE
         $data = $gameOneMedalOne->toArray();
-        $data['medal_id'] = $data['id'];
         $response = $this->json('post', '/api/game/' . $gameOne->id . '/medal', $data);
         $response->assertStatus(401);
         // INDEX
@@ -149,7 +148,6 @@ class MedalTest extends TestCase
 
         // CREATE
         $data = $medalOne->toArray();
-        $data['medal_id'] = $data['id'];
         // Verifica se o usuário pode vincular medalha ao próprio jogo.
         $response = $this->actingAs($this->administrator, 'api')->json('post', '/api/game/' . $gameOne->id . '/medal', $data);
         $response->assertStatus(201);
@@ -212,7 +210,6 @@ class MedalTest extends TestCase
 
         // CREATE
         $data = $medalOne->toArray();
-        $data['medal_id'] = $data['id'];
         // Verifica se o usuário pode vincular medalha ao próprio jogo.
         $response = $this->actingAs($this->design, 'api')->json('post', '/api/game/' . $gameOne->id . '/medal', $data);
         $response->assertStatus(201);

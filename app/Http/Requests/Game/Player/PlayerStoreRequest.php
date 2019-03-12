@@ -24,7 +24,7 @@ class PlayerStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer',
+            'id' => 'required|integer',
         ];
     }
 }

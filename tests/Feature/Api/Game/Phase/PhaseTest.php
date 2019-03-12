@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Game\Phase;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Game;
@@ -163,7 +164,7 @@ class PhaseTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "name", "from", "to"]
+                "*" => ["id", "name", "from", "to"]
             ]
         ]);
         // Tenta visualizar fases do jogo alheio
@@ -172,7 +173,7 @@ class PhaseTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "name", "from", "to"]
+                "*" => ["id", "name", "from", "to"]
             ]
         ]);
 
@@ -236,7 +237,7 @@ class PhaseTest extends TestCase
         $response->assertJsonStructure([
             "meta" => ["current_page", "from", "last_page", "path", "per_page", "to", "total"],
             "links" => ["first", "last", "prev", "next"], "data" => [
-                ["id", "name", "from", "to"]
+                "*" => ["id", "name", "from", "to"]
             ]
         ]);
         // Tenta visualizar fases do jogo alheio

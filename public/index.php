@@ -9,7 +9,7 @@
 
 define('LARAVEL_START', microtime(true));
 
-sleep(2);
+usleep(1000000 / 3);
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ sleep(2);
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------

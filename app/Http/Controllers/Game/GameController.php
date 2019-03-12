@@ -58,15 +58,31 @@ class GameController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $gameId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($gameId)
+    {
+        $game = Game::findOrFail($gameId);
+        // Verifica se a ação é autorizada ...
+        $this->authorize('update', $game);
+        return (new GameResource($game))
+            ->response()
+            ->setStatusCode(200);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  GameUpdateRequest $request
-     * @param  int $id
+     * @param  int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(GameUpdateRequest $request, $id)
+    public function update(GameUpdateRequest $request, $gameId)
     {
-        $game = Game::findOrFail($id);
+        $game = Game::findOrFail($gameId);
         // Verifica se a ação é autorizada ...
         $this->authorize('update', $game);
 
@@ -82,12 +98,12 @@ class GameController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int $gameId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($gameId)
     {
-        $game = Game::findOrFail($id);
+        $game = Game::findOrFail($gameId);
         // Verifica se a ação é autorizada ...
         $this->authorize('destroy', $game);
 

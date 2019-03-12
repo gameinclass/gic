@@ -28,6 +28,7 @@ class MedalUpdateRequestTest extends TestCase
         $rules = [
             'title' => 'required|min:1|max:255',
             'description' => 'required',
+            'image' => 'mimes:jpeg,jpg,png,gif|max:10000'
         ];
         $medalUpdateRequest = new MedalUpdateRequest();
         $this->assertEquals($rules, $medalUpdateRequest->rules());

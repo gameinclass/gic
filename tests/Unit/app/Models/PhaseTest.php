@@ -34,6 +34,8 @@ class PhaseTest extends TestCase
     protected $casts = [
         'id' => 'int',
         'user_id' => 'integer',
+        'from' => 'datetime:Y-m-d H:i:s',
+        'to' => 'datetime:Y-m-d H:i:s'
     ];
 
     /**

@@ -2,39 +2,41 @@
 | Domain | Method    | URI                                           | Name                              | Action                                                                    | Middleware   |
 +--------+-----------+-----------------------------------------------+-----------------------------------+---------------------------------------------------------------------------+--------------+
 |        | GET|HEAD  | /                                             |                                   | Illuminate\Routing\ViewController                                         | web          |
-|        | POST      | api/game                                      | game.store                        | App\Http\Controllers\Game\GameController@store                            | api,auth:api |
 |        | GET|HEAD  | api/game                                      | game.index                        | App\Http\Controllers\Game\GameController@index                            | api,auth:api |
-|        | PUT|PATCH | api/game/{game}                               | game.update                       | App\Http\Controllers\Game\GameController@update                           | api,auth:api |
+|        | POST      | api/game                                      | game.store                        | App\Http\Controllers\Game\GameController@store                            | api,auth:api |
 |        | DELETE    | api/game/{game}                               | game.destroy                      | App\Http\Controllers\Game\GameController@destroy                          | api,auth:api |
-|        | GET|HEAD  | api/game/{game}/medal                         | game.medal.index                  | App\Http\Controllers\Game\Medal\MedalController@index                     | api,auth:api |
+|        | PUT|PATCH | api/game/{game}                               | game.update                       | App\Http\Controllers\Game\GameController@update                           | api,auth:api |
+|        | GET|HEAD  | api/game/{game}                               | game.show                         | App\Http\Controllers\Game\GameController@show                             | api,auth:api |
 |        | POST      | api/game/{game}/medal                         | game.medal.store                  | App\Http\Controllers\Game\Medal\MedalController@store                     | api,auth:api |
-|        | PUT|PATCH | api/game/{game}/medal/{medal}                 | game.medal.update                 | App\Http\Controllers\Game\Medal\MedalController@update                    | api,auth:api |
+|        | GET|HEAD  | api/game/{game}/medal                         | game.medal.index                  | App\Http\Controllers\Game\Medal\MedalController@index                     | api,auth:api |
 |        | DELETE    | api/game/{game}/medal/{medal}                 | game.medal.destroy                | App\Http\Controllers\Game\Medal\MedalController@destroy                   | api,auth:api |
+|        | PUT|PATCH | api/game/{game}/medal/{medal}                 | game.medal.update                 | App\Http\Controllers\Game\Medal\MedalController@update                    | api,auth:api |
 |        | POST      | api/game/{game}/phase                         | game.phase.store                  | App\Http\Controllers\Game\Phase\PhaseController@store                     | api,auth:api |
 |        | GET|HEAD  | api/game/{game}/phase                         | game.phase.index                  | App\Http\Controllers\Game\Phase\PhaseController@index                     | api,auth:api |
 |        | DELETE    | api/game/{game}/phase/{phase}                 | game.phase.destroy                | App\Http\Controllers\Game\Phase\PhaseController@destroy                   | api,auth:api |
 |        | PUT|PATCH | api/game/{game}/phase/{phase}                 | game.phase.update                 | App\Http\Controllers\Game\Phase\PhaseController@update                    | api,auth:api |
-|        | GET|HEAD  | api/game/{game}/player                        | game.player.index                 | App\Http\Controllers\Game\Player\PlayerController@index                   | api,auth:api |
 |        | POST      | api/game/{game}/player                        | game.player.store                 | App\Http\Controllers\Game\Player\PlayerController@store                   | api,auth:api |
-|        | PUT|PATCH | api/game/{game}/player/{player}               | game.player.update                | App\Http\Controllers\Game\Player\PlayerController@update                  | api,auth:api |
+|        | GET|HEAD  | api/game/{game}/player                        | game.player.index                 | App\Http\Controllers\Game\Player\PlayerController@index                   | api,auth:api |
 |        | DELETE    | api/game/{game}/player/{player}               | game.player.destroy               | App\Http\Controllers\Game\Player\PlayerController@destroy                 | api,auth:api |
-|        | GET|HEAD  | api/game/{game}/player/{player}/medal         | game.player.medal.index           | App\Http\Controllers\Game\Player\Medal\MedalController@index              | api,auth:api |
+|        | PUT|PATCH | api/game/{game}/player/{player}               | game.player.update                | App\Http\Controllers\Game\Player\PlayerController@update                  | api,auth:api |
 |        | POST      | api/game/{game}/player/{player}/medal         | game.player.medal.store           | App\Http\Controllers\Game\Player\Medal\MedalController@store              | api,auth:api |
+|        | GET|HEAD  | api/game/{game}/player/{player}/medal         | game.player.medal.index           | App\Http\Controllers\Game\Player\Medal\MedalController@index              | api,auth:api |
 |        | DELETE    | api/game/{game}/player/{player}/medal/{medal} | game.player.medal.destroy         | App\Http\Controllers\Game\Player\Medal\MedalController@destroy            | api,auth:api |
-|        | POST      | api/game/{game}/player/{player}/score         | game.player.score.store           | App\Http\Controllers\Game\Player\Score\ScoreController@store              | api,auth:api |
 |        | GET|HEAD  | api/game/{game}/player/{player}/score         | game.player.score.index           | App\Http\Controllers\Game\Player\Score\ScoreController@index              | api,auth:api |
-|        | DELETE    | api/game/{game}/player/{player}/score/{score} | game.player.score.destroy         | App\Http\Controllers\Game\Player\Score\ScoreController@destroy            | api,auth:api |
+|        | POST      | api/game/{game}/player/{player}/score         | game.player.score.store           | App\Http\Controllers\Game\Player\Score\ScoreController@store              | api,auth:api |
 |        | PUT|PATCH | api/game/{game}/player/{player}/score/{score} | game.player.score.update          | App\Http\Controllers\Game\Player\Score\ScoreController@update             | api,auth:api |
-|        | GET|HEAD  | api/medal                                     | medal.index                       | App\Http\Controllers\Medal\MedalController@index                          | api,auth:api |
+|        | DELETE    | api/game/{game}/player/{player}/score/{score} | game.player.score.destroy         | App\Http\Controllers\Game\Player\Score\ScoreController@destroy            | api,auth:api |
 |        | POST      | api/medal                                     | medal.store                       | App\Http\Controllers\Medal\MedalController@store                          | api,auth:api |
+|        | GET|HEAD  | api/medal                                     | medal.index                       | App\Http\Controllers\Medal\MedalController@index                          | api,auth:api |
 |        | GET|HEAD  | api/medal/search/{search}                     |                                   | App\Http\Controllers\Medal\MedalController@search                         | api,auth:api |
-|        | PUT|PATCH | api/medal/{medal}                             | medal.update                      | App\Http\Controllers\Medal\MedalController@update                         | api,auth:api |
 |        | DELETE    | api/medal/{medal}                             | medal.destroy                     | App\Http\Controllers\Medal\MedalController@destroy                        | api,auth:api |
-|        | GET|HEAD  | api/user                                      | user.index                        | App\Http\Controllers\User\UserController@index                            | api,auth:api |
+|        | PUT|PATCH | api/medal/{medal}                             | medal.update                      | App\Http\Controllers\Medal\MedalController@update                         | api,auth:api |
+|        | GET|HEAD  | api/medal/{medal}                             | medal.show                        | App\Http\Controllers\Medal\MedalController@show                           | api,auth:api |
 |        | POST      | api/user                                      | user.store                        | App\Http\Controllers\User\UserController@store                            | api,auth:api |
+|        | GET|HEAD  | api/user                                      | user.index                        | App\Http\Controllers\User\UserController@index                            | api,auth:api |
 |        | GET|HEAD  | api/user/player/search/{search}               |                                   | App\Http\Controllers\User\Actor\PlayerController@search                   | api,auth:api |
-|        | PUT|PATCH | api/user/{user}                               | user.update                       | App\Http\Controllers\User\UserController@update                           | api,auth:api |
 |        | DELETE    | api/user/{user}                               | user.destroy                      | App\Http\Controllers\User\UserController@destroy                          | api,auth:api |
+|        | PUT|PATCH | api/user/{user}                               | user.update                       | App\Http\Controllers\User\UserController@update                           | api,auth:api |
 |        | GET|HEAD  | home                                          | home                              | App\Http\Controllers\HomeController@index                                 | web,auth     |
 |        | GET|HEAD  | login                                         | login                             | App\Http\Controllers\Auth\LoginController@showLoginForm                   | web,guest    |
 |        | POST      | login                                         |                                   | App\Http\Controllers\Auth\LoginController@login                           | web,guest    |
