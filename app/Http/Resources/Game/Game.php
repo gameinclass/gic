@@ -29,9 +29,12 @@ class Game extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             // Relacionamentos
-            'medals' => $request->route('game', false) ? Medal::collection($this->medals)->keyBy->id : $this->medals->count(),
-            'players' => $request->route('game', false) ? Player::collection($this->players)->keyBy->id : $this->players->count(),
-            'phases' => $request->route('game', false) ? Phase::collection($this->phases)->keyBy->id : $this->phases->count(),
+            'medals' => $request->route('game', false) ? Medal::collection($this->medals)
+                ->keyBy->id : $this->medals->count(),
+            'players' => $request->route('game', false) ? Player::collection($this->players)
+                ->keyBy->id : $this->players->count(),
+            'phases' => $request->route('game', false) ? Phase::collection($this->phases)
+                    ->keyBy->id : $this->phases->count(),
             // Fim dos relacionamentos
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

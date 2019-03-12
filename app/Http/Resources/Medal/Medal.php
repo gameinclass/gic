@@ -29,8 +29,10 @@ class Medal extends JsonResource
             'description' => $this->description,
             'url' => url('storage/' . $this->path),
             // Relacionamentos
-            'games' => $request->route('medal', false) ? Game::collection($this->games)->keyBy->id : $this->games->count(),
-            'players' => $request->route('medal', false) ? Player::collection($this->players)->keyBy->id : $this->players->count(),
+            'games' => $request->route('medal', false) ? Game::collection($this->games)
+                ->keyBy->id : $this->games->count(),
+            'players' => $request->route('medal', false) ? Player::collection($this->players)
+                ->keyBy->id : $this->players->count(),
             // Fim dos relacionamentos
         ];
     }
