@@ -2,18 +2,20 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Models\Game;
+use App\Models\Actor;
 use App\Models\Medal;
 use App\Models\Phase;
 use App\Models\Player;
-use App\Models\User;
+use App\Policies\UserPolicy;
 use App\Policies\GamePolicy;
 use App\Policies\MedalPolicy;
-use App\Policies\Phase\PhasePolicy;
-use App\Policies\Player\PlayerPolicy;
-use App\Policies\UserPolicy;
 use Laravel\Passport\Passport;
+use App\Policies\Phase\PhasePolicy;
 use Illuminate\Support\Facades\Gate;
+use App\Policies\Player\PlayerPolicy;
+use App\Policies\User\Actor\ActorPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,8 +26,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // Policiamento para CRUD de usuário.
+        // Policiamento para CRUD de usuário e atores.
         User::class => UserPolicy::class,
+        Actor::class => ActorPolicy::class,
         // Policiamento para CRUD do jogo.
         Game::class => GamePolicy::class,
         // Policiamento para CRUD das fases do jogo
