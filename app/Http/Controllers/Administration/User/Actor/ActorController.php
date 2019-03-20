@@ -44,6 +44,5 @@ class ActorController extends Controller
         $request->session()->flash('updated_unsuccessful', 'Não foi possível atualizar as informações do usuário');
         // Fracasso! Redireciona de volta.
         return redirect()->back();
-
     }
 }
