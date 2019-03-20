@@ -20,46 +20,20 @@
     <!-- Fonts -->
 
     <!-- Styles -->
-    <style>
-        html,
-        body {
-            margin: 0;
-            height: 100%;
-            background-size: cover;
-        }
-
-        .box {
-            width: 100%;
-            height: 100%;
-            background: url("/svg/desenhado-7.svg") no-repeat center center;
-            background-size: cover;
-            display: table;
-        }
-
-        .box-middle {
-            height: 100%;
-            display: table-row;
-        }
-
-        .box-middle-content {
-            vertical-align: middle;
-            display: table-cell;
-        }
-        .brand {
-            margin: 1px auto;
-            width: 350px;
-            display: block;
-        }
-        .description {
-            margin-top: 0;
-            font-size: 5em;
-            text-align: center;
-            color: black;
-        }
-    </style>
+    <!-- Styles -->
+    <link href="{{ asset('css/website.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="box">
+    <div class="box-top">
+        <div class="box-top-content">
+            <div class="navbar">
+                <div class="navbar-left">
+                    <div class="navbar-left-hamburger"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="box-middle">
         <div class="box-middle-content">
             <img class="brand" src="/svg/brand.svg" title="Game In Class">
