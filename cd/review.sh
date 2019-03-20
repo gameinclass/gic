@@ -14,6 +14,7 @@ if [[ -d /var/www/${DOMAIN} ]]; then
     cd /var/www/${DOMAIN}
     sudo chown ${USER}:${USER} . -R
     if [[ -d .git ]]; then
+        git fetch origin
         git reset --hard origin/${GIT_BRANCH}
     fi
     sudo chown www-data:www-data . -R
