@@ -16,7 +16,9 @@ class MedalCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection->keyBy->id,
+            // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
+            // foi adicionado a condição abaixo para transformar em objeto,
+            'data' => $this->collection->isEmpty() ? (object)[] : $this->collection->keyBy->id,
         ];
     }
 }

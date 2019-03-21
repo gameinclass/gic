@@ -29,10 +29,20 @@ class Medal extends JsonResource
             'description' => $this->description,
             'url' => url('storage/' . $this->path),
             // Relacionamentos
-            'games' => $request->route('medal', false) ? Game::collection($this->games)
-                ->keyBy->id : $this->games->count(),
-            'players' => $request->route('medal', false) ? Player::collection($this->players)
-                ->keyBy->id : $this->players->count(),
+
+            // Verifica se está e requisitando um recurso específico ou se está listando todos. Para listagem
+            // do recurso, somente é retornado a quantidade de itens relacionados.
+            'games' => !$request->route('medal', false) ? $this->games->count() :
+                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
+                // foi adicionado a condição abaixo para transformar em objeto.
+                $this->games->isEmpty() ? (object)[] : Game::collection($this->games)->keyBy->id,
+
+            // Verifica se está e requisitando um recurso específico ou se está listando todos. Para listagem
+            // do recurso, somente é retornado a quantidade de itens relacionados.
+            'players' => !$request->route('medal', false) ? $this->players->count() :
+                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
+                // foi adicionado a condição abaixo para transformar em objeto.
+                $this->players->isEmpty() ? (object)[] : Player::collection($this->players)->keyBy->id,
             // Fim dos relacionamentos
         ];
     }
