@@ -94,7 +94,13 @@ class MedalController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('update', $medal);
         // Adiciona o usuário da requisição.
-        $medal->user_id = $request->user()->id;
+        // $medal->user_id = $request->user()->id;
+        // Verifica se foi enviado novo arquivo, se sim, substitui o novo.
+        if ($request->has('image')) {
+            $path = $request->file('image')
+                ->storeAs('', $medal->path, 'public');
+            $medal->path = $path ? $path : $medal->path;
+        }
         // Atualiza o recurso no banco de dados
         $medal->update($request->all());
         return (new MedalResource($medal))
@@ -113,6 +119,33 @@ class MedalController extends Controller
         $medal = Medal::findOrFail($medalId);
         // Verifica se a ação é autorizada ...
         $this->authorize('destroy', $medal);
+
+        // Verifica se existem jogos vinculados a esta medalha
+        if (!$medal->games->isEmpty()) {
+            return (new MedalResource($medal))
+                ->additional([
+                    "errors" => [
+                        "games" => [
+                            "Ops! Há jogo(s) vinculado(s) a esta medalha"
+                        ]]
+                ])
+                ->response()
+                ->setStatusCode(422);
+        }
+
+        // Verifica se existem jogadores vinculados a esta medalha
+        if (!$medal->players->isEmpty()) {
+            return (new MedalResource($medal))
+                ->additional([
+                    "errors" => [
+                        "players" => [
+                            "Ops! Há jogadores(s) vinculado(s) a esta medalha"
+                        ]]
+                ])
+                ->response()
+                ->setStatusCode(422);
+        }
+
         // Remove o recurso do banco de dados
         if ($medal->delete()) {
             // Remove o arquivo da medalha do storage
