@@ -28,14 +28,24 @@ class Game extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            // Relacionamentos
-            'medals' => $request->route('game', false) ? Medal::collection($this->medals)
-                ->keyBy->id : $this->medals->count(),
-            'players' => $request->route('game', false) ? Player::collection($this->players)
-                ->keyBy->id : $this->players->count(),
-            'phases' => $request->route('game', false) ? Phase::collection($this->phases)
-                    ->keyBy->id : $this->phases->count(),
-            // Fim dos relacionamentos
+
+            // Verifica se está e requisitando um recurso específico ou se está listando todos. Para listagem
+            // do recurso, somente é retornado a quantidade de itens relacionados.
+            'medals' => !$request->route('game') ? $this->medals->count() :
+                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
+                // foi adicionado a condição abaixo para transformar em objeto.
+                ($this->medals->isEmpty() ? (object)[] : Medal::collection($this->medals)->keyBy->id),
+
+            'players' => !$request->route('game') ? $this->players->count() :
+                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
+                // foi adicionado a condição abaixo para transformar em objeto.
+                ($this->players->isEmpty() ? (object)[] : Player::collection($this->players)->keyBy->id),
+
+            'phases' => !$request->route('game') ? $this->phases->count() :
+                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
+                // foi adicionado a condição abaixo para transformar em objeto.
+                ($this->phases->isEmpty() ? (object)[] : Phase::collection($this->phases)->keyBy->id),
+
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
