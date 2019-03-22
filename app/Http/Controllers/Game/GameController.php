@@ -60,7 +60,7 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $gameId
+     * @param  int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($gameId)
@@ -99,7 +99,7 @@ class GameController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $gameId
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($gameId)
     {
@@ -107,10 +107,45 @@ class GameController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('destroy', $game);
 
+        // Evita que o jogo seja removido se houver recursos vinculados.
+        $errors = array();
+        // Verifica se existe(m) medalha(s) vinculada(s) a este jogo.
+        if (!$game->medals->isEmpty()) {
+            $errors['medals'][0] = 'Ops! Há medalhas(s) vinculado(s) a este jogo.';
+        }
+        // Verifica se existe(m) ponto(s) vinculado(s) a este jogo.
+        if (!$game->scores->isEmpty()) {
+            $errors['scores'][0] = 'Ops! Há pontos(s) vinculado(s) a este jogo.';
+        }
+        // Verifica se existe(m) fases(s) vinculada(s) a este jogo.
+        if (!$game->phases->isEmpty()) {
+            $errors['phases'][0] = 'Ops! Há fases(s) vinculada(s) a este jogo.';
+        }
+        // Verifica se existe(m) jogadores(s) vinculado(s) a este jogo.
+        if (!$game->players->isEmpty()) {
+            $errors['players'][0] = 'Ops! Há jogadores(s) vinculado(s) a este jogo.';
+        }
+
+        // Se houver recursos vinculados, envia resposta de dados não processadas, com informações sobre o erro.
+        if ($errors) {
+            return (new GameResource($game))
+                ->additional([
+                    "message" => "Não foi possível remover o jogo.",
+                    "errors" => $errors
+                ])
+                ->response()
+                ->setStatusCode(422);
+        }
+
         // Remove o recurso do banco de dados
         if ($game->delete()) {
             return response()->noContent();
         }
-        return response('', 422);
+        return (new GameResource($game))
+            ->additional([
+                "message" => "Não foi possível remover o jogo.",
+            ])
+            ->response()
+            ->setStatusCode(422);
     }
 }

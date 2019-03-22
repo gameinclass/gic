@@ -120,27 +120,23 @@ class MedalController extends Controller
         // Verifica se a ação é autorizada ...
         $this->authorize('destroy', $medal);
 
-        // Verifica se existem jogos vinculados a esta medalha
+        // Evita que s medalha seja removida se houver recursos vinculados.
+        $errors = array();
+        // Verifica se existe(m) jogos(s) vinculado(s) a esta medalha.
         if (!$medal->games->isEmpty()) {
-            return (new MedalResource($medal))
-                ->additional([
-                    "errors" => [
-                        "games" => [
-                            "Ops! Há jogo(s) vinculado(s) a esta medalha"
-                        ]]
-                ])
-                ->response()
-                ->setStatusCode(422);
+            $errors['games'][0] = 'Ops! Há jogo(s) vinculado(s) a esta medalha.';
+        }
+        // Verifica se existe(m) jogadores(s) vinculado(s) a esta medalha.
+        if (!$medal->players->isEmpty()) {
+            $errors['players'][0] = 'Ops! Há jogadores(s) vinculado(s) a esta medalha.';
         }
 
-        // Verifica se existem jogadores vinculados a esta medalha
-        if (!$medal->players->isEmpty()) {
+        // Se houver recursos vinculados, envia resposta de dados não processadas, com informações sobre o erro.
+        if ($errors) {
             return (new MedalResource($medal))
                 ->additional([
-                    "errors" => [
-                        "players" => [
-                            "Ops! Há jogadores(s) vinculado(s) a esta medalha"
-                        ]]
+                    "message" => "Não foi possível remover a medalha.",
+                    "errors" => $errors
                 ])
                 ->response()
                 ->setStatusCode(422);
@@ -153,6 +149,9 @@ class MedalController extends Controller
             return response()->noContent();
         }
         return (new MedalResource($medal))
+            ->additional([
+                "message" => "Não foi possível remover a medalha.",
+            ])
             ->response()
             ->setStatusCode(422);
     }
