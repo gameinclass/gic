@@ -114,7 +114,7 @@ class MedalTest extends TestCase
     {
         // Cria um jogo no banco de dados.
         $gameOne = factory(Game::class)->create();
-        // Crima uma medalha para vincular ao jogo.
+        // Cria uma medalha para vincular ao jogo.
         $gameOneMedalOne = factory(Medal::class)->create();
 
         // CREATE
