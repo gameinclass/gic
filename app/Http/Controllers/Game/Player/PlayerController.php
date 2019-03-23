@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Game\Player\PlayerStoreRequest;
 use App\Http\Resources\Player\Player as PlayerResource;
+use App\Models\User;
 
 class PlayerController extends Controller
 {
@@ -37,11 +38,27 @@ class PlayerController extends Controller
         $game = Game::findOrFail($gameId);
         // Verifica se a ação é autorizada ...
         $this->authorize('store', [Player::class, $game]);
-
+        // Procura pelo usuário no banco de dados
+        $user = User::find($request->input('id'));
+        if (!$user) {
+            return response()->json([
+                'data' => $request->all(),
+                'message' => 'Não foi possível criar o recurso'
+            ])->setStatusCode(400);
+        }
         // Adiciona o identificador de relacionamento com o usuário.
-        $request->merge(['user_id' => $request->input('id')]);
-
+        $request->merge(['user_id' => $user->id]);
+        // Adiciona as informações da requisição para o objeto jogador.
         $player = new Player($request->all());
+        // Para evitar duplicidade, verifica se a medalha já foi adicionada.
+        // A verificação se dá usando a chave estrangeira para usuário, o mesmo usuário não pode mais de uma vez
+        // no jogo.
+        if ($game->players->contains('user_id', $user->id)) {
+            return (new PlayerResource($player))
+                ->additional(['errors' => 'O jogador já foi adicionado.'])
+                ->response()
+                ->setStatusCode(422);
+        }
         // Salva o recurso no banco de dados
         if ($game->players()->save($player)) {
             return (new PlayerResource($player))

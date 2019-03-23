@@ -20,17 +20,32 @@ class MedalController extends Controller
      */
     public function store(MedalStoreRequest $request, $gameId)
     {
-        $game = Game::findOrFail($gameId);
+        $game = Game::findOrFail($gameId); // 404 se não encontrado!
         // Verifica se a ação é autorizada ...
         if (Gate::denies('game-medal-store', $game)) {
-            return response()->json($request->all())->setStatusCode(403);
+            return response()->json([
+                'data' => $request->all(),
+                'message' => 'Esta ação não é autorizada.'
+            ])->setStatusCode(403);
         }
         // Procura peda medalha no banco de dados
-        $medal = Medal::findOrFail($request->get('id'));
-
+        $medal = Medal::find($request->get('id'));
+        if (!$medal) {
+            return response()->json([
+                'data' => $request->all(),
+                'message' => 'Não foi possível criar o recurso'
+            ])->setStatusCode(400);
+        }
+        // Para evitar duplicidade, verifica se a medalha já foi adicionada.
+        if ($game->medals->contains($medal)) {
+            return (new MedalResource($medal))
+                ->additional(['errors' => 'A medalha já foi adicionada.'])
+                ->response()
+                ->setStatusCode(422);
+        }
         // Faz a associação da medalha com o jogo.
-        $game->medals()->attach($medal);
-        // Verifica se a medalha foi adicionado, pois o código acima retorna void
+        $game->medals()->attach($medal); // retorna void
+        // Verifica se a medalha foi adicionada
         if ($game->medals()->find($medal->id)) {
             return (new MedalResource($medal))
                 ->response()
