@@ -3,7 +3,7 @@ name: Laravel
 on: [push]
 
 jobs:
-  PHP_codequality:
+  codequality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -11,7 +11,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Check code
         run: vendor/bin/phpcs --standard=PSR2 --extensions=php app
-  database/seed:
+  database:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
