@@ -3,7 +3,7 @@ name: Laravel
 on: [push]
 
 jobs:
-  PHP/codequality:
+  PHP_codequality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
