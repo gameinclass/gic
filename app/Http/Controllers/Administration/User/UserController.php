@@ -10,7 +10,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -24,7 +24,6 @@ class UserController extends Controller
             // Todos usuários com paginação
             $users = User::with('actor')->paginate(5);
         }
-
         return view('administration.user.index')
             ->with('users', $users);
     }

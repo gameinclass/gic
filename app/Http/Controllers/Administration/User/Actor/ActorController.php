@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Administration\User\Actor;
 
-use App\Models\User;
 use App\Models\Actor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,10 +11,10 @@ class ActorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $userId
-     * @param  int $actorId
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $userId
+     * @param int $actorId
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $userId, $actorId)
     {
@@ -26,17 +25,17 @@ class ActorController extends Controller
         // The current user can or can't ...
         $this->authorize('update', $actor);
         // OPÇÕES PARA ATOR
-        $field = ['is_administrator' => false, 'is_design' => false, 'is_player' => false];
+        $fields = ['is_administrator' => false, 'is_design' => false, 'is_player' => false];
         if ($request->has('actor')) {
             // Verifica se o valor do campo existe entre as chaves do vetor.
-            if (array_key_exists($request->get('actor', ''), $field)) {
-                $field[$request->input('actor')] = true;
+            if (array_key_exists($request->get('actor', ''), $fields)) {
+                $fields[$request->input('actor')] = true;
             } else { // Senão, define o padrão.
-                $field['is_player'] = true;
+                $fields['is_player'] = true;
             }
         }
         // Atualiza o modelo no banco de dados.
-        if ($actor->update($field)) {
+        if ($actor->update($fields)) {
             $request->session()->flash('updated_successful', "As informações do usuário foram atualizadas");
             // Sucesso! Redireciona de volta.
             return redirect()->back();

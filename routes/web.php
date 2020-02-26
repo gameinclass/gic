@@ -17,9 +17,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Test
-Route::get('/test', 'Test\TestController@index')->name('test');
-
 // Rotas protegidas por autenticação
 Route::group(['middleware' => ['auth']], function () {
     // Todos os usuários com paginação.
@@ -27,4 +24,18 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('user.index');
     Route::put('user/{user}/actor/{actor}', 'Administration\User\Actor\ActorController@update')
         ->name('user.actor.update');
+});
+
+Route::get('r', function()
+{
+    header('Content-Type: application/excel');
+    header('Content-Disposition: attachment; filename="routes.csv"');
+
+    $routes = Route::getRoutes();
+    $fp = fopen('php://output', 'w');
+    fputcsv($fp, ['METHOD', 'URI', 'NAME', 'ACTION']);
+    foreach ($routes as $route) {
+        fputcsv($fp, [head($route->methods()) , $route->uri(), $route->getName(), $route->getActionName()]);
+    }
+    fclose($fp);
 });

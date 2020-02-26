@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Actor;
+use App\Models\User;
+use App\Observers\ActorObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Actor::observe(ActorObserver::class);
+        User::observe(UserObserver::class);
     }
 }

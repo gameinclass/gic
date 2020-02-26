@@ -9,6 +9,7 @@
 
 define('LARAVEL_START', microtime(true));
 
+sleep(1);
 //usleep(1000000 / 3);
 
 /*

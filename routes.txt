@@ -1,0 +1,23 @@
+
+   UnexpectedValueException  : The stream or file "/var/www/gic.unscode.local/storage/logs/laravel-2020-01-01.log" could not be opened: failed to open stream: Permission denied
+
+  at /var/www/gic.unscode.local/vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php:108
+    104|             }
+    105|             restore_error_handler();
+    106|             if (!is_resource($this->stream)) {
+    107|                 $this->stream = null;
+  > 108|                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: '.$this->errorMessage, $this->url));
+    109|             }
+    110|         }
+    111| 
+    112|         if ($this->useLocking) {
+
+  Exception trace:
+
+  1   Monolog\Handler\StreamHandler::write()
+      /var/www/gic.unscode.local/vendor/monolog/monolog/src/Monolog/Handler/RotatingFileHandler.php:119
+
+  2   Monolog\Handler\RotatingFileHandler::write()
+      /var/www/gic.unscode.local/vendor/monolog/monolog/src/Monolog/Handler/AbstractProcessingHandler.php:39
+
+  Please use the argument -v to see more details.
