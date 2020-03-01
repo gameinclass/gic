@@ -15,7 +15,7 @@
                         </span>
 
                         <a class="action-link" tabindex="-1" @click="showCreateTokenForm">
-                            Create New Token
+                            Criar novo token
                         </a>
                     </div>
                 </div>
@@ -23,32 +23,32 @@
                 <div class="card-body">
                     <!-- No Tokens Notice -->
                     <p class="mb-0" v-if="tokens.length === 0">
-                        You have not created any personal access tokens.
+                        Você não criou nenhum tokens de acesso pessoal.
                     </p>
 
                     <!-- Personal Access Tokens -->
                     <table class="table table-borderless mb-0" v-if="tokens.length > 0">
                         <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th>Nome</th>
+                            <th></th>
+                        </tr>
                         </thead>
 
                         <tbody>
-                            <tr v-for="token in tokens">
-                                <!-- Client Name -->
-                                <td style="vertical-align: middle;">
-                                    {{ token.name }}
-                                </td>
+                        <tr v-for="token in tokens">
+                            <!-- Client Name -->
+                            <td style="vertical-align: middle;">
+                                {{ token.name }}
+                            </td>
 
-                                <!-- Delete Button -->
-                                <td style="vertical-align: middle;">
-                                    <a class="action-link text-danger" @click="revoke(token)">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
+                            <!-- Delete Button -->
+                            <td style="vertical-align: middle;">
+                                <a class="action-link text-danger" @click="revoke(token)">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -57,11 +57,11 @@
 
         <!-- Create Token Modal -->
         <div class="modal fade" id="modal-create-token" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            Create Token
+                            Criar Token
                         </h4>
 
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -86,7 +86,8 @@
                                 <label class="col-md-4 col-form-label">Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="create-token-name" type="text" class="form-control" name="name" v-model="form.name">
+                                    <input id="create-token-name" type="text" class="form-control" name="name"
+                                           v-model="form.name">
                                 </div>
                             </div>
 
@@ -99,10 +100,10 @@
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox"
-                                                    @click="toggleScope(scope.id)"
-                                                    :checked="scopeIsAssigned(scope.id)">
+                                                       @click="toggleScope(scope.id)"
+                                                       :checked="scopeIsAssigned(scope.id)">
 
-                                                    {{ scope.id }}
+                                                {{ scope.id }}
                                             </label>
                                         </div>
                                     </div>
@@ -113,10 +114,9 @@
 
                     <!-- Modal Actions -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         <button type="button" class="btn btn-primary" @click="store">
-                            Create
+                            Criar
                         </button>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
 
         <!-- Access Token Modal -->
         <div class="modal fade" id="modal-access-token" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
@@ -137,8 +137,8 @@
 
                     <div class="modal-body">
                         <p>
-                            Here is your new personal access token. This is the only time it will be shown so don't lose it!
-                            You may now use this token to make API requests.
+                            Aqui está seu novo token de acesso pessoal. Este é o único momento em que será mostrado,
+                            portanto, não perca! Agora você pode usar esse token para fazer solicitações de API.
                         </p>
 
                         <textarea class="form-control" rows="10">{{ accessToken }}</textarea>
@@ -206,9 +206,9 @@
              */
             getTokens() {
                 axios.get('/oauth/personal-access-tokens')
-                        .then(response => {
-                            this.tokens = response.data;
-                        });
+                    .then(response => {
+                        this.tokens = response.data;
+                    });
             },
 
             /**
@@ -216,9 +216,9 @@
              */
             getScopes() {
                 axios.get('/oauth/scopes')
-                        .then(response => {
-                            this.scopes = response.data;
-                        });
+                    .then(response => {
+                        this.scopes = response.data;
+                    });
             },
 
             /**
@@ -237,22 +237,22 @@
                 this.form.errors = [];
 
                 axios.post('/oauth/personal-access-tokens', this.form)
-                        .then(response => {
-                            this.form.name = '';
-                            this.form.scopes = [];
-                            this.form.errors = [];
+                    .then(response => {
+                        this.form.name = '';
+                        this.form.scopes = [];
+                        this.form.errors = [];
 
-                            this.tokens.push(response.data.token);
+                        this.tokens.push(response.data.token);
 
-                            this.showAccessToken(response.data.accessToken);
-                        })
-                        .catch(error => {
-                            if (typeof error.response.data === 'object') {
-                                this.form.errors = _.flatten(_.toArray(error.response.data.errors));
-                            } else {
-                                this.form.errors = ['Something went wrong. Please try again.'];
-                            }
-                        });
+                        this.showAccessToken(response.data.accessToken);
+                    })
+                    .catch(error => {
+                        if (typeof error.response.data === 'object') {
+                            this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                        } else {
+                            this.form.errors = ['Something went wrong. Please try again.'];
+                        }
+                    });
             },
 
             /**
@@ -289,9 +289,9 @@
              */
             revoke(token) {
                 axios.delete('/oauth/personal-access-tokens/' + token.id)
-                        .then(response => {
-                            this.getTokens();
-                        });
+                    .then(response => {
+                        this.getTokens();
+                    });
             }
         }
     }

@@ -2,18 +2,27 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-                <div class="col-12">
-                    <div class="mt-5 mb-5">
-                        <passport-clients></passport-clients>
-                        <passport-authorized-clients></passport-authorized-clients>
+        <div class="row mb-4">
+            <div class="col-12 col-md-4 col-lg-4 mb-5">
+                <a href="{{route('profile')}}">
+                    <div class="card border-white">
+                        <div class="card-body pt-5 pb-5">
+                            <h2 class="font-weight-bold text-white">Meu perfil</h2>
+                        </div>
                     </div>
-                </div>
-            <div class="col-12">
-                <div class="mt-5 mb-5">
-                    <passport-personal-access-tokens></passport-personal-access-tokens>
-                </div>
+                </a>
             </div>
+            @can('store', \App\Models\Game::class)
+                <div class="col-12 col-md-4 col-lg-4 mb-5">
+                    <a href="{{route('apps.index')}}">
+                        <div class="card border-success">
+                            <div class="card-body pt-5 pb-5">
+                                <h2 class="font-weight-bold text-success">Meu apps</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endcan
         </div>
     </div>
 @endsection

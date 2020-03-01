@@ -10,6 +10,7 @@
             </div>
             <div class="col-12">
                 <div class="mt-5 mb-5">
+                    <passport-personal-access-tokens></passport-personal-access-tokens>
                 </div>
             </div>
         </div>
