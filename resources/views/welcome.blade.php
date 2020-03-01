@@ -18,6 +18,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <!-- Styles -->
@@ -26,17 +27,33 @@
 <body>
 <div class="box">
     <div class="box-top">
-        <div class="box-top-content">
-            <div class="navbar">
-                <div class="navbar-left">
-                    <div class="navbar-left-hamburger"></div>
-                </div>
-            </div>
-        </div>
+        <div class="box-top-content"></div>
     </div>
     <div class="box-middle">
         <div class="box-middle-content">
-            <img class="brand" src="/svg/brand.svg" title="Game In Class">
+            <div class="container">
+                <div class="about">
+                    <div class="row">
+                        <div class="col-12">
+                            <img class="about-brand" src="/svg/brand2.svg" title="Game In Class">
+                        </div>
+                        <div class="col-12 col-md-8 col-lg-8">
+                            <h1 class="about-title">
+                                Plataforma de gamificação
+                            </h1>
+                            <h3 class="about-description">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam doloremque quidem
+                                rerum! Ab
+                                accusamus animi aperiam at, excepturi fugit hic maxime odit placeat quae quibusdam saepe
+                                similique
+                                tenetur vero voluptates. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Adipisci aspernatur assumenda aut, dolorem eius expedita fugit, hic illum ipsam iusto
+                                non odit possimus quibusdam quidem quis quod suscipit temporibus tenetur?
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

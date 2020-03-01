@@ -10,11 +10,11 @@
             <div class="card-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>
-                        OAuth Clients
+                        Minhas aplicações
                     </span>
 
                     <a class="action-link" tabindex="-1" @click="showCreateClientForm">
-                        Create New Client
+                        Criar nova aplicação cliente
                     </a>
                 </div>
             </div>
@@ -22,15 +22,15 @@
             <div class="card-body">
                 <!-- Current Clients -->
                 <p class="mb-0" v-if="clients.length === 0">
-                    You have not created any OAuth clients.
+                    Você ainda não criou nenhuma aplicação cliente.
                 </p>
 
                 <table class="table table-borderless mb-0" v-if="clients.length > 0">
                     <thead>
                         <tr>
-                            <th>Client ID</th>
-                            <th>Name</th>
-                            <th>Secret</th>
+                            <th>Cliente ID</th>
+                            <th>Nome</th>
+                            <th>Segredo</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -56,14 +56,14 @@
                             <!-- Edit Button -->
                             <td style="vertical-align: middle;">
                                 <a class="action-link" tabindex="-1" @click="edit(client)">
-                                    Edit
+                                    Editar
                                 </a>
                             </td>
 
                             <!-- Delete Button -->
                             <td style="vertical-align: middle;">
                                 <a class="action-link text-danger" @click="destroy(client)">
-                                    Delete
+                                    Remover
                                 </a>
                             </td>
                         </tr>
@@ -74,11 +74,11 @@
 
         <!-- Create Client Modal -->
         <div class="modal fade" id="modal-create-client" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            Create Client
+                            Criar aplicação cliente
                         </h4>
 
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -100,28 +100,28 @@
                         <form role="form">
                             <!-- Name -->
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Name</label>
+                                <label class="col-md-3 col-form-label">Nome</label>
 
                                 <div class="col-md-9">
                                     <input id="create-client-name" type="text" class="form-control"
                                                                 @keyup.enter="store" v-model="createForm.name">
 
                                     <span class="form-text text-muted">
-                                        Something your users will recognize and trust.
+                                        Um nome que seus usuários reconhecerão e confiarão.
                                     </span>
                                 </div>
                             </div>
 
                             <!-- Redirect URL -->
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Redirect URL</label>
+                                <label class="col-md-3 col-form-label">URL de redirecionamento</label>
 
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="redirect"
                                                     @keyup.enter="store" v-model="createForm.redirect">
 
                                     <span class="form-text text-muted">
-                                        Your application's authorization callback URL.
+                                        URL de retorno de chamada de autorização do seu aplicativo.
                                     </span>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                         <button type="button" class="btn btn-primary" @click="store">
-                            Create
+                            Criar
                         </button>
                     </div>
                 </div>
@@ -142,20 +142,19 @@
 
         <!-- Edit Client Modal -->
         <div class="modal fade" id="modal-edit-client" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            Edit Client
+                            Editar applicação cliente
                         </h4>
-
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
 
                     <div class="modal-body">
                         <!-- Form Errors -->
                         <div class="alert alert-danger" v-if="editForm.errors.length > 0">
-                            <p class="mb-0"><strong>Whoops!</strong> Something went wrong!</p>
+                            <p class="mb-0"><strong>Ops!</strong> Algo deu errado!</p>
                             <br>
                             <ul>
                                 <li v-for="error in editForm.errors">
@@ -168,28 +167,28 @@
                         <form role="form">
                             <!-- Name -->
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Name</label>
+                                <label class="col-md-3 col-form-label">Nome</label>
 
                                 <div class="col-md-9">
                                     <input id="edit-client-name" type="text" class="form-control"
                                                                 @keyup.enter="update" v-model="editForm.name">
 
                                     <span class="form-text text-muted">
-                                        Something your users will recognize and trust.
+                                        Um nome que seus usuários reconhecerão e confiarão.
                                     </span>
                                 </div>
                             </div>
 
                             <!-- Redirect URL -->
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Redirect URL</label>
+                                <label class="col-md-3 col-form-label">URL de redirecionamento</label>
 
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="redirect"
                                                     @keyup.enter="update" v-model="editForm.redirect">
 
                                     <span class="form-text text-muted">
-                                        Your application's authorization callback URL.
+                                        URL de retorno de chamada de autorização do seu aplicativo.
                                     </span>
                                 </div>
                             </div>
@@ -198,10 +197,10 @@
 
                     <!-- Modal Actions -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
 
                         <button type="button" class="btn btn-primary" @click="update">
-                            Save Changes
+                            Salvar alterações
                         </button>
                     </div>
                 </div>

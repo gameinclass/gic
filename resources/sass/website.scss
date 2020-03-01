@@ -1,116 +1,98 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/grid";
+
 html,
 body {
-  margin: 0;
-  height: 100%;
-  overflow-x: hidden;
+    margin: 0;
+    height: 100%;
+    font-family: 'Lato', ;
+    overflow-x: hidden;
 }
 
 .box {
-  width: 100%;
-  height: 100%;
-  // background: url("/svg/desenhado-7.svg") no-repeat center center;
-  table-layout: fixed;
-  display: table;
-  position: relative;
-
-  &:before,
-  &:after {
-    top: 5%;
-    right: -30%;
-    width: 50%;
-    height: 90%;
-    content: '';
-    position: absolute;
-    z-index: -1;
-  }
-
-  &:before {
-    right: -25%;
-    background-color: rgba(yellow, .2);
-    transform: rotate(5deg);
-    // border-radius: 42% 58% 54% 46%/59% 58% 42% 41%;
-    // border-radius: 43% 57% 37% 63%/57% 51% 49% 43%;
-    // border-radius: 59% 41% 44% 56%/45% 54% 46% 55%;
-  }
-
-  &:after {
-    background-color: rgba(yellow, .5);
-    transform: rotate(-5deg);
-    // border-radius: 42% 58% 54% 46%/59% 58% 42% 41%;
-    // border-radius: 43% 57% 37% 63%/57% 51% 49% 43%;
-    // border-radius: 59% 41% 44% 56%/45% 54% 46% 55%;
-  }
-
-  &-top {
-    display: table-row;
-
-    &-content {
-      vertical-align: middle;
-      display: table-cell;
-    }
-  }
-
-  &-middle {
+    width: 100%;
     height: 100%;
-    display: table-row;
+    //background: url("../assets/svg/points.svg") no-repeat top right;
+    background: #212529;
+    table-layout: fixed;
+    display: table;
     position: relative;
 
-    &-content {
-      vertical-align: middle;
-      display: table-cell;
-    }
-  }
-}
-
-.navbar {
-  padding: 3% 5% 0 5%;
-
-  &-left {
-    &-hamburger {
-      position: relative;
-      cursor: pointer;
-
-      &:before,
-      &:after {
-        top: -10px;
-        width: 45px;
-        height: 4px;
-        background-color: #0c0c0c;
+    &:before {
+        top: 0;
+        left: 20%;
+        width: 100%;
+        height: 100%;
+        background: url("../assets/svg/colorful.svg") no-repeat top right;
         content: '';
         position: absolute;
-      }
-
-      &:after {
-        top: 10px;
-      }
-
-      width: 45px;
-      height: 4px;
-      background-color: #0c0c0c;
+        opacity: .7;
+        filter: saturate(0);
     }
-  }
+
+    &-top {
+        display: table-row;
+
+        &-content {
+            vertical-align: middle;
+            display: table-cell;
+        }
+    }
+
+    &-middle {
+        height: 100%;
+        display: table-row;
+        position: relative;
+
+        &-content {
+            vertical-align: middle;
+            display: table-cell;
+        }
+    }
 }
 
-.brand {
-  width: 250px;
-  display: inline-block;
+.about {
+    &-brand {
+        width: 40%;
+        max-width: 150px;
+        display: block;
+    }
+
+    &-title {
+        padding-top: 20px;
+        font-size: 3.5rem;
+        font-weight: 900;
+        color: white;
+    }
+
+    &-description {
+        font-weight: 300;
+        line-height: 2.5;
+        color: white;
+    }
 }
 
-.description {
-  margin-top: 0;
-  font-size: 5em;
-  text-align: center;
-  color: black;
+.user-number{
+    font-weight: 900;
+    font-size: 4rem;
+}
+.user-description {
+    font-weight: 900;
+    font-size: 1.2rem;
 }
 
 /* Animations */
 @keyframes rotate {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg)
-  }
-  to {
-    -webkit-transform: rotate(1turn);
-    transform: rotate(1turn)
-  }
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
 }
