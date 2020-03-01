@@ -9,8 +9,17 @@ html,
 body {
     margin: 0;
     height: 100%;
-    font-family: 'Lato', ;
+    font-family: 'Lato',;
     overflow-x: hidden;
+}
+
+a {
+    color: #ffd137;
+}
+
+a:hover,
+a:active {
+    color: darken(#ffd137, .20);
 }
 
 .box {
@@ -74,15 +83,10 @@ body {
         line-height: 2.5;
         color: white;
     }
-}
 
-.user-number{
-    font-weight: 900;
-    font-size: 4rem;
-}
-.user-description {
-    font-weight: 900;
-    font-size: 1.2rem;
+    &-access {
+        color: white;
+    }
 }
 
 /* Animations */

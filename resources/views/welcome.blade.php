@@ -42,13 +42,13 @@
                                 Plataforma de gamificação
                             </h1>
                             <h3 class="about-description">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam doloremque quidem
-                                rerum! Ab
-                                accusamus animi aperiam at, excepturi fugit hic maxime odit placeat quae quibusdam saepe
-                                similique
-                                tenetur vero voluptates. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                Adipisci aspernatur assumenda aut, dolorem eius expedita fugit, hic illum ipsam iusto
-                                non odit possimus quibusdam quidem quis quod suscipit temporibus tenetur?
+                                Gic é uma plataforma de gamificação voltada para aplicação de gamificação em
+                                disciplinas do ensino superior. Esta aplicação controla o acesso aos usuários
+                                aos recursos dos usuários e autoriza aplicações de terceiros.
+                            </h3>
+                            <h3 class="about-access">
+                                Já é cadastrado? <a href="{{route('login')}}">login</a>. Ainda não é cadastrado?
+                                <a href="{{route('register')}}">registrar</a> =)
                             </h3>
                         </div>
                     </div>
