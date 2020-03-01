@@ -28,10 +28,10 @@
 </head>
 <body>
 <div class="app" id="app">
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+    <nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ url('/svg/brand.svg') }}" style="width: 100px">
+                <img src="{{ url('/svg/brand2.svg') }}" style="width: 100px">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"

@@ -24,7 +24,7 @@
             </div>
             <div class="col-12">
                 @forelse ($users as $user)
-                    <div class="row border rounded bg-white pt-2 pr-5 pb-2 pl-5 m-0 mb-3">
+                    <div class="row border rounded bg-dark pt-2 pr-5 pb-2 pl-5 m-0 mb-3">
                         <div class="col-12 col-lg-6 col-xl-6">
                             {{$user->name}}
                             <p class="font-italic">{{$user->email}}</p>
