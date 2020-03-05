@@ -14,8 +14,8 @@ class PhasePolicy
     /**
      * Determine whether the user can view the phase.
      *
-     * @param  \App\Models\User $user
-     * @param  \App\Models\Game $game
+     * @param \App\Models\User $user
+     * @param \App\Models\Game $game
      * @return mixed
      */
     public function index(User $user, Game $game)
@@ -27,7 +27,7 @@ class PhasePolicy
         if ($user->actor->is_administrator) {
             return true;
         }
-        // Se o usuário for design, pode criar fase para o jogo somente para o próprio jogo.
+        // Se o usuário for design, pode listar fases do jogo somente se for o dono do jogo.
         if ($user->actor->is_design) {
             return $user->id === $game->user_id;
         }
@@ -38,8 +38,8 @@ class PhasePolicy
     /**
      * Determine whether the user can create phases.
      *
-     * @param  \App\Models\User $user
-     * @param  \App\Models\Game $game
+     * @param \App\Models\User $user
+     * @param \App\Models\Game $game
      * @return mixed
      */
     public function store(User $user, Game $game)
@@ -62,9 +62,9 @@ class PhasePolicy
     /**
      * Determine whether the user can update the phase.
      *
-     * @param  \App\Models\User $user
-     * @param  \App\Models\Game $game
-     * @param  \App\Models\Phase $phase
+     * @param \App\Models\User $user
+     * @param \App\Models\Game $game
+     * @param \App\Models\Phase $phase
      * @return mixed
      */
     public function update(User $user, Game $game, Phase $phase)
@@ -84,9 +84,9 @@ class PhasePolicy
     /**
      * Determine whether the user can delete the phase.
      *
-     * @param  \App\Models\User $user
-     * @param  \App\Models\Game $game
-     * @param  \App\Models\Phase $phase
+     * @param \App\Models\User $user
+     * @param \App\Models\Game $game
+     * @param \App\Models\Phase $phase
      * @return mixed
      */
     public function destroy(User $user, Game $game, Phase $phase)

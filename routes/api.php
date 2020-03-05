@@ -39,6 +39,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('game.player', 'Game\Player\PlayerController', [
         'except' => ['create', 'edit', 'show']
     ]);
+    // Game / Score
+    Route::resource('game.score', 'Game\Score\ScoreController', [
+        'except' => ['create', 'edit', 'show']
+    ]);
     // Game / Player / Medal
     Route::resource('game.player.medal', 'Game\Player\Medal\MedalController', [
         'except' => ['create', 'edit', 'update', 'show']

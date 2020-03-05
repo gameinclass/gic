@@ -14,7 +14,7 @@ class PhaseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  int $gameId
+     * @param int $gameId
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index($gameId)
@@ -32,8 +32,8 @@ class PhaseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Game\Phase\PhaseStoreRequest $request
-     * @param  int $gameId
+     * @param \App\Http\Requests\Game\Phase\PhaseStoreRequest $request
+     * @param int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(PhaseStoreRequest $request, $gameId)
@@ -63,9 +63,9 @@ class PhaseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Game\Phase\PhaseUpdateRequest $request
-     * @param  int $gameId
-     * @param  int $phaseId
+     * @param \App\Http\Requests\Game\Phase\PhaseUpdateRequest $request
+     * @param int $gameId
+     * @param int $phaseId
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(PhaseUpdateRequest $request, $gameId, $phaseId)
@@ -85,8 +85,8 @@ class PhaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $gameId
-     * @param  int $phaseId
+     * @param int $gameId
+     * @param int $phaseId
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($gameId, $phaseId)

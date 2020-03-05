@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Game;
 
+use App\Http\Resources\Game\Score\Score;
 use App\Http\Resources\Medal\Medal;
 use App\Http\Resources\Player\Player;
 use App\Http\Resources\Game\Phase\Phase;
@@ -19,7 +20,7 @@ class Game extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -40,6 +41,11 @@ class Game extends JsonResource
                 // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
                 // foi adicionado a condição abaixo para transformar em objeto.
                 ($this->players->isEmpty() ? (object)[] : Player::collection($this->players)->keyBy->id),
+
+            'scores' => !$request->route('game') ? $this->scores->count() :
+                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
+                // foi adicionado a condição abaixo para transformar em objeto.
+                ($this->scores->isEmpty() ? (object)[] : Score::collection($this->scores)->keyBy->id),
 
             'phases' => !$request->route('game') ? $this->phases->count() :
                 // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
