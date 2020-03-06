@@ -50,7 +50,7 @@ class MedalController extends Controller
         // Recupera a medalha atribuída ao jogador.
         if ($medal) {
             // Faz a associação da medalha ao jogador.
-            $player->medals()->attach($request->input('medal_id'));
+            $player->medals()->attach($medal);
             return (new MedalResource($medal))
                 ->response()
                 ->setStatusCode(201);

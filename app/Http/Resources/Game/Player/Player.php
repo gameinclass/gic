@@ -26,15 +26,8 @@ class Player extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->user->name,
-
-            'medals' => $this->medals->isEmpty()
-                ? (object)[]
-                : Medal::collection($this->medals)->keyBy->id,
-
-            'scores' => $this->scores->isEmpty()
-                ? (object)[]
-                : Score::collection($this->scores)->keyBy->id,
-
+            'medals' => Medal::collection($this->medals),
+            'scores' => Score::collection($this->scores),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
