@@ -13,8 +13,8 @@ class MedalController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  int $gameId
-     * @param  int $playerId
+     * @param int $gameId
+     * @param int $playerId
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index($gameId, $playerId)
@@ -31,24 +31,27 @@ class MedalController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  int $gameId
-     * @param  int $playerId
-     * @param  \App\Http\Requests\Game\Player\Medal\MedalStoreRequest $request
+     * @param int $gameId
+     * @param int $playerId
+     * @param \App\Http\Requests\Game\Player\Medal\MedalStoreRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(MedalStoreRequest $request, $gameId, $playerId)
     {
         $game = Game::findOrFail($gameId);
-        $player = Player::findOrFail($playerId);
+        //$player = Player::findOrFail($playerId);
         // Verifica se a ação é autorizada ...
         // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
         $this->authorize('store', [Player::class, $game]);
 
-        // Procura pela medalha entre as medalhas do jogo.
+        // Procura pelo jogados nos jogadores do jogo.
+        $player = $game->players()->find($playerId);
+
+        // Procura pela medalha nas medalhas do jogo.
         $medal = $game->medals()->find($request->input('id'));
 
         // Recupera a medalha atribuída ao jogador.
-        if ($medal) {
+        if ($player && $medal) {
             // Faz a associação da medalha ao jogador.
             $player->medals()->attach($medal);
             return (new MedalResource($medal))
@@ -62,9 +65,9 @@ class MedalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $gameId
-     * @param  int $playerId
-     * @param  int $gameId
+     * @param int $gameId
+     * @param int $playerId
+     * @param int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($gameId, $playerId, $medalId)
