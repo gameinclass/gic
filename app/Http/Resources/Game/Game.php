@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Game;
 
-use App\Http\Resources\Game\Score\Score;
 use App\Http\Resources\Medal\Medal;
 use App\Http\Resources\Player\Player;
 use App\Http\Resources\Game\Phase\Phase;
+use App\Http\Resources\Game\Score\Score;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Game extends JsonResource

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Game\Player;
 
+use App\Http\Resources\Game\Player\Score\Score;
+use App\Http\Resources\Game\Player\Medal\Medal;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Player extends JsonResource
@@ -16,11 +18,25 @@ class Player extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->user->name,
+
+            'medals' => $this->medals->isEmpty()
+                ? (object)[]
+                : Medal::collection($this->medals)->keyBy->id,
+
+            'scores' => $this->scores->isEmpty()
+                ? (object)[]
+                : Score::collection($this->scores)->keyBy->id,
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }

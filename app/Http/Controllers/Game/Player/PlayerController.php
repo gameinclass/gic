@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Game\Player;
 
+use App\Models\User;
 use App\Models\Game;
 use App\Models\Player;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Game\Player\PlayerStoreRequest;
-use App\Http\Resources\Player\Player as PlayerResource;
-use App\Models\User;
+use App\Http\Resources\Game\Player\Player as PlayerResource;
 
 class PlayerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  int $gameId
+     * @param int $gameId
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index($gameId)
@@ -29,8 +29,8 @@ class PlayerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Game\Player\PlayerStoreRequest $request
-     * @param  int $gameId
+     * @param \App\Http\Requests\Game\Player\PlayerStoreRequest $request
+     * @param int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(PlayerStoreRequest $request, $gameId)
@@ -71,10 +71,34 @@ class PlayerController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param int $gameId
+     * @param int $playerId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($gameId, $playerId)
+    {
+        $game = Game::findOrFail($gameId);
+        // Verifica se a ação é autorizada ...
+
+        // Obs: qualquer usuário autenticado pode ver um jogador de um jogo.
+        // $this->authorize('show', [Player::class, $game]);
+
+        $player = $game->players()
+            ->with(['medals'])
+            ->findOrFail($playerId);
+
+        return (new PlayerResource($player))
+            ->response()
+            ->setStatusCode(200);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
-     * @param  int $gameId
-     * @param  int $playerId
+     * @param int $gameId
+     * @param int $playerId
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($gameId, $playerId)
