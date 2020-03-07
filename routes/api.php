@@ -47,6 +47,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('game.player.medal', 'Game\Player\Medal\MedalController', [
         'except' => ['create', 'edit', 'update', 'show']
     ]);
+    // Game / Player / Score
+    Route::resource('game.player.score', 'Game\Player\Score\ScoreController', [
+        'except' => ['create', 'edit', 'show']
+    ]);
     /* -------------------------------------------------------------------------------------------------------*/
     // Medal
     Route::get('medal/search/{search}', 'Medal\MedalController@search');
@@ -54,16 +58,4 @@ Route::group(['middleware' => 'auth:api'], function () {
         'except' => ['create', 'edit']
     ]);
     /* -------------------------------------------------------------------------------------------------------*/
-
-    // Acima, OK!!!
-
-    // Game / Player / Medal
-    Route::resource('game.player.score', 'Game\Player\Medal\MedalController', [
-        'except' => ['create', 'edit', 'show']
-    ]);
-
-    // Game / Player / Score
-    Route::resource('game.player.score', 'Game\Player\Score\ScoreController', [
-        'except' => ['create', 'edit', 'show']
-    ]);
 });

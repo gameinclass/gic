@@ -15,8 +15,8 @@ class ScoreController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  int $gameId
-     * @param  int $playerId
+     * @param int $gameId
+     * @param int $playerId
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index($gameId, $playerId)
@@ -33,40 +33,43 @@ class ScoreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Game\Player\Score\ScoreStoreRequest $request
-     * @param  int $gameId
-     * @param  int $playerId
+     * @param \App\Http\Requests\Game\Player\Score\ScoreStoreRequest $request
+     * @param int $gameId
+     * @param int $playerId
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(ScoreStoreRequest $request, $gameId, $playerId)
     {
         $game = Game::findOrFail($gameId);
-        $player = Player::findOrFail($playerId);
+        //$player = Player::findOrFail($playerId);
         // Verifica se a ação é autorizada ...
         // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
         $this->authorize('store', [Player::class, $game]);
 
-        $score = new Score($request->all());
-        // Salva os pontos do jogador.
-        if ($score->save()) {
-            // Faz a associação dos pontos com o jogador.
+        // Procura pelo jogador nos jogadores do jogo.
+        $player = $game->players()->find($playerId);
+
+        // Procura pelo ponto nos pontos do jogo.
+        $score = $game->scores()->find($request->input('id'));
+
+        if ($player && $score) {
+            // Faz a associação do ponto ao jogador.
             $player->scores()->attach($score);
             return (new ScoreResource($score))
                 ->response()
                 ->setStatusCode(201);
         }
-        return (new ScoreResource($score))
-            ->response()
+        return response()->json($request->all())
             ->setStatusCode(422);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Game\Player\Score\ScoreUpdateRequest $request
-     * @param  int $gameId
-     * @param  int $playerId
-     * @param  int $scoreId
+     * @param \App\Http\Requests\Game\Player\Score\ScoreUpdateRequest $request
+     * @param int $gameId
+     * @param int $playerId
+     * @param int $scoreId
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(ScoreUpdateRequest $request, $gameId, $playerId, $scoreId)
@@ -88,9 +91,9 @@ class ScoreController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $gameId
-     * @param  int $playerId
-     * @param  int $scoreId
+     * @param int $gameId
+     * @param int $playerId
+     * @param int $scoreId
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($gameId, $playerId, $scoreId)
@@ -100,16 +103,11 @@ class ScoreController extends Controller
         // Verifica se a ação é autorizada ...
         // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
         $this->authorize('destroy', $game, $player);
-
-        $score = Score::findOrFail($scoreId);
         // Remove a associação do ponto com o jogador.
-        $player->scores()->detach($scoreId);
-        // Remove o recurso do banco de dados
-        if (Score::destroy($scoreId)) {
+        if ($player->scores()->detach([$scoreId])) {
             return response()->noContent();
         }
-        return (new ScoreResource($score))
-            ->response()
+        return response()->json([])
             ->setStatusCode(422);
     }
 }

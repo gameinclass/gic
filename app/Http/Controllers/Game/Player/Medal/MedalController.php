@@ -44,13 +44,12 @@ class MedalController extends Controller
         // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
         $this->authorize('store', [Player::class, $game]);
 
-        // Procura pelo jogados nos jogadores do jogo.
+        // Procura pelo jogador nos jogadores do jogo.
         $player = $game->players()->find($playerId);
 
         // Procura pela medalha nas medalhas do jogo.
         $medal = $game->medals()->find($request->input('id'));
 
-        // Recupera a medalha atribuída ao jogador.
         if ($player && $medal) {
             // Faz a associação da medalha ao jogador.
             $player->medals()->attach($medal);
@@ -75,14 +74,13 @@ class MedalController extends Controller
         $game = Game::findOrFail($gameId);
         $player = Player::findOrFail($playerId);
         // Verifica se a ação é autorizada ...
+        // Atenção! As regras (policy) são as mesmas que adicionar jogador ao jogo.
         $this->authorize('destroy', $game, $player);
-
         // Remove a associação da medalha com o jogador.
         if ($player->medals()->detach([$medalId])) {
             return response()->noContent();
         }
-        return MedalResource::collection($player->medals()->paginate())
-            ->response()
+        return response()->json([])
             ->setStatusCode(422);
     }
 }
