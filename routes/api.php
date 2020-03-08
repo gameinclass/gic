@@ -19,6 +19,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         'except' => ['create', 'edit', 'show']
     ]);
     /* -------------------------------------------------------------------------------------------------------*/
+    // Profile
+    Route::get('profile', 'Profile\ProfileController@index');
+    /* -------------------------------------------------------------------------------------------------------*/
     // Game
     Route::resource('game', 'Game\GameController', [
         'except' => ['create', 'edit']
