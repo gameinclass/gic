@@ -31,4 +31,6 @@ Route::group(['middleware' => ['auth']], function () {
         'only' => ['index']
     ]);
 
+    Route::resource('player', 'Player\PlayerController');
+    Route::resource('player.game', 'Player\Game\GameController');
 });

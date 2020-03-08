@@ -61,4 +61,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         'except' => ['create', 'edit']
     ]);
     /* -------------------------------------------------------------------------------------------------------*/
+    // Player
+    Route::resource('player', 'Player\PlayerController', [
+        'only' => ['index', 'show']
+    ]);
 });
