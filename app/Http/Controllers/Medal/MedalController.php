@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Medal;
 
 use App\Models\Medal;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Medal\MedalCollection;
 use App\Http\Requests\Medal\MedalStoreRequest;
@@ -15,7 +16,7 @@ class MedalController extends Controller
     /**
      * Exibe uma liste de recurso de acordo com a pesquisa
      *
-     * @param  string $search
+     * @param string $search
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
      */
     public function search($search)
@@ -35,14 +36,21 @@ class MedalController extends Controller
     {
         // Verifica se a ação é autorizada ...
         $this->authorize('index', Medal::class);
-        return new MedalCollection(Medal::orderBy('created_at', 'desc')
-            ->paginate());
+        // Se o usuário for administrador vê todos os registros.
+        if (Auth::user()->actor && Auth::user()->actor->is_administrator) {
+            return new MedalCollection(Medal::orderBy('id', 'desc')
+                ->paginate());
+        } else {
+            return new MedalCollection(Medal::where('user_id', Auth::user()->id)
+                ->orderBy('id', 'desc')
+                ->paginate());
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(MedalStoreRequest $request)
@@ -68,7 +76,7 @@ class MedalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $medalId
+     * @param int $medalId
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($medalId)
@@ -84,8 +92,8 @@ class MedalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $medalId
+     * @param \Illuminate\Http\Request $request
+     * @param int $medalId
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(MedalUpdateRequest $request, $medalId)
@@ -111,7 +119,7 @@ class MedalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $medalId
+     * @param int $medalId
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($medalId)
@@ -124,14 +132,14 @@ class MedalController extends Controller
         $errors = array();
         // Verifica se existe(m) jogos(s) vinculado(s) a esta medalha.
         if (!$medal->games->isEmpty()) {
-            $errors['games'][0] = 'Ops! Há jogo(s) vinculado(s) a esta medalha.';
+            $errors[] = 'Ops! Há jogo(s) vinculado(s) a esta medalha.';
         }
         // Verifica se existe(m) jogadores(s) vinculado(s) a esta medalha.
         if (!$medal->players->isEmpty()) {
-            $errors['players'][0] = 'Ops! Há jogadores(s) vinculado(s) a esta medalha.';
+            $errors[] = 'Ops! Há jogadores(s) vinculado(s) a esta medalha.';
         }
 
-        // Se houver recursos vinculados, envia resposta de dados não processadas, com informações sobre o erro.
+        // Se houver recursos vinculados, envia resposta de dados não processad, com informações sobre o erro.
         if ($errors) {
             return (new MedalResource($medal))
                 ->additional([

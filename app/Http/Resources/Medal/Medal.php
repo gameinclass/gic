@@ -18,7 +18,7 @@ class Medal extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -31,17 +31,15 @@ class Medal extends JsonResource
 
             // Verifica se está e requisitando um recurso específico ou se está listando todos. Para listagem
             // do recurso, somente é retornado a quantidade de itens relacionados.
-            'games' => !$request->route('medal') ? $this->games->count() :
-                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
-                // foi adicionado a condição abaixo para transformar em objeto.
-                ($this->games->isEmpty() ? (object)[] : Game::collection($this->games)->keyBy->id),
+            'games' => !$request->route('medal')
+                ? $this->games->count()
+                : Game::collection($this->games),
 
             // Verifica se está e requisitando um recurso específico ou se está listando todos. Para listagem
             // do recurso, somente é retornado a quantidade de itens relacionados.
-            'players' => !$request->route('medal') ? $this->players->count() :
-                // Quando a coleção está vazia, por padrão é retornado um array vazio, para evitar isso
-                // foi adicionado a condição abaixo para transformar em objeto.
-                ($this->players->isEmpty() ? (object)[] : Player::collection($this->players)->keyBy->id),
+            'players' => !$request->route('medal')
+                ? $this->players->count()
+                : Player::collection($this->players),
         ];
     }
 }
