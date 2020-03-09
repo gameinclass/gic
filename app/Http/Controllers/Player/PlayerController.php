@@ -64,12 +64,16 @@ class PlayerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param int $playerId
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($playerId)
     {
-        //
+        $player = Player::with(['game', 'medals', 'scores', 'game.medals', 'game.scores'])
+            ->where('user_id', Auth::user()->id)
+            ->first();
+
+        dd($player->toArray());
     }
 
     /**

@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('game', 'Game\GameController', [
         'except' => ['create', 'edit']
     ]);
+    // Game / Ranking
+    Route::get('game/{game}/ranking', 'Game\GameController@ranking');
     // Game / Medal
     Route::resource('game.medal', 'Game\Medal\MedalController', [
         'except' => ['create', 'edit', 'show']

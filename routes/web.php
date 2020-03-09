@@ -33,4 +33,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('player', 'Player\PlayerController');
     Route::resource('player.game', 'Player\Game\GameController');
+
+    Route::get('game/{game}/ranking', 'Game\GameController@ranking');
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Game;
 
 use App\Models\Game;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Game\GameStoreRequest;
@@ -35,7 +36,7 @@ class GameController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  GameStoreRequest $request
+     * @param GameStoreRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(GameStoreRequest $request)
@@ -60,7 +61,7 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $gameId
+     * @param int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($gameId)
@@ -76,8 +77,8 @@ class GameController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  GameUpdateRequest $request
-     * @param  int $gameId
+     * @param GameUpdateRequest $request
+     * @param int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(GameUpdateRequest $request, $gameId)
@@ -98,7 +99,7 @@ class GameController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $gameId
+     * @param int $gameId
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($gameId)
@@ -147,5 +148,40 @@ class GameController extends Controller
             ])
             ->response()
             ->setStatusCode(422);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $gameId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ranking($gameId)
+    {
+        $game = Game::with(['medals', 'scores', 'players', 'players.user', 'players.medals', 'players.scores'])
+            ->findOrFail($gameId);
+
+        $data = [
+            'title' => $game->title,
+            'players' => []
+        ];
+
+        foreach ($game->players as $i => $player) {
+            $data['players'][$i] = [
+                'name' => $player->user->name,
+                'email' => $player->user->email,
+                'accumulated_medals' => $player->medals->count(),
+                'accumulated_scores' => $player->scores->sum('value')
+            ];
+            $data['players'][$i]['medals'] = [];
+            foreach ($player->medals as $j => $medal) {
+                $data['players'][$i]['medals'][] = [
+                    'title' => $medal->title,
+                    'url' => url('storage/' . $medal->path),
+                ];
+            }
+        }
+
+        return response()->json(['data' => $data]);
     }
 }
