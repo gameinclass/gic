@@ -31,8 +31,8 @@ Route::group(['middleware' => ['auth']], function () {
         'only' => ['index']
     ]);
 
-    Route::resource('player', 'Player\PlayerController');
-    Route::resource('player.game', 'Player\Game\GameController');
+    //Route::resource('player', 'Player\PlayerController');
+    //Route::resource('player.game', 'Player\Game\GameController');
 
-    Route::get('game/{game}/ranking', 'Game\GameController@ranking');
+    //Route::get('game/{game}/ranking', 'Game\GameController@ranking');
 });
