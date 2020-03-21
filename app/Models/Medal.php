@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\Medal\MedalCreating;
+use App\Events\Medal\MedalDeleted;
 use Illuminate\Database\Eloquent\Model;
 
 class Medal extends Model
@@ -13,6 +15,16 @@ class Medal extends Model
      */
     protected $fillable = [
         'title', 'description', 'path',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'creating' => MedalCreating::class,
+        'deleted' => MedalDeleted::class
     ];
 
     /**

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Medal;
 use App\Models\Medal;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Medal\MedalCollection;
 use App\Http\Requests\Medal\MedalStoreRequest;
 use App\Http\Requests\Medal\MedalUpdateRequest;
@@ -23,6 +22,7 @@ class MedalController extends Controller
     {
         // Verifica se a ação é autorizada ...
         $this->authorize('index', Medal::class);
+
         // Os valores retornados da pesquisa
         return MedalResource::collection(Medal::where('title', 'like', "%{$search}%")->take(3)->get());
     }
@@ -36,14 +36,18 @@ class MedalController extends Controller
     {
         // Verifica se a ação é autorizada ...
         $this->authorize('index', Medal::class);
+
         // Se o usuário for administrador vê todos os registros.
         if (Auth::user()->actor && Auth::user()->actor->is_administrator) {
-            return new MedalCollection(Medal::orderBy('id', 'desc')
-                ->paginate());
+            return new MedalCollection(
+                Medal::orderBy('id', 'desc')->paginate()
+            );
         } else {
-            return new MedalCollection(Medal::where('user_id', Auth::user()->id)
-                ->orderBy('id', 'desc')
-                ->paginate());
+            return new MedalCollection(
+                Medal::where('user_id', Auth::user()->id)
+                    ->orderBy('id', 'desc')
+                    ->paginate()
+            );
         }
     }
 
@@ -57,11 +61,11 @@ class MedalController extends Controller
     {
         // Verifica se a ação é autorizada ...
         $this->authorize('store', Medal::class);
+
         $medal = new Medal($request->all());
         // Adiciona o usuário da requisição.
         $medal->user_id = $request->user()->id;
-        // Adicionado o caminho do arquivo no disco.
-        $medal->path = $request->file('image')->store('medals', 'public');
+
         // Salva o recurso no banco de dados
         if ($medal->save()) {
             return (new MedalResource($medal))
@@ -152,8 +156,6 @@ class MedalController extends Controller
 
         // Remove o recurso do banco de dados
         if ($medal->delete()) {
-            // Remove o arquivo da medalha do storage
-            Storage::disk('public')->delete($medal->path);
             return response()->noContent();
         }
         return (new MedalResource($medal))

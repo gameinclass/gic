@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Actor;
 use App\Models\User;
-use App\Observers\ActorObserver;
+use App\Models\Actor;
+use App\Models\Medal;
 use App\Observers\UserObserver;
+use App\Observers\ActorObserver;
+use App\Observers\Medal\MedalObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +31,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Actor::observe(ActorObserver::class);
         User::observe(UserObserver::class);
+
+        // Medalha
+        Medal::observe(MedalObserver::class);
     }
 }
