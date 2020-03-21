@@ -30,9 +30,13 @@ class MedalCreating
      */
     private function image($medal)
     {
+        $directory = request()->user()
+            ? request()->user()->id
+            : 'guest';
+
         $path = request()
             ->file('image')
-            ->store('medals', 'public');
+            ->store('medals/' . $directory, 'public');
 
         $medal->path = $path;
     }
