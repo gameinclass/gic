@@ -40,7 +40,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Unscode\\Pingo\\": "packages/unscode/pingo/src"
         },
         "classmap": [
             "database/seeds",

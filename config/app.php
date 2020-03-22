@@ -166,7 +166,8 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Cors\ServiceProvider::class,
-        // LaravelLegends\PtBrValidator\ValidatorProvider::class,
+        //LaravelLegends\PtBrValidator\ValidatorProvider::class,
+        Unscode\Pingo\Providers\PingoServiceProvider::class,
 
         /*
          * Application Service Providers...

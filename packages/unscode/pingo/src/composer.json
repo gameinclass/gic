@@ -1,0 +1,12 @@
+{
+    "name": "unscode/pingo",
+    "description": "Primeira versão da API de gerenciamento",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jorge Lauro Campos Rodrigues",
+            "email": "jorgerodrigues9@outlook.com"
+        }
+    ],
+    "require": {}
+}

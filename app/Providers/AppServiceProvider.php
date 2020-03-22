@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\User;
 use App\Models\Actor;
 use App\Models\Medal;
+use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\ActorObserver;
 use App\Observers\Medal\MedalObserver;
