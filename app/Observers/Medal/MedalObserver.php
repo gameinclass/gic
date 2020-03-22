@@ -6,20 +6,6 @@ use App\Models\Medal;
 
 class MedalObserver
 {
-    /**
-     * Handle the medal "creating" event.
-     *
-     * @param \App\Models\Medal $medal
-     * @return void
-     */
-    public function creating(Medal $medal)
-    {
-        $path = request()
-            ->file('image')
-            ->store('medals', 'public');
-
-        $medal->path = $path;
-    }
 
     /**
      * Handle the medal "created" event.
@@ -29,21 +15,6 @@ class MedalObserver
      */
     public function created(Medal $medal)
     {
-    }
-
-    /**
-     * Handle the medal "saving" event.
-     *
-     * @param \App\Models\Medal $medal
-     * @return void
-     */
-    public function saving(Medal $medal)
-    {
-        $path = request()
-            ->file('image')
-            ->store('medals', 'public');
-
-        $medal->path = $path;
     }
 
     /**

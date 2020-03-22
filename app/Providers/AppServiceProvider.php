@@ -29,10 +29,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Token Lifetimes
+        Passport::refreshTokensExpireIn(now()->addDays(30));
+
+        //
         Actor::observe(ActorObserver::class);
         User::observe(UserObserver::class);
 
-        // Medalha
+        // Medal Observer
         Medal::observe(MedalObserver::class);
     }
 }
