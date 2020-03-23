@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Medal;
+namespace Unscode\Pingo\Http\Resources\Medal;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 

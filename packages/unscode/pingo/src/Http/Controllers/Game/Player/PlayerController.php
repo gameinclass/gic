@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Game\Player;
+namespace Unscode\Pingo\Http\Controllers\Game\Player;
 
 use App\Models\User;
 use App\Models\Game;

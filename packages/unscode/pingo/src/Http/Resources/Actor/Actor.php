@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Actor;
+namespace Unscode\Pingo\Http\Resources\Actor;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

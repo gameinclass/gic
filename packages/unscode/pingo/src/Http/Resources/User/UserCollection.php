@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace Unscode\Pingo\Http\Resources\User;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 

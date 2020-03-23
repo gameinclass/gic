@@ -15,7 +15,7 @@ class Handler extends ExceptionHandler
      *
      * @var string
      */
-    private $route = 'https://hooks.slack.com/services/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';
+    private $route = '';
 
     /**
      * A list of the exception types that are not reported.

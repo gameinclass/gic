@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Game\Score;
+namespace Unscode\Pingo\Http\Controllers\Game\Score;
 
 use App\Http\Requests\Game\Score\ScoreStoreRequest;
 use App\Http\Requests\Game\Score\ScoreUpdateRequest;

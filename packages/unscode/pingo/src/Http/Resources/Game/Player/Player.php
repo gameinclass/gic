@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Resources\Game\Player;
+namespace Unscode\Pingo\Http\Resources\Game\Player;
 
-use App\Http\Resources\Game\Player\Score\Score;
-use App\Http\Resources\Game\Player\Medal\Medal;
+use Unscode\Pingo\Http\Resources\Game\Player\Score\Score;
+use Unscode\Pingo\Http\Resources\Game\Player\Medal\Medal;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Player extends JsonResource

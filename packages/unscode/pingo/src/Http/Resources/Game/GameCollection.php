@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Game;
+namespace Unscode\Pingo\Http\Resources\Game;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 

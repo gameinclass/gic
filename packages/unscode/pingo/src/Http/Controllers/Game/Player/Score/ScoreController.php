@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Game\Player\Score;
+namespace Unscode\Pingo\Http\Controllers\Game\Player\Score;
 
 use App\Models\Game;
 use App\Models\Score;

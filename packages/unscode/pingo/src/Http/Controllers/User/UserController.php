@@ -2,12 +2,12 @@
 
 namespace Unscode\Pingo\Http\Controllers\User;
 
-use App\Models\User;
-use App\Models\Actor;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserStoreRequest;
-use App\Http\Requests\User\UserUpdateRequest;
-use App\Http\Resources\User\User as UserResource;
+use Unscode\Pingo\Models\User;
+use Unscode\Pingo\Models\Actor;
+use Unscode\Pingo\Http\Controllers\Controller;
+use Unscode\Pingo\Http\Requests\User\UserStoreRequest;
+use Unscode\Pingo\Http\Requests\User\UserUpdateRequest;
+use Unscode\Pingo\Http\Resources\User\User as UserResource;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller

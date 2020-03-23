@@ -8,5 +8,17 @@
             "email": "jorgerodrigues9@outlook.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Unscode\\Pingo\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Unscode\\Pingo\\PingoServiceProvider"
+            ]
+        }
+    }
 }

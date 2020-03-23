@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Game\Phase;
+namespace Unscode\Pingo\Http\Controllers\Game\Phase;
 
 use App\Models\Game;
 use App\Models\Phase;
