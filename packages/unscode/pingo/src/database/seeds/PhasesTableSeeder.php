@@ -1,5 +1,7 @@
 <?php
 
+namespace Unscode\Pingo\Seeds;
+
 use Illuminate\Database\Seeder;
 
 class PhasesTableSeeder extends Seeder
@@ -11,6 +13,6 @@ class PhasesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Phase::class, 1315)->create();
+        factory(\Unscode\Pingo\Models\Phase::class, 1315)->create();
     }
 }

@@ -25,7 +25,6 @@ class UserObserver
      */
     public function updated(User $user)
     {
-
     }
 
     /**

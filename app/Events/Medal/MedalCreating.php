@@ -2,7 +2,7 @@
 
 namespace App\Events\Medal;
 
-use App\Models\Medal;
+use Unscode\Pingo\Models\Medal;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -30,7 +30,7 @@ class MedalCreating
      */
     private function image($medal)
     {
-        $directory = request()->user()
+        /*$directory = request()->user()
             ? request()->user()->id
             : 'guest';
 
@@ -38,6 +38,6 @@ class MedalCreating
             ->file('image')
             ->store('medals/' . $directory, 'public');
 
-        $medal->path = $path;
+        $medal->path = $path;*/
     }
 }

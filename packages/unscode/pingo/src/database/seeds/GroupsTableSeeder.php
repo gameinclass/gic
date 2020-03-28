@@ -1,5 +1,7 @@
 <?php
 
+namespace Unscode\Pingo\Seeds;
+
 use Illuminate\Database\Seeder;
 
 class GroupsTableSeeder extends Seeder
@@ -11,6 +13,6 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Group::class, 250)->create();
+        factory(\Unscode\Pingo\Models\Group::class, 250)->create();
     }
 }

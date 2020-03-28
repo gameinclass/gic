@@ -1,5 +1,7 @@
 <?php
 
+namespace Unscode\Pingo\Seeds;
+
 use Illuminate\Database\Seeder;
 
 class PlayersTableSeeder extends Seeder
@@ -11,6 +13,6 @@ class PlayersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Player::class, 1500)->create();
+        factory(\Unscode\Pingo\Models\Player::class, 1500)->create();
     }
 }

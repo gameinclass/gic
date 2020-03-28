@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGamesTable extends Migration
+class CreateMedalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateGamesTable extends Migration
      */
     public function up()
     {
-        Schema::create('games', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
+        Schema::create('medals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment("Chave estrangeira para usuário");
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('title')->comment('Título do jogo');
-            $table->text('description')->comment('Descrição do jogo');
+            $table->string('title')->comment('Título da medalha');
+            $table->text('description')->comment('Descrição detalhada da medalha');
+            $table->string('path')
+                ->nullable()
+                ->comment('Caminho do arquivo de imagem da medalha no disco');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ class CreateGamesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('games');
+        Schema::dropIfExists('medals');
     }
 }
