@@ -19,7 +19,9 @@ class CreateMedalsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('title')->comment('Título da medalha');
             $table->text('description')->comment('Descrição detalhada da medalha');
-            $table->string('path')->nullable()->comment('Caminho do arquivo de imagem no disco');
+            $table->string('path')
+                ->nullable()
+                ->comment('Caminho do arquivo de imagem da medalha no disco');
             $table->timestamps();
         });
     }

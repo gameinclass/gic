@@ -20,6 +20,9 @@ class CreateGamesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('title')->comment('Título do jogo');
             $table->text('description')->comment('Descrição do jogo');
+            $table->string('path')
+                ->nullable()
+                ->comment('Caminho do arquivo de imagem do jogo no disco');
             $table->timestamps();
         });
     }

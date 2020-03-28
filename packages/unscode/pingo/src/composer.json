@@ -12,7 +12,11 @@
     "autoload": {
         "psr-4": {
             "Unscode\\Pingo\\": "src/"
-        }
+        },
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ]
     },
     "extra": {
         "laravel": {
