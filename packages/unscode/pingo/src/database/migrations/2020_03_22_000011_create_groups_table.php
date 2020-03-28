@@ -15,14 +15,17 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id')->comment("Chave primaria para grupos");
-
-            $table->integer('game_id')->unsigned()->nullable()->comment("Chave estrangeira para jogos");
-            $table->foreign('game_id')->references('id')->on('games');
-
-            $table->integer('phase_id')->unsigned()->comment("Chave estrangeira para fases");
-            $table->foreign('phase_id')->references('id')->on('phases');
-            $table->string('name')->comment('Nome do grupo');
+            $table->increments('id')
+                ->comment("Chave primária para grupos");
+            $table->integer('game_id')
+                ->unsigned()
+                ->nullable()
+                ->comment("Chave estrangeira para jogos");
+            $table->foreign('game_id')
+                ->references('id')
+                ->on('games');
+            $table->string('name')
+                ->comment('Nome do grupo');
             $table->timestamps();
         });
     }

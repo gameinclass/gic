@@ -11,6 +11,6 @@ class GamesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Game::class, 125)->create();
+        factory(\Unscode\Pingo\Models\Game::class, 125)->create();
     }
 }

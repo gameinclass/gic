@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Models\Player::class, function (Faker $faker) {
+$factory->define(\Unscode\Pingo\Models\Player::class, function (Faker $faker) {
     return [
         'user_id' => function () {
             // Atenção! Each retorna Illuminate\Database\Eloquent\Collection
@@ -17,6 +17,6 @@ $factory->define(\App\Models\Player::class, function (Faker $faker) {
             });
             return $user[0]->id;
         },
-        'game_id' => \App\Models\Game::pluck('id')->random(),
+        'game_id' => \Unscode\Pingo\Models\Game::pluck('id')->random(),
     ];
 });

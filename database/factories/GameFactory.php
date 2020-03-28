@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Models\Game::class, function (Faker $faker) {
+$factory->define(\Unscode\Pingo\Models\Game::class, function (Faker $faker) {
     return [
         'user_id' => function () {
             // Atenção! Each retorna Illuminate\Database\Eloquent\Collection
@@ -18,7 +18,7 @@ $factory->define(\App\Models\Game::class, function (Faker $faker) {
             });
             return $user[0]->id;
         },
-        'title' => $faker->text(),
+        'title' => $faker->sentence(4),
         'description' => $faker->text(),
     ];
 });
