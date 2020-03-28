@@ -11,7 +11,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\User::class, 30)->create()->each(function ($user) {
+        factory(\App\Models\User::class, 150)->create()->each(function ($user) {
             $user->actor()->save(factory(\App\Models\Actor::class)->make([
                 // Somente jogadores
                 'is_administrator' => false,
