@@ -21,8 +21,8 @@ class CreatePhasesTable extends Migration
             $table->foreign('game_id')
                 ->references('id')
                 ->on('games');
-            $table->string('name')
-                ->comment('Nome da fase do jogo');
+            $table->string('title')
+                ->comment('Título da fase do jogo');
             $table->timestamp('start')
                 ->useCurrent()
                 ->comment('Data de início para a fase do jogo');

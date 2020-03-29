@@ -1,7 +1,5 @@
 <?php
 
-namespace Unscode\Pingo\Seeds;
-
 use Illuminate\Database\Seeder;
 
 class PhasesTableSeeder extends Seeder
