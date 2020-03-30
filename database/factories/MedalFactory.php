@@ -9,7 +9,7 @@ $factory->define(\Unscode\Pingo\Models\Medal::class, function (Faker $faker) {
         ->image('image.jpg', rand(100, 150), rand(100, 800))
         ->size(rand(100, 150));
 
-    // Para cada medalha é criado um usuário admiminstrador ou design, somente esses usuários podem
+    // Para cada medalha é criado um usuário administrador ou design, somente esses usuários podem
     // criar medalhas.
     // Atenção! each retorna Illuminate\Database\Eloquent\Collection
     $user = factory(\App\Models\User::class, 1)->create()->each(function ($user) {

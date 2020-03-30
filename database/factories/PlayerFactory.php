@@ -9,14 +9,13 @@ $factory->define(\Unscode\Pingo\Models\Player::class, function (Faker $faker) {
             $user = factory(\App\Models\User::class, 1)->create()->each(function ($user) {
                 // Faker Factory
                 $user->actor()->save(factory(\App\Models\Actor::class)->make([
-                    // Atenção! Somente usuário jogdores podem ser jogador de um jogo.
+                    // Atenção! Somente usuário jogador podem ser jogador de um jogo.
                     'is_administrator' => false,
                     'is_design' => false,
-                    'is_player' => true,
+                    'is_player' => true
                 ]));
             });
             return $user[0]->id;
-        },
-        'game_id' => \Unscode\Pingo\Models\Game::pluck('id')->random(),
+        }
     ];
 });

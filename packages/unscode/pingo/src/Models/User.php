@@ -41,7 +41,7 @@ class User extends Authenticatable
     /**
      * Route notifications for the Slack channel.
      *
-     * @param  \Illuminate\Notifications\Notification $notification
+     * @param \Illuminate\Notifications\Notification $notification
      * @return string
      */
     public function routeNotificationForSlack($notification)
@@ -73,10 +73,10 @@ class User extends Authenticatable
      * Obtém os jodagores atribuídos a este usuário.
      * Atenção! Somente usuário jogadores podem ser adicionados.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function players()
+    public function player()
     {
-        return $this->hasMany(Player::class);
+        return $this->hasOne(Player::class);
     }
 }

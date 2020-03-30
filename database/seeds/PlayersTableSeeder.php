@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ScoresTableSeeder extends Seeder
+class PlayersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,11 +11,11 @@ class ScoresTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\Unscode\Pingo\Models\Score::class, 600)->create()->each(function ($score) {
-            // Cada ponto criado será atribuido a 15 jogo aleatórios.
+        factory(\Unscode\Pingo\Models\Player::class, 1500)->create()->each(function ($player) {
+            // Cada jogador criado será atribuido a 15 jogos aleatórios.
             // Atribui o ponto a vários jogos aleatório.
             $game = \Unscode\Pingo\Models\Game::all()->random(15);
-            $score->games()->sync($game);
+            $player->games()->sync($game);
         });
     }
 }

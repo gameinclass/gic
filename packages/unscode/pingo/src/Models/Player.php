@@ -45,13 +45,11 @@ class Player extends Model
     }
 
     /**
-     * Obtém o jogo pertencente a este jogador.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * Obtém todos os jogos pertencente a este ponto.
      */
-    public function game()
+    public function games()
     {
-        return $this->belongsTo(Game::class);
+        return $this->morphedByMany(Game::class, 'playerable');
     }
 
     /**
