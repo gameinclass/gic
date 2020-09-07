@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  gic_app:
+    build:
+      dockerfile: .docker/dev/Dockerfile
+      context: .
+    container_name: gic_app
+    depends_on:
+      - gic_database
+    networks:
+      - gic-network
+    volumes:
+      - ./:/var/www
+
+  gic_server:
+    image: nginx:alpine
+    container_name: gic_server
+    depends_on:
+      - gic_app
+    networks:
+      - gic-network
+    ports:
+      - 8081:80
+    volumes:
+      - ./:/var/www
+      - ./.docker/dev/nginx/conf.d:/etc/nginx/conf.d/
+
+  gic_database:
+    image: mysql:5.7
+    container_name: gic_database
+    environment:
+      MYSQL_DATABASE: "gic"
+      MYSQL_ROOT_PASSWORD: "gic"
+    volumes:
+      - ./database/data/mysql:/var/lib/mysql
+    networks:
+      - gic-network
+    ports:
+      - 3306:3306
+
+  gic_phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: gic_phpmyadmin
+    networks:
+      - gic-network
+    ports:
+      - 8082:80
+    depends_on:
+      - gic_database
+    environment:
+      PMA_HOST: gic_database
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: gic
+
+networks:
+  gic-network:
+    driver: bridge
